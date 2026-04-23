@@ -42,6 +42,23 @@
         .register-btn { background: var(--white); color: var(--primary); text-decoration: none; padding: 15px 35px; border-radius: 30px; font-weight: bold; display: inline-block; animation: pulse 1.5s infinite; transition: 0.3s; font-size: 1.1em; }
         @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255,255,255,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
 
+        /* --- شريط الخدمات المتحرك --- */
+        .marquee-container { overflow: hidden; width: 100%; padding: 10px 0 30px 0; }
+        .marquee-track { display: flex; gap: 20px; width: max-content; margin-bottom: 15px; }
+        .marquee-item { background: var(--primary); color: var(--white); padding: 12px 25px; border-radius: 30px; font-weight: bold; white-space: nowrap; box-shadow: 0 4px 10px rgba(90, 45, 130, 0.2); font-size: 1.05em; border: 2px solid rgba(255,255,255,0.2);}
+        
+        /* حركة اليسار (للفرنسية) */
+        @keyframes scrollLTR { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes scrollLTR_rev { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+        /* حركة اليمين (للعربية) */
+        @keyframes scrollRTL { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
+        @keyframes scrollRTL_rev { 0% { transform: translateX(50%); } 100% { transform: translateX(0); } }
+
+        html[dir="ltr"] .marquee-track.row1 { animation: scrollLTR 40s linear infinite; }
+        html[dir="ltr"] .marquee-track.row2 { animation: scrollLTR_rev 45s linear infinite; }
+        html[dir="rtl"] .marquee-track.row1 { animation: scrollRTL 40s linear infinite; }
+        html[dir="rtl"] .marquee-track.row2 { animation: scrollRTL_rev 45s linear infinite; }
+
         /* --- الأقسام --- */
         section { padding: 40px 5%; }
         .section-title { text-align: center; color: var(--primary); margin-bottom: 40px; font-size: 2em; position: relative; }
@@ -176,6 +193,14 @@
 
         <section id="services">
             <h2 class="section-title" data-i18n="titleServices">Nos Services</h2>
+            
+            <!-- شريط الخدمات المتحرك -->
+            <div class="marquee-container">
+                <div class="marquee-track row1" id="mq-row1"></div>
+                <div class="marquee-track row2" id="mq-row2"></div>
+            </div>
+
+            <!-- شبكة الخدمات الديناميكية (إن وجدت) -->
             <div class="grid" id="services-grid"></div>
         </section>
 
@@ -342,18 +367,17 @@
         </div>
     </div>
 
-    <!-- ================= سكريبت فايربيس المحدث (مع Firebase Storage) ================= -->
+    <!-- ================= سكريبت فايربيس المحدث ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        // استيراد Firebase Storage لدعم الصور عالية الجودة
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot, query } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA1xTHV828178vImPGLFQhr1DS4k9ME28s",
             authDomain: "bellaskills-8edbb.firebaseapp.com",
             projectId: "bellaskills-8edbb",
-            storageBucket: "bellaskills-8edbb.firebasestorage.app", // مطلوب لرفع الصور
+            storageBucket: "bellaskills-8edbb.firebasestorage.app",
             messagingSenderId: "730699617338",
             appId: "1:730699617338:web:2bacbc4078984770e31103"
         };
@@ -362,7 +386,33 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // --- الترجمة ---
+        // --- قائمة الخدمات الثابتة (Marquee) ---
+        const staticServices = [
+            { fr: "Programmes de formation, coaching et accompagnement", ar: "برامج التكوين، التدريب والمرافقة" },
+            { fr: "Développement personnel et professionnel", ar: "التطوير الشخصي والمهني" },
+            { fr: "Soft skills et neurosport", ar: "المهارات الناعمة والرياضة العصبية" },
+            { fr: "Marketing digital", ar: "التسويق الرقمي" },
+            { fr: "Techniques administratives et de gestion", ar: "التقنيات الإدارية والتسيير" },
+            { fr: "Arts et industries", ar: "الفنون والصناعات" },
+            { fr: "Organisation d’événements professionnels et scientifiques", ar: "تنظيم الفعاليات المهنية والعلمية" },
+            { fr: "Séminaires", ar: "الندوات" },
+            { fr: "Conférences", ar: "المؤتمرات" },
+            { fr: "Journées scientifiques", ar: "الأيام العلمية" },
+            { fr: "Expositions et foires", ar: "المعارض والصالونات" },
+            { fr: "Conseil, études, assistance et expertise", ar: "الاستشارة، الدراسات، المساعدة والخبرة" },
+            { fr: "Développement commercial", ar: "التطوير التجاري" },
+            { fr: "Management", ar: "الإدارة" },
+            { fr: "Commerce international", ar: "التجارة الدولية" },
+            { fr: "Chimie industrielle", ar: "الكيمياء الصناعية" },
+            { fr: "Investissement", ar: "الاستثمار" },
+            { fr: "Gestion des projets", ar: "إدارة المشاريع" },
+            { fr: "Négoce, sourcing et agent commercial", ar: "التجارة، التوريد والوكالة التجارية" },
+            { fr: "Produits et ingrédients chimiques", ar: "المنتجات والمكونات الكيميائية" },
+            { fr: "Équipements de laboratoire", ar: "معدات المخابر" },
+            { fr: "Chaînes de production", ar: "خطوط الإنتاج" },
+            { fr: "Produits de grande consommation", ar: "المنتجات واسعة الاستهلاك" }
+        ];
+
         let currentLang = 'fr';
         const translations = {
             fr: { menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", registerBtn: "S'inscrire à l'événement", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite" },
@@ -392,7 +442,6 @@
             setTimeout(() => { toast.className = toast.className.replace("show", "").replace("error", ""); }, 4000);
         }
 
-        // --- رفع الصور بجودة عالية إلى Firebase Storage ---
         async function uploadHighQualityImage(file, folder) {
             if(!file) return null;
             try {
@@ -404,19 +453,30 @@
             }
         }
 
-        // --- البيانات ---
         let siteData = { banners: [], settings: {}, services: [], works: [], partners: [] };
-        
-        function loadLocalData() {
-            const local = localStorage.getItem('bella_data'); if(local) { siteData = JSON.parse(local); renderUI(); }
+        function loadLocalData() { const local = localStorage.getItem('bella_data'); if(local) { siteData = JSON.parse(local); renderUI(); } }
+
+        function renderMarquee() {
+            const half = Math.ceil(staticServices.length / 2);
+            const r1 = staticServices.slice(0, half);
+            const r2 = staticServices.slice(half);
+
+            const genHtml = (arr) => arr.map(item => `<div class="marquee-item">${currentLang === 'ar' ? item.ar : item.fr}</div>`).join('');
+            
+            // نضاعف المحتوى لكي لا ينقطع الشريط أثناء الدوران
+            const content1 = genHtml(r1) + genHtml(r1); 
+            const content2 = genHtml(r2) + genHtml(r2);
+
+            document.getElementById('mq-row1').innerHTML = content1;
+            document.getElementById('mq-row2').innerHTML = content2;
         }
 
         function renderUI() {
-            // Public UI (Banner يعرض آخر بانر تمت إضافته)
+            renderMarquee(); // تحديث شريط الخدمات
+
             const banners = siteData.banners || [];
             if(banners.length > 0) {
                 document.getElementById('banner').style.display = 'flex';
-                // جلب آخر عنصر في المصفوفة (أحدث بانر)
                 const b = banners[banners.length - 1];
                 document.getElementById('b-title').innerText = currentLang === 'ar' ? b.title_ar : b.title_fr;
                 document.getElementById('b-location').innerText = currentLang === 'ar' ? b.loc_ar : b.loc_fr;
@@ -449,11 +509,14 @@
         }
         window.closeModal = function() { document.getElementById('blog-modal').style.display = 'none'; }
 
-        // الاستماع المباشر للتحديثات (بما فيها مجموعة البانرات الجديدة)
         function initFirebaseListeners() {
-            // ترتيب البانرات حسب وقت الإنشاء
-            const qBanners = query(collection(db, "banners"), orderBy("timestamp", "asc"));
-            onSnapshot(qBanners, (snap) => { siteData.banners = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); }, (e) => console.log(e));
+            // حل مشكلة البانر: إزالة الـ query orderBy واستبداله بترتيب برمجي لتفادي مشاكل الفايربيس (Index Error)
+            onSnapshot(collection(db, "banners"), (snap) => { 
+                let b = snap.docs.map(d => ({id: d.id, ...d.data()}));
+                b.sort((x, y) => (x.timestamp || 0) - (y.timestamp || 0)); // ترتيب زمني
+                siteData.banners = b; 
+                updateLocalAndUI(); 
+            }, (e) => console.log("Banner Error:", e));
             
             onSnapshot(doc(db, "site", "settings"), (doc) => { if(doc.exists()) siteData.settings = doc.data(); else siteData.settings = {}; updateLocalAndUI(); });
             onSnapshot(collection(db, "services"), (snap) => { siteData.services = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); }, (e) => console.log(e));
@@ -481,7 +544,6 @@
 
         window.trackRegistration = function() { setDoc(doc(db, "stats", "registrations"), { count: increment(1) }, { merge: true }).catch(e=>{}); }
 
-        // --- وظائف لوحة التحكم ---
         window.switchAdminTab = function(tabId) {
             document.querySelectorAll('.admin-sec').forEach(el => el.classList.remove('active'));
             document.getElementById('sec-' + tabId).classList.add('active');
@@ -510,7 +572,6 @@
             document.getElementById('ad-fb').value = s.fb || ''; document.getElementById('ad-ig').value = s.ig || '';
             document.getElementById('ad-map').value = s.map || ''; document.getElementById('ad-about-fr').value = s.about_fr || ''; document.getElementById('ad-about-ar').value = s.about_ar || '';
             
-            // توليد الأرشيف
             document.getElementById('list-banners').innerHTML = (siteData.banners||[]).map(b => `<div class="list-item"><div class="list-item-info"><img src="${b.img||''}">${b.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('banner','${b.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('banners','${b.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
             document.getElementById('list-services').innerHTML = (siteData.services||[]).map(s => `<div class="list-item"><div class="list-item-info"><img src="${s.img}">${s.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('service','${s.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('services','${s.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
             document.getElementById('list-works').innerHTML = (siteData.works||[]).map(w => `<div class="list-item"><div class="list-item-info"><img src="${w.img}">${w.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('work','${w.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('works','${w.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
@@ -519,7 +580,6 @@
 
         function setBtnLoading(id, state) { document.getElementById(id).disabled = state; document.getElementById(id).innerText = state ? "En cours... / جاري..." : "Enregistrer / حفظ"; }
 
-        // --- عمليات الحفظ (بجودة عالية وبأرشيف للبانر) ---
         window.saveBanner = async function() {
             setBtnLoading("btn-save-banner", true);
             try {
@@ -534,7 +594,7 @@
                     img: imgUrl, title_fr: document.getElementById('ad-b-title-fr').value, title_ar: document.getElementById('ad-b-title-ar').value, 
                     loc_fr: document.getElementById('ad-b-loc-fr').value, loc_ar: document.getElementById('ad-b-loc-ar').value, 
                     date: document.getElementById('ad-b-date').value, link: document.getElementById('ad-b-link').value,
-                    timestamp: existing ? existing.timestamp : new Date().getTime() // للحفاظ على الترتيب
+                    timestamp: (existing && existing.timestamp) ? existing.timestamp : new Date().getTime() 
                 };
                 
                 if(id) await updateDoc(doc(db, "banners", id), data); else await addDoc(collection(db, "banners"), data);
@@ -600,7 +660,6 @@
             } catch (error) { showToast("خطأ", "Erreur", true); } finally { setBtnLoading("btn-save-settings", false); }
         }
 
-        // --- التعديل والتفريغ والحذف ---
         window.editItem = function(type, id) {
             if(type === 'banner') {
                 const b = siteData.banners.find(x => x.id === id); document.getElementById('ad-b-id').value = b.id;
