@@ -9,27 +9,17 @@
     
     <style>
         /* --- المتغيرات الأساسية --- */
-        :root {
-            --primary: #5A2D82;
-            --primary-light: #7a42ab;
-            --white: #ffffff;
-            --bg: #f9f9f9;
-            --text: #333;
-            --success: #2ecc71;
-            --danger: #e74c3c;
-        }
-
+        :root { --primary: #5A2D82; --primary-light: #7a42ab; --white: #ffffff; --bg: #f9f9f9; --text: #333; --success: #2ecc71; --danger: #e74c3c; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body { font-family: 'Poppins', 'Cairo', sans-serif; background-color: var(--bg); color: var(--text); overflow-x: hidden; transition: all 0.3s ease; }
         html[dir="rtl"] body { font-family: 'Cairo', sans-serif; }
 
-        /* --- الأنيميشن الخلفي --- */
+        /* --- الأنيميشن --- */
         #bg-animation { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; overflow: hidden; }
         .floating-icon { position: absolute; color: var(--primary); opacity: 0.1; animation: floatUp linear infinite; }
         @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); } 100% { transform: translateY(-20vh) rotate(360deg); } }
 
-        /* --- الهيدر واللوغو --- */
+        /* --- الهيدر --- */
         header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo-container img { max-height: 55px; width: auto; display: block; transition: 0.3s; }
         .logo-container img:hover { transform: scale(1.05); }
@@ -46,7 +36,7 @@
         html[dir="rtl"] .close-btn { text-align: left; }
         #sidebar a { display: block; padding: 15px 0; color: var(--text); text-decoration: none; border-bottom: 1px solid #eee; font-weight: bold;}
 
-        /* --- البانر (الحدث) --- */
+        /* --- البانر --- */
         .banner { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: var(--white); padding: 60px 20px; text-align: center; margin: 20px 5%; border-radius: 15px; box-shadow: 0 10px 20px rgba(90, 45, 130, 0.2); position: relative; overflow: hidden;}
         .banner-bg { position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: 0; }
         .banner-content { position: relative; z-index: 1; }
@@ -81,7 +71,6 @@
 
         /* --- الزر العائم --- */
         .fab-whatsapp { position: fixed; bottom: 30px; left: 30px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 35px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); z-index: 1000; text-decoration: none; transition: 0.3s; }
-        .fab-whatsapp:hover { transform: scale(1.1); }
         html[dir="rtl"] .fab-whatsapp { left: auto; right: 30px; }
 
         /* --- المودال --- */
@@ -91,7 +80,7 @@
         html[dir="rtl"] .modal-close { right: auto; left: 15px; }
         .modal-content img { width: 100%; border-radius: 10px; margin-bottom: 20px; max-height: 350px; object-fit: cover; }
 
-        /* --- التوست (إشعارات النجاح) --- */
+        /* --- التوست --- */
         #toast { visibility: hidden; min-width: 250px; background-color: var(--success); color: #fff; text-align: center; border-radius: 10px; padding: 16px; position: fixed; z-index: 3000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 17px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
@@ -114,10 +103,9 @@
         .admin-section h2 { margin-bottom: 20px; color: var(--primary); display: flex; justify-content: space-between;}
         .admin-section input[type="text"], .admin-section textarea, .admin-section input[type="file"] { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
         .admin-section textarea { min-height: 100px; resize: vertical; }
-        .btn-save { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1em; width: 100%; margin-bottom: 20px;}
-        .btn-save:disabled { background: #ccc; cursor: not-allowed; }
+        .btn-save { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1em; width: 100%; margin-bottom: 20px; transition: 0.3s;}
+        .btn-save:disabled { background: #999; cursor: not-allowed; }
 
-        /* سجل الإدارة (القوائم) */
         .admin-list { margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
         .list-item { display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; border: 1px solid #eee; padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; }
         .list-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 15px; }
@@ -130,10 +118,9 @@
 <body>
 
     <div id="bg-animation"></div>
-
     <div id="toast"></div>
 
-    <!-- واجهة المستخدم العامة -->
+    <!-- واجهة المستخدم -->
     <div id="public-view">
         <header>
             <div class="logo-container">
@@ -205,17 +192,17 @@
         <a href="https://wa.me/213559066605" class="fab-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
     </div>
 
-    <!-- مودال عرض المقال/العمل -->
+    <!-- مودال المدونة -->
     <div id="blog-modal">
         <div class="modal-content">
             <i class="fas fa-times modal-close" onclick="closeModal()"></i>
             <img id="m-img" src="" alt="">
             <h2 id="m-title" style="color:var(--primary); margin-bottom:15px;"></h2>
-            <p id="m-desc" style="line-height: 1.8; color: #444;"></p>
+            <p id="m-desc" style="line-height: 1.8; color: #444; white-space: pre-wrap;"></p>
         </div>
     </div>
 
-    <!-- واجهة الأدمن -->
+    <!-- واجهة الإدارة -->
     <div id="admin-panel">
         <div id="login-section" class="admin-login">
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZvc2VX08-mtAOEnVZNA2xH8QGRGz2GbqIuMTKDh0suB-bjVIAogCm7ji820GlbHAkWWKsOg2yn3EAH7nMM_w_lvT3OH4H-UgYzsTiur_l3CzK2fcw2n_jTX1Z-t25DaLbwrY0jnDE13Zo3lrh8ZkXF5ybieZJOdpBQ4Xkr_zbn8LFS3zQDf5Bft28Zr4/s320/1000013350.png" style="max-height:60px; margin-bottom:20px;">
@@ -251,6 +238,7 @@
             <div class="admin-section">
                 <h2><i class="fas fa-concierge-bell"></i> Services <button class="btn-save" style="width:auto; margin:0; padding:5px 15px;" onclick="resetForm('service')">Nouveau +</button></h2>
                 <input type="hidden" id="ad-s-id">
+                <label>Image du service</label>
                 <input type="file" id="ad-s-img" accept="image/*">
                 <input type="text" id="ad-s-title-fr" placeholder="Titre (FR)">
                 <input type="text" id="ad-s-title-ar" placeholder="العنوان (AR)">
@@ -260,10 +248,11 @@
                 <div class="admin-list" id="list-services"></div>
             </div>
 
-            <!-- الأعمال (المدونة) -->
+            <!-- الأعمال -->
             <div class="admin-section">
                 <h2><i class="fas fa-briefcase"></i> Réalisations (Blog) <button class="btn-save" style="width:auto; margin:0; padding:5px 15px;" onclick="resetForm('work')">Nouveau +</button></h2>
                 <input type="hidden" id="ad-w-id">
+                <label>Image de la réalisation</label>
                 <input type="file" id="ad-w-img" accept="image/*">
                 <input type="text" id="ad-w-title-fr" placeholder="Titre (FR)">
                 <input type="text" id="ad-w-title-ar" placeholder="العنوان (AR)">
@@ -276,6 +265,7 @@
             <!-- الشركاء -->
             <div class="admin-section">
                 <h2><i class="fas fa-handshake"></i> Partenaires</h2>
+                <label>Logo du partenaire</label>
                 <input type="file" id="ad-p-img" accept="image/*">
                 <button class="btn-save" id="btn-save-partner" onclick="addPartner()">Ajouter / إضافة</button>
                 <div class="admin-list" id="list-partners"></div>
@@ -296,7 +286,6 @@
         </div>
     </div>
 
-    <!-- سكريبتات فايربيس -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
@@ -317,7 +306,7 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // --- الترجمة وواجهة المستخدم ---
+        // --- الترجمة ---
         let currentLang = 'fr';
         const translations = {
             fr: { menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", registerBtn: "S'inscrire à l'événement", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite" },
@@ -353,15 +342,16 @@
             setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
-        // --- جلب البيانات ---
         let siteData = { banner: {}, settings: {}, services: [], works: [], partners: [] };
 
         async function fetchAllData() {
-            const b = await getDoc(doc(db, "site", "banner")); if(b.exists()) siteData.banner = b.data();
-            const s = await getDoc(doc(db, "site", "settings")); if(s.exists()) siteData.settings = s.data();
-            const srv = await getDocs(collection(db, "services")); siteData.services = srv.docs.map(d => ({id: d.id, ...d.data()}));
-            const wrk = await getDocs(collection(db, "works")); siteData.works = wrk.docs.map(d => ({id: d.id, ...d.data()}));
-            const ptn = await getDocs(collection(db, "partners")); siteData.partners = ptn.docs.map(d => ({id: d.id, ...d.data()}));
+            try {
+                const b = await getDoc(doc(db, "site", "banner")); if(b.exists()) siteData.banner = b.data();
+                const s = await getDoc(doc(db, "site", "settings")); if(s.exists()) siteData.settings = s.data();
+                const srv = await getDocs(collection(db, "services")); siteData.services = srv.docs.map(d => ({id: d.id, ...d.data()}));
+                const wrk = await getDocs(collection(db, "works")); siteData.works = wrk.docs.map(d => ({id: d.id, ...d.data()}));
+                const ptn = await getDocs(collection(db, "partners")); siteData.partners = ptn.docs.map(d => ({id: d.id, ...d.data()}));
+            } catch(e) { console.error("Firebase Load Error", e); }
         }
 
         function renderPublicData() {
@@ -410,7 +400,7 @@
         }
         window.closeModal = function() { document.getElementById('blog-modal').style.display = 'none'; }
 
-        // --- نظام الإدارة ---
+        // --- نظام التوجيه ---
         const isAdminRoute = window.location.pathname.endsWith('/admin16') || window.location.hash.includes('admin16');
         if(isAdminRoute) {
             document.getElementById('public-view').style.display = 'none';
@@ -418,7 +408,6 @@
             document.getElementById('admin-panel').style.display = 'block';
         } else {
             fetchAllData().then(renderPublicData);
-            // إحصائيات الزيارة
             const today = new Date().toISOString().split('T')[0];
             const month = today.substring(0,7);
             if(localStorage.getItem('lastVisit') !== today) {
@@ -438,25 +427,26 @@
 
         async function loadAdminData() {
             await fetchAllData();
-            // ملء الإعدادات
             if(siteData.banner.title_fr) {
-                document.getElementById('ad-b-title-fr').value = siteData.banner.title_fr;
-                document.getElementById('ad-b-title-ar').value = siteData.banner.title_ar;
-                document.getElementById('ad-b-loc-fr').value = siteData.banner.loc_fr;
-                document.getElementById('ad-b-loc-ar').value = siteData.banner.loc_ar;
-                document.getElementById('ad-b-date').value = siteData.banner.date;
-                document.getElementById('ad-b-link').value = siteData.banner.link;
+                document.getElementById('ad-b-title-fr').value = siteData.banner.title_fr; document.getElementById('ad-b-title-ar').value = siteData.banner.title_ar;
+                document.getElementById('ad-b-loc-fr').value = siteData.banner.loc_fr; document.getElementById('ad-b-loc-ar').value = siteData.banner.loc_ar;
+                document.getElementById('ad-b-date').value = siteData.banner.date; document.getElementById('ad-b-link').value = siteData.banner.link;
             }
             if(siteData.settings.email) {
-                document.getElementById('ad-email').value = siteData.settings.email;
-                document.getElementById('ad-phone').value = siteData.settings.phone;
-                document.getElementById('ad-fb').value = siteData.settings.fb;
-                document.getElementById('ad-ig').value = siteData.settings.ig;
-                document.getElementById('ad-map').value = siteData.settings.map;
-                document.getElementById('ad-about-fr').value = siteData.settings.about_fr;
+                document.getElementById('ad-email').value = siteData.settings.email; document.getElementById('ad-phone').value = siteData.settings.phone;
+                document.getElementById('ad-fb').value = siteData.settings.fb; document.getElementById('ad-ig').value = siteData.settings.ig;
+                document.getElementById('ad-map').value = siteData.settings.map; document.getElementById('ad-about-fr').value = siteData.settings.about_fr;
                 document.getElementById('ad-about-ar').value = siteData.settings.about_ar;
             }
             renderAdminLists();
+            
+            // Stats
+            const today = new Date().toISOString().split('T')[0];
+            const month = today.substring(0,7);
+            try {
+                const dSnap = await getDoc(doc(db, "stats", "visits_" + today)); if(dSnap.exists()) document.getElementById('stat-day').innerText = dSnap.data().count;
+                const mSnap = await getDoc(doc(db, "stats", "visits_" + month)); if(mSnap.exists()) document.getElementById('stat-month').innerText = mSnap.data().count;
+            } catch(e){}
         }
 
         function renderAdminLists() {
@@ -473,7 +463,7 @@
                 <div class="list-actions"><button class="btn-delete" onclick="deleteItem('partners','${p.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
         }
 
-        // --- رفع الصور وتخزينها ---
+        // --- رفع الصور مع Error Handling ---
         async function uploadImage(file, folder) {
             if(!file) return null;
             const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
@@ -487,80 +477,110 @@
             btn.innerText = isLoading ? "Chargement... / جاري التحميل..." : "Enregistrer / حفظ";
         }
 
-        // --- حفظ البيانات (إنشاء وتعديل) ---
+        // --- دوال الحفظ المحمية ---
         window.saveBanner = async function() {
             setBtnLoading("btn-save-banner", true);
-            let imgUrl = siteData.banner.img || "";
-            const file = document.getElementById('ad-b-img').files[0];
-            if(file) imgUrl = await uploadImage(file, "banner");
+            try {
+                let imgUrl = siteData.banner.img || "";
+                const file = document.getElementById('ad-b-img').files[0];
+                if(file) imgUrl = await uploadImage(file, "banner");
 
-            await setDoc(doc(db, "site", "banner"), {
-                img: imgUrl, title_fr: document.getElementById('ad-b-title-fr').value, title_ar: document.getElementById('ad-b-title-ar').value,
-                loc_fr: document.getElementById('ad-b-loc-fr').value, loc_ar: document.getElementById('ad-b-loc-ar').value,
-                date: document.getElementById('ad-b-date').value, link: document.getElementById('ad-b-link').value
-            });
-            showToast("تم تحديث الحدث بنجاح", "Événement mis à jour avec succès");
-            setBtnLoading("btn-save-banner", false);
+                await setDoc(doc(db, "site", "banner"), {
+                    img: imgUrl, title_fr: document.getElementById('ad-b-title-fr').value, title_ar: document.getElementById('ad-b-title-ar').value,
+                    loc_fr: document.getElementById('ad-b-loc-fr').value, loc_ar: document.getElementById('ad-b-loc-ar').value,
+                    date: document.getElementById('ad-b-date').value, link: document.getElementById('ad-b-link').value
+                });
+                showToast("تم تحديث الحدث بنجاح", "Événement mis à jour avec succès");
+            } catch (error) {
+                alert("Erreur / حدث خطأ: " + error.message);
+                console.error(error);
+            } finally {
+                setBtnLoading("btn-save-banner", false);
+            }
         }
 
         window.saveService = async function() {
             setBtnLoading("btn-save-service", true);
-            const id = document.getElementById('ad-s-id').value;
-            let imgUrl = id ? siteData.services.find(x => x.id === id).img : "";
-            const file = document.getElementById('ad-s-img').files[0];
-            if(file) imgUrl = await uploadImage(file, "services");
-            if(!imgUrl) { alert("Veuillez ajouter une image"); setBtnLoading("btn-save-service", false); return; }
+            try {
+                const id = document.getElementById('ad-s-id').value;
+                let imgUrl = id ? siteData.services.find(x => x.id === id).img : "";
+                const file = document.getElementById('ad-s-img').files[0];
+                if(file) imgUrl = await uploadImage(file, "services");
+                if(!imgUrl) { alert("Veuillez ajouter une image / يرجى إضافة صورة"); return; }
 
-            const data = { img: imgUrl, title_fr: document.getElementById('ad-s-title-fr').value, title_ar: document.getElementById('ad-s-title-ar').value, desc_fr: document.getElementById('ad-s-desc-fr').value, desc_ar: document.getElementById('ad-s-desc-ar').value };
-            
-            if(id) await updateDoc(doc(db, "services", id), data);
-            else await addDoc(collection(db, "services"), data);
-            
-            showToast("تم حفظ الخدمة بنجاح", "Service enregistré avec succès");
-            resetForm('service'); await loadAdminData();
-            setBtnLoading("btn-save-service", false);
+                const data = { img: imgUrl, title_fr: document.getElementById('ad-s-title-fr').value, title_ar: document.getElementById('ad-s-title-ar').value, desc_fr: document.getElementById('ad-s-desc-fr').value, desc_ar: document.getElementById('ad-s-desc-ar').value };
+                
+                if(id) await updateDoc(doc(db, "services", id), data);
+                else await addDoc(collection(db, "services"), data);
+                
+                showToast("تم حفظ الخدمة بنجاح", "Service enregistré avec succès");
+                resetForm('service'); await loadAdminData();
+            } catch (error) {
+                alert("Erreur / حدث خطأ: " + error.message);
+                console.error(error);
+            } finally {
+                setBtnLoading("btn-save-service", false);
+            }
         }
 
         window.saveWork = async function() {
             setBtnLoading("btn-save-work", true);
-            const id = document.getElementById('ad-w-id').value;
-            let imgUrl = id ? siteData.works.find(x => x.id === id).img : "";
-            const file = document.getElementById('ad-w-img').files[0];
-            if(file) imgUrl = await uploadImage(file, "works");
-            if(!imgUrl) { alert("Veuillez ajouter une image"); setBtnLoading("btn-save-work", false); return; }
+            try {
+                const id = document.getElementById('ad-w-id').value;
+                let imgUrl = id ? siteData.works.find(x => x.id === id).img : "";
+                const file = document.getElementById('ad-w-img').files[0];
+                if(file) imgUrl = await uploadImage(file, "works");
+                if(!imgUrl) { alert("Veuillez ajouter une image / يرجى إضافة صورة"); return; }
 
-            const data = { img: imgUrl, title_fr: document.getElementById('ad-w-title-fr').value, title_ar: document.getElementById('ad-w-title-ar').value, desc_fr: document.getElementById('ad-w-desc-fr').value, desc_ar: document.getElementById('ad-w-desc-ar').value };
-            
-            if(id) await updateDoc(doc(db, "works", id), data);
-            else await addDoc(collection(db, "works"), data);
-            
-            showToast("تم حفظ العمل بنجاح", "Réalisation enregistrée avec succès");
-            resetForm('work'); await loadAdminData();
-            setBtnLoading("btn-save-work", false);
+                const data = { img: imgUrl, title_fr: document.getElementById('ad-w-title-fr').value, title_ar: document.getElementById('ad-w-title-ar').value, desc_fr: document.getElementById('ad-w-desc-fr').value, desc_ar: document.getElementById('ad-w-desc-ar').value };
+                
+                if(id) await updateDoc(doc(db, "works", id), data);
+                else await addDoc(collection(db, "works"), data);
+                
+                showToast("تم حفظ العمل بنجاح", "Réalisation enregistrée avec succès");
+                resetForm('work'); await loadAdminData();
+            } catch (error) {
+                alert("Erreur / حدث خطأ: " + error.message);
+                console.error(error);
+            } finally {
+                setBtnLoading("btn-save-work", false);
+            }
         }
 
         window.addPartner = async function() {
             setBtnLoading("btn-save-partner", true);
-            const file = document.getElementById('ad-p-img').files[0];
-            if(file) {
-                const imgUrl = await uploadImage(file, "partners");
-                await addDoc(collection(db, "partners"), { img: imgUrl });
-                showToast("تم إضافة الشريك بنجاح", "Partenaire ajouté avec succès");
-                document.getElementById('ad-p-img').value = '';
-                await loadAdminData();
+            try {
+                const file = document.getElementById('ad-p-img').files[0];
+                if(file) {
+                    const imgUrl = await uploadImage(file, "partners");
+                    await addDoc(collection(db, "partners"), { img: imgUrl });
+                    showToast("تم إضافة الشريك بنجاح", "Partenaire ajouté avec succès");
+                    document.getElementById('ad-p-img').value = '';
+                    await loadAdminData();
+                } else { alert("Ajoutez une image / أضف صورة أولاً"); }
+            } catch (error) {
+                alert("Erreur / حدث خطأ: " + error.message);
+                console.error(error);
+            } finally {
+                setBtnLoading("btn-save-partner", false);
             }
-            setBtnLoading("btn-save-partner", false);
         }
 
         window.saveSettings = async function() {
             setBtnLoading("btn-save-settings", true);
-            await setDoc(doc(db, "site", "settings"), {
-                email: document.getElementById('ad-email').value, phone: document.getElementById('ad-phone').value,
-                fb: document.getElementById('ad-fb').value, ig: document.getElementById('ad-ig').value, map: document.getElementById('ad-map').value,
-                about_fr: document.getElementById('ad-about-fr').value, about_ar: document.getElementById('ad-about-ar').value
-            });
-            showToast("تم حفظ الإعدادات", "Paramètres enregistrés");
-            setBtnLoading("btn-save-settings", false);
+            try {
+                await setDoc(doc(db, "site", "settings"), {
+                    email: document.getElementById('ad-email').value, phone: document.getElementById('ad-phone').value,
+                    fb: document.getElementById('ad-fb').value, ig: document.getElementById('ad-ig').value, map: document.getElementById('ad-map').value,
+                    about_fr: document.getElementById('ad-about-fr').value, about_ar: document.getElementById('ad-about-ar').value
+                });
+                showToast("تم حفظ الإعدادات", "Paramètres enregistrés");
+            } catch (error) {
+                alert("Erreur / حدث خطأ: " + error.message);
+                console.error(error);
+            } finally {
+                setBtnLoading("btn-save-settings", false);
+            }
         }
 
         // --- التعديل والحذف والتفريغ ---
@@ -584,9 +604,13 @@
 
         window.deleteItem = async function(collectionName, id) {
             if(confirm("Voulez-vous vraiment supprimer cet élément ? / هل تريد حقاً حذف هذا العنصر؟")) {
-                await deleteDoc(doc(db, collectionName, id));
-                showToast("تم الحذف بنجاح", "Supprimé avec succès");
-                await loadAdminData();
+                try {
+                    await deleteDoc(doc(db, collectionName, id));
+                    showToast("تم الحذف بنجاح", "Supprimé avec succès");
+                    await loadAdminData();
+                } catch (error) {
+                    alert("Erreur / حدث خطأ: " + error.message);
+                }
             }
         }
 
