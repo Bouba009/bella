@@ -42,15 +42,22 @@
         .register-btn { background: var(--white); color: var(--primary); text-decoration: none; padding: 15px 35px; border-radius: 30px; font-weight: bold; display: inline-block; animation: pulse 1.5s infinite; transition: 0.3s; font-size: 1.1em; }
         @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255,255,255,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
 
-        /* --- شريط الخدمات المتحرك --- */
-        .marquee-container { overflow: hidden; width: 100%; padding: 10px 0 30px 0; }
+        /* --- شريط الخدمات المتحرك (بعرض الشاشة الكامل) --- */
+        .full-width-marquee {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            overflow: hidden;
+            padding: 30px 0 10px 0;
+            background: transparent;
+            margin-top: 10px;
+        }
         .marquee-track { display: flex; gap: 20px; width: max-content; margin-bottom: 15px; }
         .marquee-item { background: var(--primary); color: var(--white); padding: 12px 25px; border-radius: 30px; font-weight: bold; white-space: nowrap; box-shadow: 0 4px 10px rgba(90, 45, 130, 0.2); font-size: 1.05em; border: 2px solid rgba(255,255,255,0.2);}
         
-        /* حركة اليسار (للفرنسية) */
         @keyframes scrollLTR { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes scrollLTR_rev { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-        /* حركة اليمين (للعربية) */
         @keyframes scrollRTL { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
         @keyframes scrollRTL_rev { 0% { transform: translateX(50%); } 100% { transform: translateX(0); } }
 
@@ -191,16 +198,14 @@
             </div>
         </div>
 
+        <!-- شريط الخدمات المتحرك يملأ الشاشة بالكامل (خارج مساحة الـ section) -->
+        <div class="full-width-marquee">
+            <div class="marquee-track row1" id="mq-row1"></div>
+            <div class="marquee-track row2" id="mq-row2"></div>
+        </div>
+
         <section id="services">
             <h2 class="section-title" data-i18n="titleServices">Nos Services</h2>
-            
-            <!-- شريط الخدمات المتحرك -->
-            <div class="marquee-container">
-                <div class="marquee-track row1" id="mq-row1"></div>
-                <div class="marquee-track row2" id="mq-row2"></div>
-            </div>
-
-            <!-- شبكة الخدمات الديناميكية (إن وجدت) -->
             <div class="grid" id="services-grid"></div>
         </section>
 
@@ -272,7 +277,6 @@
 
             <div class="admin-main">
                 
-                <!-- 1. الداشبورد -->
                 <div id="sec-dash" class="admin-sec active">
                     <h2 class="sec-header">Statistiques du site</h2>
                     <div class="dashboard-stats">
@@ -282,32 +286,30 @@
                     </div>
                 </div>
 
-                <!-- 2. البانر (مع الأرشيف) -->
                 <div id="sec-banner" class="admin-sec">
                     <h2 class="sec-header"><span><i class="fas fa-bullhorn"></i> Gérer l'événement (Banners)</span> <button class="btn-new" onclick="resetForm('banner')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-b-id">
-                        <div class="form-group"><label>Image de fond (Optionnelle mais recommandée - Haute Qualité)</label><input type="file" id="ad-b-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image de fond (Optionnelle)</label><input type="file" id="ad-b-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-fr" placeholder="Lieu (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-ar" placeholder="المكان (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-date" placeholder="Date / التاريخ"></div>
-                        <div class="form-group"><input type="text" id="ad-b-link" placeholder="Lien d'inscription / رابط التسجيل (Google Form...)"></div>
+                        <div class="form-group"><input type="text" id="ad-b-link" placeholder="Lien d'inscription / رابط التسجيل"></div>
                         <button class="btn-save" id="btn-save-banner" onclick="saveBanner()">Ajouter l'événement / إضافة الحدث</button>
                     </div>
                     <div class="archive-section">
-                        <h3 class="archive-title">Archive des Événements / أرشيف الأحداث (Le dernier est affiché / الأخير هو الذي يظهر)</h3>
+                        <h3 class="archive-title">Archive des Événements / أرشيف الأحداث</h3>
                         <div id="list-banners"></div>
                     </div>
                 </div>
 
-                <!-- 3. الخدمات -->
                 <div id="sec-services" class="admin-sec">
                     <h2 class="sec-header"><span><i class="fas fa-concierge-bell"></i> Gérer les Services</span> <button class="btn-new" onclick="resetForm('service')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-s-id">
-                        <div class="form-group"><label>Image du service (Haute Qualité)</label><input type="file" id="ad-s-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image du service</label><input type="file" id="ad-s-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-s-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-s-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><textarea id="ad-s-desc-fr" placeholder="Description courte (FR)"></textarea></div>
@@ -320,12 +322,11 @@
                     </div>
                 </div>
 
-                <!-- 4. الأعمال -->
                 <div id="sec-works" class="admin-sec">
                     <h2 class="sec-header"><span><i class="fas fa-briefcase"></i> Gérer les Réalisations</span> <button class="btn-new" onclick="resetForm('work')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-w-id">
-                        <div class="form-group"><label>Image de la réalisation (Haute Qualité)</label><input type="file" id="ad-w-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image de la réalisation</label><input type="file" id="ad-w-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><textarea id="ad-w-desc-fr" placeholder="Texte complet (FR)"></textarea></div>
@@ -338,11 +339,10 @@
                     </div>
                 </div>
 
-                <!-- 5. الشركاء -->
                 <div id="sec-partners" class="admin-sec">
                     <h2 class="sec-header"><i class="fas fa-handshake"></i> Gérer les Partenaires</h2>
                     <div class="form-card">
-                        <div class="form-group"><label>Logo du partenaire (Haute Qualité)</label><input type="file" id="ad-p-img" accept="image/*"></div>
+                        <div class="form-group"><label>Logo du partenaire</label><input type="file" id="ad-p-img" accept="image/*"></div>
                         <button class="btn-save" id="btn-save-partner" onclick="addPartner()">Ajouter / إضافة الشريك</button>
                     </div>
                     <div class="archive-section">
@@ -351,7 +351,6 @@
                     </div>
                 </div>
 
-                <!-- 6. الإعدادات -->
                 <div id="sec-settings" class="admin-sec">
                     <h2 class="sec-header"><i class="fas fa-cogs"></i> Paramètres Généraux</h2>
                     <div class="form-card">
@@ -370,7 +369,7 @@
     <!-- ================= سكريبت فايربيس المحدث ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot, query } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
@@ -386,7 +385,7 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // --- قائمة الخدمات الثابتة (Marquee) ---
+        // قائمة الخدمات الثابتة (Marquee)
         const staticServices = [
             { fr: "Programmes de formation, coaching et accompagnement", ar: "برامج التكوين، التدريب والمرافقة" },
             { fr: "Développement personnel et professionnel", ar: "التطوير الشخصي والمهني" },
@@ -444,13 +443,9 @@
 
         async function uploadHighQualityImage(file, folder) {
             if(!file) return null;
-            try {
-                const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
-                await uploadBytesResumable(storageRef, file);
-                return await getDownloadURL(storageRef);
-            } catch (error) {
-                throw new Error("خطأ في رفع الصورة. تأكد من تفعيل قواعد Storage. التفاصيل: " + error.message);
-            }
+            const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
+            await uploadBytesResumable(storageRef, file);
+            return await getDownloadURL(storageRef);
         }
 
         let siteData = { banners: [], settings: {}, services: [], works: [], partners: [] };
@@ -460,28 +455,24 @@
             const half = Math.ceil(staticServices.length / 2);
             const r1 = staticServices.slice(0, half);
             const r2 = staticServices.slice(half);
-
             const genHtml = (arr) => arr.map(item => `<div class="marquee-item">${currentLang === 'ar' ? item.ar : item.fr}</div>`).join('');
-            
-            // نضاعف المحتوى لكي لا ينقطع الشريط أثناء الدوران
-            const content1 = genHtml(r1) + genHtml(r1); 
-            const content2 = genHtml(r2) + genHtml(r2);
-
-            document.getElementById('mq-row1').innerHTML = content1;
-            document.getElementById('mq-row2').innerHTML = content2;
+            document.getElementById('mq-row1').innerHTML = genHtml(r1) + genHtml(r1);
+            document.getElementById('mq-row2').innerHTML = genHtml(r2) + genHtml(r2);
         }
 
         function renderUI() {
-            renderMarquee(); // تحديث شريط الخدمات
+            renderMarquee();
 
             const banners = siteData.banners || [];
             if(banners.length > 0) {
-                document.getElementById('banner').style.display = 'flex';
-                const b = banners[banners.length - 1];
-                document.getElementById('b-title').innerText = currentLang === 'ar' ? b.title_ar : b.title_fr;
-                document.getElementById('b-location').innerText = currentLang === 'ar' ? b.loc_ar : b.loc_fr;
-                document.getElementById('b-date').innerText = b.date || ''; document.getElementById('b-link').href = b.link || '#';
-                if(b.img) { document.getElementById('b-bg').src = b.img; document.getElementById('b-bg').style.display = 'block'; }
+                const b = banners[banners.length - 1]; // أحدث بانر
+                if(b.title_fr || b.title_ar) {
+                    document.getElementById('banner').style.display = 'flex';
+                    document.getElementById('b-title').innerText = currentLang === 'ar' ? (b.title_ar||'') : (b.title_fr||'');
+                    document.getElementById('b-location').innerText = currentLang === 'ar' ? (b.loc_ar||'') : (b.loc_fr||'');
+                    document.getElementById('b-date').innerText = b.date || ''; document.getElementById('b-link').href = b.link || '#';
+                    if(b.img) { document.getElementById('b-bg').src = b.img; document.getElementById('b-bg').style.display = 'block'; }
+                }
             } else {
                 document.getElementById('banner').style.display = 'none';
             }
@@ -510,36 +501,24 @@
         window.closeModal = function() { document.getElementById('blog-modal').style.display = 'none'; }
 
         function initFirebaseListeners() {
-            // حل مشكلة البانر: إزالة الـ query orderBy واستبداله بترتيب برمجي لتفادي مشاكل الفايربيس (Index Error)
             onSnapshot(collection(db, "banners"), (snap) => { 
                 let b = snap.docs.map(d => ({id: d.id, ...d.data()}));
-                b.sort((x, y) => (x.timestamp || 0) - (y.timestamp || 0)); // ترتيب زمني
-                siteData.banners = b; 
-                updateLocalAndUI(); 
-            }, (e) => console.log("Banner Error:", e));
-            
+                b.sort((x, y) => (x.timestamp || 0) - (y.timestamp || 0)); 
+                siteData.banners = b; updateLocalAndUI(); 
+            });
             onSnapshot(doc(db, "site", "settings"), (doc) => { if(doc.exists()) siteData.settings = doc.data(); else siteData.settings = {}; updateLocalAndUI(); });
-            onSnapshot(collection(db, "services"), (snap) => { siteData.services = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); }, (e) => console.log(e));
-            onSnapshot(collection(db, "works"), (snap) => { siteData.works = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); }, (e) => console.log(e));
-            onSnapshot(collection(db, "partners"), (snap) => { siteData.partners = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); }, (e) => console.log(e));
+            onSnapshot(collection(db, "services"), (snap) => { siteData.services = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); });
+            onSnapshot(collection(db, "works"), (snap) => { siteData.works = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); });
+            onSnapshot(collection(db, "partners"), (snap) => { siteData.partners = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); });
         }
 
         function updateLocalAndUI() { localStorage.setItem('bella_data', JSON.stringify(siteData)); renderUI(); }
 
         const isAdminRoute = window.location.pathname.endsWith('/admin16') || window.location.hash.includes('admin16');
-        
-        loadLocalData(); 
-        initFirebaseListeners();
+        loadLocalData(); initFirebaseListeners();
 
         if(isAdminRoute) {
             document.getElementById('public-view').style.display = 'none'; document.getElementById('bg-animation').style.display = 'none'; document.getElementById('admin-panel').style.display = 'block';
-        } else {
-            const today = new Date().toISOString().split('T')[0]; const month = today.substring(0,7);
-            if(localStorage.getItem('lastVisit') !== today) {
-                localStorage.setItem('lastVisit', today);
-                setDoc(doc(db, "stats", "visits_" + today), { count: increment(1) }, { merge: true }).catch(e=>{});
-                setDoc(doc(db, "stats", "visits_" + month), { count: increment(1) }, { merge: true }).catch(e=>{});
-            }
         }
 
         window.trackRegistration = function() { setDoc(doc(db, "stats", "registrations"), { count: increment(1) }, { merge: true }).catch(e=>{}); }
@@ -553,16 +532,7 @@
 
         window.checkAdmin = async function() {
             if(btoa(document.getElementById('admin-pwd').value) === "YmVsbGEyMDI2") { 
-                document.getElementById('login-section').style.display = 'none'; 
-                document.getElementById('dashboard-layout').style.display = 'flex';
-                fillAdminInputs();
-                
-                const today = new Date().toISOString().split('T')[0]; const month = today.substring(0,7);
-                try {
-                    const dSnap = await getDoc(doc(db, "stats", "visits_" + today)); if(dSnap.exists()) document.getElementById('stat-day').innerText = dSnap.data().count;
-                    const mSnap = await getDoc(doc(db, "stats", "visits_" + month)); if(mSnap.exists()) document.getElementById('stat-month').innerText = mSnap.data().count;
-                    const rSnap = await getDoc(doc(db, "stats", "registrations")); if(rSnap.exists()) document.getElementById('stat-reg').innerText = rSnap.data().count;
-                } catch(e){}
+                document.getElementById('login-section').style.display = 'none'; document.getElementById('dashboard-layout').style.display = 'flex'; fillAdminInputs();
             } else { showToast("كلمة المرور خاطئة", "Mot de passe incorrect", true); }
         }
 
@@ -572,7 +542,7 @@
             document.getElementById('ad-fb').value = s.fb || ''; document.getElementById('ad-ig').value = s.ig || '';
             document.getElementById('ad-map').value = s.map || ''; document.getElementById('ad-about-fr').value = s.about_fr || ''; document.getElementById('ad-about-ar').value = s.about_ar || '';
             
-            document.getElementById('list-banners').innerHTML = (siteData.banners||[]).map(b => `<div class="list-item"><div class="list-item-info"><img src="${b.img||''}">${b.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('banner','${b.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('banners','${b.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
+            document.getElementById('list-banners').innerHTML = (siteData.banners||[]).map(b => `<div class="list-item"><div class="list-item-info"><img src="${b.img||''}">${b.title_fr||'بدون عنوان'}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('banner','${b.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('banners','${b.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
             document.getElementById('list-services').innerHTML = (siteData.services||[]).map(s => `<div class="list-item"><div class="list-item-info"><img src="${s.img}">${s.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('service','${s.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('services','${s.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
             document.getElementById('list-works').innerHTML = (siteData.works||[]).map(w => `<div class="list-item"><div class="list-item-info"><img src="${w.img}">${w.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('work','${w.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('works','${w.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
             document.getElementById('list-partners').innerHTML = (siteData.partners||[]).map(p => `<div class="list-item"><div class="list-item-info"><img src="${p.img}"></div><div class="list-actions"><button class="btn-delete" onclick="deleteItem('partners','${p.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
@@ -580,6 +550,7 @@
 
         function setBtnLoading(id, state) { document.getElementById(id).disabled = state; document.getElementById(id).innerText = state ? "En cours... / جاري..." : "Enregistrer / حفظ"; }
 
+        // كود حفظ البانر المعدل (ضد أخطاء الصور ويضمن ظهور الرسالة)
         window.saveBanner = async function() {
             setBtnLoading("btn-save-banner", true);
             try {
@@ -588,38 +559,55 @@
                 let imgUrl = existing ? existing.img : "";
                 
                 const file = document.getElementById('ad-b-img').files[0];
-                if(file) imgUrl = await uploadHighQualityImage(file, "banners");
+                if(file) {
+                    try {
+                        imgUrl = await uploadHighQualityImage(file, "banners");
+                    } catch (uploadError) {
+                        alert("تحذير: لم يتم رفع الصورة بنجاح (تأكد من تفعيل Storage). سيتم حفظ النص فقط.");
+                    }
+                }
                 
                 const data = { 
-                    img: imgUrl, title_fr: document.getElementById('ad-b-title-fr').value, title_ar: document.getElementById('ad-b-title-ar').value, 
-                    loc_fr: document.getElementById('ad-b-loc-fr').value, loc_ar: document.getElementById('ad-b-loc-ar').value, 
-                    date: document.getElementById('ad-b-date').value, link: document.getElementById('ad-b-link').value,
-                    timestamp: (existing && existing.timestamp) ? existing.timestamp : new Date().getTime() 
+                    img: imgUrl || "", 
+                    title_fr: document.getElementById('ad-b-title-fr').value || "", 
+                    title_ar: document.getElementById('ad-b-title-ar').value || "", 
+                    loc_fr: document.getElementById('ad-b-loc-fr').value || "", 
+                    loc_ar: document.getElementById('ad-b-loc-ar').value || "", 
+                    date: document.getElementById('ad-b-date').value || "", 
+                    link: document.getElementById('ad-b-link').value || "",
+                    timestamp: (existing && existing.timestamp) ? existing.timestamp : Date.now() 
                 };
                 
-                if(id) await updateDoc(doc(db, "banners", id), data); else await addDoc(collection(db, "banners"), data);
+                if(id) {
+                    await updateDoc(doc(db, "banners", id), data);
+                } else {
+                    await addDoc(collection(db, "banners"), data);
+                }
                 
-                showToast("تم إضافة/تحديث الحدث", "Événement enregistré avec succès"); 
+                showToast("تم إضافة/تحديث الحدث بنجاح", "Événement enregistré avec succès"); 
                 resetForm('banner');
-            } catch (error) { showToast("حدث خطأ", "Erreur", true); alert(error.message); } finally { setBtnLoading("btn-save-banner", false); }
+            } catch (error) { 
+                showToast("حدث خطأ، تأكد من صلاحيات Firestore", "Erreur Firestore", true); 
+                alert("تفاصيل الخطأ: " + error.message); 
+            } finally { 
+                setBtnLoading("btn-save-banner", false); 
+            }
         }
 
+        // باقي الدوال (بدون تغيير)
         window.saveService = async function() {
             setBtnLoading("btn-save-service", true);
             try {
                 const id = document.getElementById('ad-s-id').value;
                 const existing = id ? siteData.services.find(x => x.id === id) : null;
                 let imgUrl = existing ? existing.img : "";
-                
                 const file = document.getElementById('ad-s-img').files[0];
                 if(file) imgUrl = await uploadHighQualityImage(file, "services");
                 if(!imgUrl) { showToast("أضف صورة للخدمة", "Ajoutez une image", true); setBtnLoading("btn-save-service", false); return; }
-
                 const data = { img: imgUrl, title_fr: document.getElementById('ad-s-title-fr').value, title_ar: document.getElementById('ad-s-title-ar').value, desc_fr: document.getElementById('ad-s-desc-fr').value, desc_ar: document.getElementById('ad-s-desc-ar').value };
                 if(id) await updateDoc(doc(db, "services", id), data); else await addDoc(collection(db, "services"), data);
-                
                 showToast("تم حفظ الخدمة", "Service enregistré"); resetForm('service');
-            } catch (error) { showToast("خطأ", "Erreur", true); alert(error.message); } finally { setBtnLoading("btn-save-service", false); }
+            } catch (error) { alert("خطأ: " + error.message); } finally { setBtnLoading("btn-save-service", false); }
         }
 
         window.saveWork = async function() {
@@ -628,16 +616,13 @@
                 const id = document.getElementById('ad-w-id').value;
                 const existing = id ? siteData.works.find(x => x.id === id) : null;
                 let imgUrl = existing ? existing.img : "";
-                
                 const file = document.getElementById('ad-w-img').files[0];
                 if(file) imgUrl = await uploadHighQualityImage(file, "works");
                 if(!imgUrl) { showToast("أضف صورة للعمل", "Ajoutez une image", true); setBtnLoading("btn-save-work", false); return; }
-
                 const data = { img: imgUrl, title_fr: document.getElementById('ad-w-title-fr').value, title_ar: document.getElementById('ad-w-title-ar').value, desc_fr: document.getElementById('ad-w-desc-fr').value, desc_ar: document.getElementById('ad-w-desc-ar').value };
                 if(id) await updateDoc(doc(db, "works", id), data); else await addDoc(collection(db, "works"), data);
-                
                 showToast("تم حفظ العمل", "Réalisation enregistrée"); resetForm('work');
-            } catch (error) { showToast("خطأ", "Erreur", true); alert(error.message); } finally { setBtnLoading("btn-save-work", false); }
+            } catch (error) { alert("خطأ: " + error.message); } finally { setBtnLoading("btn-save-work", false); }
         }
 
         window.addPartner = async function() {
@@ -648,8 +633,8 @@
                     const imgUrl = await uploadHighQualityImage(file, "partners");
                     await addDoc(collection(db, "partners"), { img: imgUrl });
                     showToast("تم إضافة الشريك", "Partenaire ajouté"); document.getElementById('ad-p-img').value = '';
-                } else { showToast("اختر صورة للشعار", "Choisissez un logo", true); }
-            } catch (error) { showToast("خطأ", "Erreur", true); alert(error.message); } finally { setBtnLoading("btn-save-partner", false); }
+                } else { showToast("اختر صورة", "Choisissez un logo", true); }
+            } catch (error) { alert("خطأ: " + error.message); } finally { setBtnLoading("btn-save-partner", false); }
         }
 
         window.saveSettings = async function() {
