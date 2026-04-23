@@ -42,7 +42,7 @@
         .register-btn { background: var(--white); color: var(--primary); text-decoration: none; padding: 15px 35px; border-radius: 30px; font-weight: bold; display: inline-block; animation: pulse 1.5s infinite; transition: 0.3s; font-size: 1.1em; }
         @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255,255,255,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
 
-        /* --- شريط الخدمات المتحرك (عرض كامل 100vw بدون حواف) --- */
+        /* --- شريط الخدمات المتحرك --- */
         .full-width-marquee { width: 100vw; position: relative; left: 50%; transform: translateX(-50%); overflow: hidden; padding: 30px 0 10px 0; background: transparent; margin-top: 10px; }
         .marquee-track { display: flex; gap: 20px; width: max-content; margin-bottom: 15px; }
         .marquee-item { background: var(--primary); color: var(--white); padding: 12px 25px; border-radius: 30px; font-weight: bold; white-space: nowrap; box-shadow: 0 4px 10px rgba(90, 45, 130, 0.2); font-size: 1.05em; border: 2px solid rgba(255,255,255,0.2);}
@@ -82,7 +82,7 @@
         .fab-whatsapp { position: fixed; bottom: 30px; left: 30px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 35px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); z-index: 1000; text-decoration: none; transition: 0.3s; }
         html[dir="rtl"] .fab-whatsapp { left: auto; right: 30px; }
 
-        /* --- المودال والإشعارات --- */
+        /* --- المودال --- */
         #blog-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-content { background: white; padding: 30px; border-radius: 15px; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative; }
         .modal-close { position: absolute; top: 10px; right: 10px; font-size: 24px; cursor: pointer; color: var(--primary); background: #eee; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; border-radius: 50%; }
@@ -134,7 +134,6 @@
         .btn-save { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1em; width: 100%; transition: 0.3s;}
         .btn-save:hover { background: var(--primary-light); }
         .btn-save:disabled { background: #999; cursor: not-allowed; }
-        .btn-reset { background: #95a5a6; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9em; margin-bottom: 15px; }
 
         .archive-section { margin-top: 40px; }
         .archive-title { font-size: 1.2em; color: var(--dark); margin-bottom: 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
@@ -154,7 +153,7 @@
     <div id="bg-animation"></div>
     <div id="toast"></div>
 
-    <!-- ================= الواجهة العامة ================= -->
+    <!-- الواجهة العامة -->
     <div id="public-view">
         <header>
             <div class="logo-container">
@@ -176,20 +175,15 @@
             <a href="#footer" onclick="toggleSidebar()" data-i18n="menuContact">Contact</a>
         </div>
 
-        <!-- البانر العام -->
         <div class="banner" id="banner" style="display:none;">
             <img id="b-bg" class="banner-bg" src="" style="display:none;" alt="">
             <div class="banner-content">
                 <h1 id="b-title">...</h1>
-                <p class="banner-details">
-                    <i class="fas fa-map-marker-alt"></i> <span id="b-location">...</span> | 
-                    <i class="fas fa-calendar-alt"></i> <span id="b-date">...</span>
-                </p>
+                <p class="banner-details"><i class="fas fa-map-marker-alt"></i> <span id="b-location">...</span> | <i class="fas fa-calendar-alt"></i> <span id="b-date">...</span></p>
                 <a href="#" id="b-link" class="register-btn" target="_blank" onclick="trackRegistration()" data-i18n="registerBtn">S'inscrire à l'événement</a>
             </div>
         </div>
 
-        <!-- شريط الخدمات المتحرك -->
         <div class="full-width-marquee">
             <div class="marquee-track row1" id="mq-row1"></div>
             <div class="marquee-track row2" id="mq-row2"></div>
@@ -229,11 +223,10 @@
             </div>
             <p class="copy">© 2024 Bella Skills. <a href="#" id="f-privacy" data-i18n="privacy">Politique de confidentialité</a></p>
         </footer>
-
         <a href="https://wa.me/213559066605" class="fab-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
     </div>
 
-    <!-- مودال الأعمال -->
+    <!-- مودال -->
     <div id="blog-modal">
         <div class="modal-content">
             <i class="fas fa-times modal-close" onclick="closeModal()"></i>
@@ -243,9 +236,8 @@
         </div>
     </div>
 
-    <!-- ================= واجهة لوحة تحكم الأدمن ================= -->
+    <!-- واجهة الإدارة -->
     <div id="admin-panel">
-        
         <div id="login-section" class="admin-login">
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZvc2VX08-mtAOEnVZNA2xH8QGRGz2GbqIuMTKDh0suB-bjVIAogCm7ji820GlbHAkWWKsOg2yn3EAH7nMM_w_lvT3OH4H-UgYzsTiur_l3CzK2fcw2n_jTX1Z-t25DaLbwrY0jnDE13Zo3lrh8ZkXF5ybieZJOdpBQ4Xkr_zbn8LFS3zQDf5Bft28Zr4/s320/1000013350.png" style="max-height:60px; margin-bottom:20px;">
             <h2 style="color:var(--primary); margin-bottom: 20px;">Connexion Admin</h2>
@@ -254,7 +246,6 @@
         </div>
 
         <div id="dashboard-layout" class="admin-layout" style="display:none;">
-            
             <div class="admin-nav">
                 <div class="admin-nav-header">Bella Skills CMS</div>
                 <button class="nav-btn active" onclick="switchAdminTab('dash')"><i class="fas fa-chart-line"></i> Dashboard</button>
@@ -267,7 +258,6 @@
             </div>
 
             <div class="admin-main">
-                
                 <div id="sec-dash" class="admin-sec active">
                     <h2 class="sec-header">Statistiques du site</h2>
                     <div class="dashboard-stats">
@@ -290,10 +280,7 @@
                         <div class="form-group"><input type="text" id="ad-b-link" placeholder="Lien d'inscription / رابط التسجيل"></div>
                         <button class="btn-save" id="btn-save-banner" onclick="saveBanner()">Ajouter l'événement / إضافة الحدث</button>
                     </div>
-                    <div class="archive-section">
-                        <h3 class="archive-title">Archive des Événements / أرشيف الأحداث</h3>
-                        <div id="list-banners"></div>
-                    </div>
+                    <div class="archive-section"><h3 class="archive-title">Archive des Événements</h3><div id="list-banners"></div></div>
                 </div>
 
                 <div id="sec-services" class="admin-sec">
@@ -307,10 +294,7 @@
                         <div class="form-group"><textarea id="ad-s-desc-ar" placeholder="وصف قصير (AR)"></textarea></div>
                         <button class="btn-save" id="btn-save-service" onclick="saveService()">Ajouter / إضافة الخدمة</button>
                     </div>
-                    <div class="archive-section">
-                        <h3 class="archive-title">Archive des Services / أرشيف الخدمات</h3>
-                        <div id="list-services"></div>
-                    </div>
+                    <div class="archive-section"><h3 class="archive-title">Archive des Services</h3><div id="list-services"></div></div>
                 </div>
 
                 <div id="sec-works" class="admin-sec">
@@ -324,10 +308,7 @@
                         <div class="form-group"><textarea id="ad-w-desc-ar" placeholder="النص الكامل (AR)"></textarea></div>
                         <button class="btn-save" id="btn-save-work" onclick="saveWork()">Ajouter / إضافة العمل</button>
                     </div>
-                    <div class="archive-section">
-                        <h3 class="archive-title">Archive des Réalisations / أرشيف الأعمال</h3>
-                        <div id="list-works"></div>
-                    </div>
+                    <div class="archive-section"><h3 class="archive-title">Archive des Réalisations</h3><div id="list-works"></div></div>
                 </div>
 
                 <div id="sec-partners" class="admin-sec">
@@ -336,10 +317,7 @@
                         <div class="form-group"><label>Logo du partenaire</label><input type="file" id="ad-p-img" accept="image/*"></div>
                         <button class="btn-save" id="btn-save-partner" onclick="addPartner()">Ajouter / إضافة الشريك</button>
                     </div>
-                    <div class="archive-section">
-                        <h3 class="archive-title">Archive des Partenaires / الشركاء الحاليين</h3>
-                        <div id="list-partners"></div>
-                    </div>
+                    <div class="archive-section"><h3 class="archive-title">Archive des Partenaires</h3><div id="list-partners"></div></div>
                 </div>
 
                 <div id="sec-settings" class="admin-sec">
@@ -357,7 +335,6 @@
         </div>
     </div>
 
-    <!-- ================= سكريبت فايربيس المحدث ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -433,14 +410,9 @@
 
         async function uploadHighQualityImage(file, folder) {
             if(!file) return null;
-            try {
-                const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
-                const snapshot = await uploadBytes(storageRef, file);
-                return await getDownloadURL(snapshot.ref);
-            } catch (error) {
-                console.error("Storage Error:", error);
-                throw new Error("خطأ في رفع الصورة، يرجى التأكد من تفعيل Storage Rules.");
-            }
+            const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
+            const snapshot = await uploadBytes(storageRef, file);
+            return await getDownloadURL(snapshot.ref);
         }
 
         let siteData = { banners: [], settings: {}, services: [], works: [], partners: [] };
@@ -543,16 +515,33 @@
             document.getElementById('list-partners').innerHTML = (siteData.partners||[]).map(p => `<div class="list-item"><div class="list-item-info"><img src="${p.img}"></div><div class="list-actions"><button class="btn-delete" onclick="deleteItem('partners','${p.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
         }
 
-        function setBtnLoading(id, state) { document.getElementById(id).disabled = state; document.getElementById(id).innerText = state ? "En cours... / جاري التحميل..." : "Enregistrer / حفظ"; }
+        // --- نظام الطوارئ لفك التجميد عن الزر ---
+        function setBtnLoading(id, state) { 
+            const btn = document.getElementById(id);
+            if(!btn) return;
+            btn.disabled = state; 
+            btn.innerText = state ? "En cours... / جاري التحميل..." : "Enregistrer / حفظ"; 
+            
+            if (state) {
+                // إذا مرّت 10 ثوانٍ ولم ينتهي، الكود سيفك الزر إجبارياً ويخبرك بالمشكلة
+                window['timeout_' + id] = setTimeout(() => {
+                    if(btn.disabled) {
+                        btn.disabled = false;
+                        btn.innerText = "Enregistrer / حفظ";
+                        alert("⚠️ عذراً، انتهى وقت الطلب (Timeout)!\n\nالسبب الوحيد لذلك هو أنك لم تقم بإنشاء أو تفعيل قاعدة بيانات (Firestore) أو التخزين (Storage) من لوحة تحكم Firebase. \nيرجى الدخول لحسابك في فايربيس وتفعيلهما أولاً.");
+                    }
+                }, 10000);
+            } else {
+                clearTimeout(window['timeout_' + id]);
+            }
+        }
 
-        // --- أزرار محصنة ضد التشنج (finally block) ---
         window.saveBanner = async function() {
             setBtnLoading("btn-save-banner", true);
             try {
                 const id = document.getElementById('ad-b-id').value;
                 const existing = id ? siteData.banners.find(x => x.id === id) : null;
                 let imgUrl = existing ? existing.img : "";
-                
                 const file = document.getElementById('ad-b-img').files[0];
                 if(file) imgUrl = await uploadHighQualityImage(file, "banners");
                 
@@ -564,10 +553,8 @@
                 };
                 
                 if(id) await updateDoc(doc(db, "banners", id), data); else await addDoc(collection(db, "banners"), data);
-                showToast("تم الحفظ بنجاح", "Enregistré avec succès"); resetForm('banner');
-            } catch (error) { 
-                console.error(error); alert("خطأ في فايربيس (تأكد من Rules): \n" + error.message); 
-            } finally { setBtnLoading("btn-save-banner", false); } 
+                showToast("تم الحفظ بنجاح", "Enregistré avec succès"); resetForm('banner'); setBtnLoading("btn-save-banner", false);
+            } catch (error) { setBtnLoading("btn-save-banner", false); alert("خطأ: " + error.message); } 
         }
 
         window.saveService = async function() {
@@ -576,16 +563,14 @@
                 const id = document.getElementById('ad-s-id').value;
                 const existing = id ? siteData.services.find(x => x.id === id) : null;
                 let imgUrl = existing ? existing.img : "";
-                
                 const file = document.getElementById('ad-s-img').files[0];
                 if(file) imgUrl = await uploadHighQualityImage(file, "services");
                 if(!imgUrl && !id) { showToast("أضف صورة للخدمة", "Ajoutez une image", true); setBtnLoading("btn-save-service", false); return; }
 
                 const data = { img: imgUrl, title_fr: document.getElementById('ad-s-title-fr').value, title_ar: document.getElementById('ad-s-title-ar').value, desc_fr: document.getElementById('ad-s-desc-fr').value, desc_ar: document.getElementById('ad-s-desc-ar').value };
                 if(id) await updateDoc(doc(db, "services", id), data); else await addDoc(collection(db, "services"), data);
-                showToast("تم حفظ الخدمة", "Service enregistré"); resetForm('service');
-            } catch (error) { console.error(error); alert("خطأ (تأكد من Rules): \n" + error.message); } 
-            finally { setBtnLoading("btn-save-service", false); }
+                showToast("تم حفظ الخدمة", "Service enregistré"); resetForm('service'); setBtnLoading("btn-save-service", false);
+            } catch (error) { setBtnLoading("btn-save-service", false); alert("خطأ: " + error.message); } 
         }
 
         window.saveWork = async function() {
@@ -594,16 +579,14 @@
                 const id = document.getElementById('ad-w-id').value;
                 const existing = id ? siteData.works.find(x => x.id === id) : null;
                 let imgUrl = existing ? existing.img : "";
-                
                 const file = document.getElementById('ad-w-img').files[0];
                 if(file) imgUrl = await uploadHighQualityImage(file, "works");
                 if(!imgUrl && !id) { showToast("أضف صورة للعمل", "Ajoutez une image", true); setBtnLoading("btn-save-work", false); return; }
 
                 const data = { img: imgUrl, title_fr: document.getElementById('ad-w-title-fr').value, title_ar: document.getElementById('ad-w-title-ar').value, desc_fr: document.getElementById('ad-w-desc-fr').value, desc_ar: document.getElementById('ad-w-desc-ar').value };
                 if(id) await updateDoc(doc(db, "works", id), data); else await addDoc(collection(db, "works"), data);
-                showToast("تم حفظ العمل", "Réalisation enregistrée"); resetForm('work');
-            } catch (error) { console.error(error); alert("خطأ (تأكد من Rules): \n" + error.message); } 
-            finally { setBtnLoading("btn-save-work", false); }
+                showToast("تم حفظ العمل", "Réalisation enregistrée"); resetForm('work'); setBtnLoading("btn-save-work", false);
+            } catch (error) { setBtnLoading("btn-save-work", false); alert("خطأ: " + error.message); } 
         }
 
         window.addPartner = async function() {
@@ -615,17 +598,16 @@
                     await addDoc(collection(db, "partners"), { img: imgUrl });
                     showToast("تم إضافة الشريك", "Partenaire ajouté"); document.getElementById('ad-p-img').value = '';
                 } else { showToast("اختر صورة", "Choisissez un logo", true); }
-            } catch (error) { console.error(error); alert("خطأ (تأكد من Rules): \n" + error.message); } 
-            finally { setBtnLoading("btn-save-partner", false); }
+                setBtnLoading("btn-save-partner", false);
+            } catch (error) { setBtnLoading("btn-save-partner", false); alert("خطأ: " + error.message); } 
         }
 
         window.saveSettings = async function() {
             setBtnLoading("btn-save-settings", true);
             try {
                 const data = { email: document.getElementById('ad-email').value, phone: document.getElementById('ad-phone').value, fb: document.getElementById('ad-fb').value, ig: document.getElementById('ad-ig').value, map: document.getElementById('ad-map').value, about_fr: document.getElementById('ad-about-fr').value, about_ar: document.getElementById('ad-about-ar').value };
-                await setDoc(doc(db, "site", "settings"), data); showToast("تم حفظ الإعدادات", "Paramètres enregistrés");
-            } catch (error) { console.error(error); alert("خطأ (تأكد من Rules): \n" + error.message); } 
-            finally { setBtnLoading("btn-save-settings", false); }
+                await setDoc(doc(db, "site", "settings"), data); showToast("تم حفظ الإعدادات", "Paramètres enregistrés"); setBtnLoading("btn-save-settings", false);
+            } catch (error) { setBtnLoading("btn-save-settings", false); alert("خطأ: " + error.message); } 
         }
 
         window.editItem = function(type, id) {
@@ -653,7 +635,7 @@
         window.deleteItem = async function(col, id) {
             if(confirm("هل أنت متأكد من الحذف؟ / Êtes-vous sûr de vouloir supprimer ?")) {
                 try { await deleteDoc(doc(db, col, id)); showToast("تم الحذف بنجاح", "Élément supprimé"); } 
-                catch(error) { alert("خطأ (تأكد من Rules): \n" + error.message); }
+                catch(error) { alert("خطأ: \n" + error.message); }
             }
         }
     </script>
