@@ -45,15 +45,24 @@
             100% { transform: translateY(-20vh) rotate(360deg); }
         }
 
-        /* الهيدر */
+        /* الهيدر واللوغو */
         header {
             background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             padding: 10px 5%; display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; z-index: 100;
         }
-        .logo-container img { width: 150px; height: auto; }
+        .logo-container img { 
+            max-height: 55px; /* الحجم الاحترافي للوغو في الهيدر */
+            width: auto; 
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .logo-container img:hover {
+            transform: scale(1.05);
+        }
+
         .nav-controls { display: flex; gap: 15px; align-items: center; }
-        .lang-btn { background: var(--primary); color: var(--white); border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+        .lang-btn { background: var(--primary); color: var(--white); border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .menu-btn { font-size: 24px; color: var(--primary); cursor: pointer; }
 
         /* القائمة الجانبية */
@@ -67,82 +76,98 @@
         html[dir="rtl"] #sidebar.active { left: 0; right: auto; }
         .close-btn { text-align: right; font-size: 24px; cursor: pointer; color: var(--primary); }
         html[dir="rtl"] .close-btn { text-align: left; }
-        #sidebar a { display: block; padding: 15px 0; color: var(--text); text-decoration: none; border-bottom: 1px solid #eee; }
+        #sidebar a { display: block; padding: 15px 0; color: var(--text); text-decoration: none; border-bottom: 1px solid #eee; font-weight: bold;}
 
         /* البانر (الحدث) */
         .banner {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: var(--white); padding: 60px 20px; text-align: center; margin: 20px 5%; border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(90, 45, 130, 0.2);
         }
-        .banner h1 { margin-bottom: 10px; }
-        .banner-details { margin-bottom: 20px; font-size: 1.1em; }
+        .banner h1 { margin-bottom: 15px; font-size: 2.5em; }
+        .banner-details { margin-bottom: 30px; font-size: 1.1em; }
+        .banner-details span { margin: 0 10px; }
         .register-btn {
             background: var(--white); color: var(--primary); text-decoration: none;
-            padding: 12px 30px; border-radius: 25px; font-weight: bold; display: inline-block;
-            animation: pulse 1.5s infinite; transition: 0.3s;
+            padding: 15px 35px; border-radius: 30px; font-weight: bold; display: inline-block;
+            animation: pulse 1.5s infinite; transition: 0.3s; font-size: 1.1em;
         }
         @keyframes pulse {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255,255,255,0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); }
         }
 
-        /* الأقسام العامة (خدماتنا، أعمالنا) */
+        /* الأقسام العامة */
         section { padding: 40px 5%; }
-        .section-title { text-align: center; color: var(--primary); margin-bottom: 30px; font-size: 2em; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card {
-            background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: 0.3s; text-align: center; padding-bottom: 15px; cursor: pointer;
+        .section-title { text-align: center; color: var(--primary); margin-bottom: 40px; font-size: 2em; position: relative; }
+        .section-title::after {
+            content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+            width: 50px; height: 3px; background: var(--primary); border-radius: 5px;
         }
-        .card:hover { transform: translateY(-5px); }
-        .card img { width: 100%; height: 200px; object-fit: cover; }
-        .card h3 { margin: 15px 0 10px; color: var(--primary); }
-        .card p { padding: 0 15px; color: #666; font-size: 0.9em; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card {
+            background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s; text-align: center; padding-bottom: 20px; cursor: pointer;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(90, 45, 130, 0.15); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .card h3 { margin: 20px 0 10px; color: var(--primary); font-size: 1.3em; }
+        .card p { padding: 0 20px; color: #666; font-size: 0.95em; line-height: 1.6; }
 
         /* الشركاء */
-        .partners-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-        .partners-container img { height: 80px; filter: grayscale(100%); transition: 0.3s; }
-        .partners-container img:hover { filter: grayscale(0%); }
+        .partners-container { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+        .partners-container img { height: 70px; filter: grayscale(100%); transition: all 0.3s ease; opacity: 0.7; }
+        .partners-container img:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.1); }
 
         /* الفوتر والماب */
-        footer { background: var(--white); padding: 40px 5% 10px; margin-top: 40px; border-top: 3px solid var(--primary); }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .map-container iframe { width: 100%; height: 200px; border: none; border-radius: 10px; }
-        .social-links a { color: var(--primary); font-size: 24px; margin: 0 10px; text-decoration: none; }
-        .copy { text-align: center; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 10px; }
+        footer { background: var(--white); padding: 50px 5% 20px; margin-top: 40px; border-top: 4px solid var(--primary); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 30px; }
+        .map-container iframe { width: 100%; height: 200px; border: none; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .social-links a { 
+            color: var(--white); background: var(--primary); width: 40px; height: 40px; 
+            display: inline-flex; justify-content: center; align-items: center;
+            border-radius: 50%; font-size: 20px; margin-right: 10px; text-decoration: none; transition: 0.3s;
+        }
+        .social-links a:hover { background: var(--primary-light); transform: translateY(-3px); }
+        .copy { text-align: center; font-size: 0.9em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
+        .copy a { color: var(--primary); font-weight: bold; text-decoration: none; }
 
         /* الزر العائم */
         .fab-whatsapp {
             position: fixed; bottom: 30px; left: 30px; background: #25D366; color: white;
             width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1000; text-decoration: none;
+            font-size: 35px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); z-index: 1000; text-decoration: none;
+            transition: 0.3s;
         }
+        .fab-whatsapp:hover { transform: scale(1.1); }
         html[dir="rtl"] .fab-whatsapp { left: auto; right: 30px; }
 
         /* واجهة الأدمن */
-        #admin-panel { display: none; padding: 20px 5%; background: var(--bg); min-height: 100vh; }
-        .admin-login { max-width: 400px; margin: 100px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
-        .admin-login input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-        .admin-login button { width: 100%; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #admin-panel { display: none; padding: 40px 5%; background: var(--bg); min-height: 100vh; }
+        .admin-login { max-width: 400px; margin: 10vh auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .admin-login input { width: 100%; padding: 15px; margin: 20px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 1em; }
+        .admin-login button { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; font-weight: bold; }
         
-        .dashboard-stats { display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
-        .stat-box { flex: 1; min-width: 200px; padding: 20px; color: white; border-radius: 10px; text-align: center; font-size: 1.2em; font-weight: bold; }
-        .stat-box:nth-child(1) { background: linear-gradient(45deg, #FF512F, #DD2476); }
-        .stat-box:nth-child(2) { background: linear-gradient(45deg, #1A2980, #26D0CE); }
-        .stat-box:nth-child(3) { background: linear-gradient(45deg, #11998e, #38ef7d); }
+        .dashboard-stats { display: flex; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
+        .stat-box { flex: 1; min-width: 200px; padding: 30px 20px; color: white; border-radius: 15px; text-align: center; font-size: 1.2em; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .stat-box span { display: block; font-size: 2.5em; margin-top: 10px; }
+        .stat-box:nth-child(1) { background: linear-gradient(135deg, #FF512F, #DD2476); }
+        .stat-box:nth-child(2) { background: linear-gradient(135deg, #1A2980, #26D0CE); }
+        .stat-box:nth-child(3) { background: linear-gradient(135deg, #11998e, #38ef7d); }
 
-        .admin-section { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-top: 3px solid var(--primary); }
-        .admin-section h2 { margin-bottom: 15px; color: var(--primary); }
-        .admin-section input, .admin-section textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; }
-        .btn-save { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        .admin-section { background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); }
+        .admin-section h2 { margin-bottom: 20px; color: var(--primary); }
+        .admin-section input, .admin-section textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
+        .admin-section textarea { min-height: 100px; resize: vertical; }
+        .btn-save { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1em; }
 
         /* نافذة المدونة (المودال) */
-        #blog-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative; }
-        .modal-close { position: absolute; top: 10px; right: 10px; font-size: 24px; cursor: pointer; color: var(--primary); }
-        html[dir="rtl"] .modal-close { right: auto; left: 10px; }
-        .modal-content img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+        #blog-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-content { background: white; padding: 40px; border-radius: 15px; max-width: 650px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative; }
+        .modal-close { position: absolute; top: 15px; right: 15px; font-size: 28px; cursor: pointer; color: var(--primary); background: #eee; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; border-radius: 50%; }
+        html[dir="rtl"] .modal-close { right: auto; left: 15px; }
+        .modal-content img { width: 100%; border-radius: 10px; margin-bottom: 20px; max-height: 350px; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -154,8 +179,10 @@
     <div id="public-view">
         <header>
             <div class="logo-container">
-                <!-- اللوغو الخاص بك -->
-                <a href="#"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZvc2VX08-mtAOEnVZNA2xH8QGRGz2GbqIuMTKDh0suB-bjVIAogCm7ji820GlbHAkWWKsOg2yn3EAH7nMM_w_lvT3OH4H-UgYzsTiur_l3CzK2fcw2n_jTX1Z-t25DaLbwrY0jnDE13Zo3lrh8ZkXF5ybieZJOdpBQ4Xkr_zbn8LFS3zQDf5Bft28Zr4/s320/1000013350.png" alt="Bella Skills"></a>
+                <!-- تم تصغير اللوغو وإزالة الأكواد المزعجة ليكون متناسقاً -->
+                <a href="#">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZvc2VX08-mtAOEnVZNA2xH8QGRGz2GbqIuMTKDh0suB-bjVIAogCm7ji820GlbHAkWWKsOg2yn3EAH7nMM_w_lvT3OH4H-UgYzsTiur_l3CzK2fcw2n_jTX1Z-t25DaLbwrY0jnDE13Zo3lrh8ZkXF5ybieZJOdpBQ4Xkr_zbn8LFS3zQDf5Bft28Zr4/s1254/1000013350.png" alt="Bella Skills">
+                </a>
             </div>
             <div class="nav-controls">
                 <button class="lang-btn" onclick="toggleLanguage()" id="lang-toggle">عربي</button>
@@ -166,52 +193,55 @@
         <div id="sidebar">
             <div class="close-btn" onclick="toggleSidebar()"><i class="fas fa-times"></i></div>
             <br>
-            <a href="#banner" data-i18n="menuEvent">L'événement</a>
-            <a href="#services" data-i18n="menuServices">Nos Services</a>
-            <a href="#works" data-i18n="menuWorks">Nos Réalisations</a>
-            <a href="#partners" data-i18n="menuPartners">Nos Partenaires</a>
-            <a href="#footer" data-i18n="menuContact">Contact</a>
+            <a href="#banner" onclick="toggleSidebar()" data-i18n="menuEvent">L'événement</a>
+            <a href="#services" onclick="toggleSidebar()" data-i18n="menuServices">Nos Services</a>
+            <a href="#works" onclick="toggleSidebar()" data-i18n="menuWorks">Nos Réalisations</a>
+            <a href="#partners" onclick="toggleSidebar()" data-i18n="menuPartners">Nos Partenaires</a>
+            <a href="#footer" onclick="toggleSidebar()" data-i18n="menuContact">Contact</a>
         </div>
 
         <div class="banner" id="banner">
             <h1 id="b-title">Chargement...</h1>
-            <p class="banner-details"><i class="fas fa-map-marker-alt"></i> <span id="b-location"></span> | <i class="fas fa-calendar-alt"></i> <span id="b-date"></span></p>
+            <p class="banner-details">
+                <i class="fas fa-map-marker-alt"></i> <span id="b-location">...</span> | 
+                <i class="fas fa-calendar-alt"></i> <span id="b-date">...</span>
+            </p>
             <a href="#" id="b-link" class="register-btn" target="_blank" data-i18n="registerBtn">S'inscrire à l'événement</a>
         </div>
 
         <section id="services">
             <h2 class="section-title" data-i18n="titleServices">Nos Services</h2>
             <div class="grid" id="services-grid">
-                <!-- جلب من فايربيس -->
+                <!-- سيتم جلب الخدمات من فايربيس -->
             </div>
         </section>
 
         <section id="works">
             <h2 class="section-title" data-i18n="titleWorks">Nos Réalisations</h2>
             <div class="grid" id="works-grid">
-                <!-- جلب من فايربيس -->
+                <!-- سيتم جلب الأعمال من فايربيس -->
             </div>
         </section>
 
         <section id="partners">
             <h2 class="section-title" data-i18n="titlePartners">Nos Partenaires</h2>
             <div class="partners-container" id="partners-grid">
-                <!-- جلب من فايربيس -->
+                <!-- سيتم جلب لوجوهات الشركاء من فايربيس -->
             </div>
         </section>
 
         <footer id="footer">
             <div class="footer-grid">
                 <div>
-                    <h3 data-i18n="aboutUs" style="color:var(--primary); margin-bottom:10px;">Qui sommes-nous</h3>
-                    <p id="f-about" style="font-size: 0.9em; color:#555;"></p>
+                    <h3 data-i18n="aboutUs" style="color:var(--primary); margin-bottom:15px; font-size: 1.3em;">Qui sommes-nous</h3>
+                    <p id="f-about" style="font-size: 0.95em; color:#555; line-height: 1.8;"></p>
                 </div>
                 <div>
-                    <h3 data-i18n="contactUs" style="color:var(--primary); margin-bottom:10px;">Contactez-nous</h3>
-                    <p><i class="fas fa-envelope"></i> <span id="f-email"></span></p>
-                    <p><i class="fas fa-phone"></i> <span id="f-phone"></span></p>
-                    <div class="social-links" style="margin-top: 15px;">
-                        <a href="#" id="f-fb" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <h3 data-i18n="contactUs" style="color:var(--primary); margin-bottom:15px; font-size: 1.3em;">Contactez-nous</h3>
+                    <p style="margin-bottom: 10px; color:#555;"><i class="fas fa-envelope" style="color:var(--primary); margin: 0 5px;"></i> <span id="f-email"></span></p>
+                    <p style="margin-bottom: 15px; color:#555;"><i class="fas fa-phone" style="color:var(--primary); margin: 0 5px;"></i> <span id="f-phone"></span></p>
+                    <div class="social-links">
+                        <a href="#" id="f-fb" target="_blank"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" id="f-ig" target="_blank"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
@@ -230,85 +260,91 @@
         <div class="modal-content">
             <i class="fas fa-times modal-close" onclick="closeModal()"></i>
             <img id="m-img" src="" alt="">
-            <h2 id="m-title" style="color:var(--primary); margin-bottom:10px;"></h2>
-            <p id="m-desc" style="line-height: 1.6;"></p>
+            <h2 id="m-title" style="color:var(--primary); margin-bottom:15px; font-size: 1.8em;"></h2>
+            <p id="m-desc" style="line-height: 1.8; color: #444; font-size: 1.05em;"></p>
         </div>
     </div>
 
-    <!-- واجهة الإدارة (مخفية افتراضياً) -->
+    <!-- واجهة الإدارة (Admin) -->
     <div id="admin-panel">
         <div id="login-section" class="admin-login">
-            <h2 style="text-align:center; color:var(--primary);">Connexion Admin</h2>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZvc2VX08-mtAOEnVZNA2xH8QGRGz2GbqIuMTKDh0suB-bjVIAogCm7ji820GlbHAkWWKsOg2yn3EAH7nMM_w_lvT3OH4H-UgYzsTiur_l3CzK2fcw2n_jTX1Z-t25DaLbwrY0jnDE13Zo3lrh8ZkXF5ybieZJOdpBQ4Xkr_zbn8LFS3zQDf5Bft28Zr4/s320/1000013350.png" style="max-height:60px; margin-bottom:20px;">
+            <h2 style="color:var(--primary); margin-bottom: 20px;">Connexion Admin</h2>
             <input type="password" id="admin-pwd" placeholder="Mot de passe">
             <button onclick="checkAdmin()">Entrer</button>
         </div>
 
         <div id="dashboard-section" style="display:none;">
-            <h1 style="color:var(--primary); margin-bottom:20px;">Dashboard Admin</h1>
+            <h1 style="color:var(--primary); margin-bottom:30px; border-bottom: 2px solid var(--primary); padding-bottom: 10px;">Dashboard Admin</h1>
             
             <div class="dashboard-stats">
-                <div class="stat-box">Nouvelles Inscriptions <br><span id="stat-reg">0</span></div>
-                <div class="stat-box">Visites du Jour <br><span id="stat-day">0</span></div>
-                <div class="stat-box">Visites du Mois <br><span id="stat-month">0</span></div>
+                <div class="stat-box">Nouvelles Inscriptions <span id="stat-reg">0</span></div>
+                <div class="stat-box">Visites du Jour <span id="stat-day">0</span></div>
+                <div class="stat-box">Visites du Mois <span id="stat-month">0</span></div>
             </div>
 
             <!-- قسم البانر -->
             <div class="admin-section">
-                <h2>Modifier L'événement (Banner)</h2>
+                <h2><i class="fas fa-bullhorn"></i> Modifier L'événement (Banner)</h2>
                 <input type="text" id="ad-b-title-fr" placeholder="Titre (FR)">
                 <input type="text" id="ad-b-title-ar" placeholder="العنوان (AR)">
                 <input type="text" id="ad-b-loc-fr" placeholder="Lieu (FR)">
                 <input type="text" id="ad-b-loc-ar" placeholder="المكان (AR)">
                 <input type="text" id="ad-b-date" placeholder="Date / التاريخ">
-                <input type="text" id="ad-b-link" placeholder="Lien du bouton / رابط الزر">
+                <input type="text" id="ad-b-link" placeholder="Lien du bouton d'inscription / رابط زر التسجيل">
                 <button class="btn-save" onclick="saveBanner()">Enregistrer</button>
             </div>
 
             <!-- قسم الخدمات -->
             <div class="admin-section">
-                <h2>Ajouter un Service</h2>
+                <h2><i class="fas fa-concierge-bell"></i> Ajouter un Service</h2>
                 <input type="text" id="ad-s-img" placeholder="Lien de l'image (URL)">
                 <input type="text" id="ad-s-title-fr" placeholder="Titre (FR)">
                 <input type="text" id="ad-s-title-ar" placeholder="العنوان (AR)">
                 <textarea id="ad-s-desc-fr" placeholder="Description courte (FR)"></textarea>
                 <textarea id="ad-s-desc-ar" placeholder="وصف قصير (AR)"></textarea>
-                <button class="btn-save" onclick="addService()">Ajouter</button>
+                <button class="btn-save" onclick="addService()">Ajouter le service</button>
             </div>
 
             <!-- قسم الأعمال (المدونة) -->
             <div class="admin-section">
-                <h2>Ajouter une Réalisation (Blog)</h2>
+                <h2><i class="fas fa-briefcase"></i> Ajouter une Réalisation (Blog)</h2>
                 <input type="text" id="ad-w-img" placeholder="Lien de l'image (URL)">
                 <input type="text" id="ad-w-title-fr" placeholder="Titre (FR)">
                 <input type="text" id="ad-w-title-ar" placeholder="العنوان (AR)">
-                <textarea id="ad-w-desc-fr" placeholder="Texte long (FR)"></textarea>
-                <textarea id="ad-w-desc-ar" placeholder="نص طويل (AR)"></textarea>
-                <button class="btn-save" onclick="addWork()">Ajouter</button>
+                <textarea id="ad-w-desc-fr" placeholder="Texte complet (FR)"></textarea>
+                <textarea id="ad-w-desc-ar" placeholder="النص الكامل (AR)"></textarea>
+                <button class="btn-save" onclick="addWork()">Ajouter la réalisation</button>
+            </div>
+
+            <!-- قسم الشركاء -->
+            <div class="admin-section">
+                <h2><i class="fas fa-handshake"></i> Ajouter un Partenaire</h2>
+                <input type="text" id="ad-p-img" placeholder="Lien du logo de l'entreprise (URL)">
+                <button class="btn-save" onclick="addPartner()">Ajouter le partenaire</button>
             </div>
 
             <!-- الإعدادات العامة -->
             <div class="admin-section">
-                <h2>Paramètres Généraux</h2>
-                <input type="text" id="ad-email" placeholder="Email">
-                <input type="text" id="ad-phone" placeholder="Téléphone">
-                <input type="text" id="ad-fb" placeholder="Lien Facebook">
-                <input type="text" id="ad-ig" placeholder="Lien Instagram">
-                <textarea id="ad-map" placeholder="Iframe Google Maps HTML"></textarea>
+                <h2><i class="fas fa-cogs"></i> Paramètres Généraux</h2>
+                <input type="text" id="ad-email" placeholder="Email de contact">
+                <input type="text" id="ad-phone" placeholder="Téléphone de contact">
+                <input type="text" id="ad-fb" placeholder="Lien Facebook (URL)">
+                <input type="text" id="ad-ig" placeholder="Lien Instagram (URL)">
+                <textarea id="ad-map" placeholder="Code HTML (Iframe) Google Maps"></textarea>
                 <textarea id="ad-about-fr" placeholder="Qui sommes-nous (FR)"></textarea>
                 <textarea id="ad-about-ar" placeholder="من نحن (AR)"></textarea>
-                <button class="btn-save" onclick="saveSettings()">Enregistrer</button>
+                <button class="btn-save" onclick="saveSettings()">Enregistrer les paramètres</button>
             </div>
         </div>
     </div>
 
     <!-- سكريبت Firebase والمنطق البرمجي -->
     <script type="module">
-        // استيراد مكتبات Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // إعداداتك لفايربيس
         const firebaseConfig = {
             apiKey: "AIzaSyA1xTHV828178vImPGLFQhr1DS4k9ME28s",
             authDomain: "bellaskills-8edbb.firebaseapp.com",
@@ -319,7 +355,6 @@
             measurementId: "G-E8RP1L6KWJ"
         };
 
-        // التهيئة
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
@@ -351,56 +386,52 @@
             document.documentElement.lang = currentLang;
             document.getElementById('lang-toggle').innerText = currentLang === 'ar' ? 'Français' : 'عربي';
             
-            // تحديث النصوص الثابتة
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if(translations[currentLang][key]) el.innerText = translations[currentLang][key];
             });
 
-            // تحديث البيانات الديناميكية
             renderDynamicData();
         };
 
-        // --- واجهة المستخدم ووظائف عامة ---
         window.toggleSidebar = function() {
             document.getElementById('sidebar').classList.toggle('active');
         };
 
-        // توليد خلفية الأنيميشن
+        // الأنيميشن الخلفي
         const bgContainer = document.getElementById('bg-animation');
         const icons = ['fa-pen', 'fa-book', 'fa-folder', 'fa-chart-pie', 'fa-pencil-alt', 'fa-clipboard'];
-        for(let i=0; i<30; i++) {
+        for(let i=0; i<25; i++) {
             let el = document.createElement('i');
             el.className = `fas ${icons[Math.floor(Math.random() * icons.length)]} floating-icon`;
             el.style.left = `${Math.random() * 100}vw`;
-            el.style.fontSize = `${Math.random() * 30 + 10}px`;
-            el.style.animationDuration = `${Math.random() * 10 + 10}s`;
+            el.style.fontSize = `${Math.random() * 30 + 15}px`;
+            el.style.animationDuration = `${Math.random() * 10 + 15}s`;
             el.style.animationDelay = `${Math.random() * 5}s`;
             bgContainer.appendChild(el);
         }
 
-        // --- جلب البيانات من Firebase ---
         async function loadData() {
             try {
-                // جلب البانر والإعدادات
                 const bannerSnap = await getDoc(doc(db, "site", "banner"));
                 if(bannerSnap.exists()) siteData.banner = bannerSnap.data();
 
                 const setSnap = await getDoc(doc(db, "site", "settings"));
                 if(setSnap.exists()) siteData.settings = setSnap.data();
 
-                // جلب الخدمات
                 const srvSnap = await getDocs(collection(db, "services"));
                 siteData.services = srvSnap.docs.map(d => d.data());
 
-                // جلب الأعمال
                 const workSnap = await getDocs(collection(db, "works"));
                 siteData.works = workSnap.docs.map(d => d.data());
+
+                const partnerSnap = await getDocs(collection(db, "partners"));
+                siteData.partners = partnerSnap.docs.map(d => d.data());
 
                 renderDynamicData();
                 trackVisits();
             } catch(e) {
-                console.error("Erreur de chargement Firebase:", e);
+                console.error("Firebase Load Error:", e);
             }
         }
 
@@ -423,36 +454,39 @@
                 if(s.map) document.getElementById('f-map').innerHTML = s.map;
             }
 
-            // رسم الخدمات
             const srvGrid = document.getElementById('services-grid');
             srvGrid.innerHTML = '';
             siteData.services.forEach(srv => {
                 srvGrid.innerHTML += `
                     <div class="card">
-                        <img src="${srv.img}" alt="">
+                        <img src="${srv.img}" alt="Service">
                         <h3>${currentLang === 'ar' ? srv.title_ar : srv.title_fr}</h3>
                         <p>${currentLang === 'ar' ? srv.desc_ar : srv.desc_fr}</p>
                     </div>`;
             });
 
-            // رسم الأعمال
             const wrkGrid = document.getElementById('works-grid');
             wrkGrid.innerHTML = '';
             siteData.works.forEach((w, index) => {
                 const title = currentLang === 'ar' ? w.title_ar : w.title_fr;
                 const desc = currentLang === 'ar' ? w.desc_ar : w.desc_fr;
-                const shortDesc = desc.substring(0, 50) + '...';
+                const shortDesc = desc.length > 60 ? desc.substring(0, 60) + '...' : desc;
                 wrkGrid.innerHTML += `
                     <div class="card" onclick="openBlog(${index})">
-                        <img src="${w.img}" alt="">
+                        <img src="${w.img}" alt="Work">
                         <h3>${title}</h3>
                         <p>${shortDesc}</p>
-                        <span style="color:var(--primary); font-weight:bold; margin-top:10px; display:block;">${translations[currentLang].readMore}</span>
+                        <span style="color:var(--primary); font-weight:bold; margin-top:15px; display:inline-block; border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px;">${translations[currentLang].readMore}</span>
                     </div>`;
+            });
+
+            const ptnGrid = document.getElementById('partners-grid');
+            ptnGrid.innerHTML = '';
+            siteData.partners.forEach(p => {
+                ptnGrid.innerHTML += `<img src="${p.img}" alt="Partner">`;
             });
         }
 
-        // نافذة المدونة
         window.openBlog = function(index) {
             const w = siteData.works[index];
             document.getElementById('m-img').src = w.img;
@@ -462,35 +496,32 @@
         }
         window.closeModal = function() { document.getElementById('blog-modal').style.display = 'none'; }
 
-        // --- نظام الزيارات (احصائيات بسيطة) ---
         async function trackVisits() {
             const today = new Date().toISOString().split('T')[0];
             const month = today.substring(0,7);
             
             if(localStorage.getItem('lastVisit') !== today) {
                 localStorage.setItem('lastVisit', today);
-                // تحديث في فايربيس (اليوم)
-                const dayRef = doc(db, "stats", "visits_" + today);
-                await setDoc(dayRef, { count: increment(1) }, { merge: true });
-                // تحديث (الشهر)
-                const monthRef = doc(db, "stats", "visits_" + month);
-                await setDoc(monthRef, { count: increment(1) }, { merge: true });
+                await setDoc(doc(db, "stats", "visits_" + today), { count: increment(1) }, { merge: true });
+                await setDoc(doc(db, "stats", "visits_" + month), { count: increment(1) }, { merge: true });
             }
         }
 
-        // --- واجهة الأدمن (Admin Routing) ---
-        // التحقق من الرابط إذا كان url/?page=admin16
-        const urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.get('page') === 'admin16') {
+        // --- نظام توجيه الإدارة (Admin Routing) ---
+        // يعمل مع: site.com/admin16  أو  site.com/#admin16
+        const path = window.location.pathname;
+        const hash = window.location.hash;
+        const isAdminRoute = path.endsWith('/admin16') || hash === '#admin16' || hash === '#/admin16';
+
+        if(isAdminRoute) {
             document.getElementById('public-view').style.display = 'none';
             document.getElementById('bg-animation').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
         }
 
-        // تسجيل الدخول (Obfuscated slightly for basic security, NOT safe for production)
         window.checkAdmin = async function() {
             const p = document.getElementById('admin-pwd').value;
-            // "bella2026"
+            // Password = bella2026
             if(btoa(p) === "YmVsbGEyMDI2") { 
                 document.getElementById('login-section').style.display = 'none';
                 document.getElementById('dashboard-section').style.display = 'block';
@@ -501,7 +532,6 @@
         }
 
         async function loadAdminData() {
-            // جلب الإحصائيات (توضيحي)
             const today = new Date().toISOString().split('T')[0];
             const month = today.substring(0,7);
             try {
@@ -511,19 +541,8 @@
                 const mSnap = await getDoc(doc(db, "stats", "visits_" + month));
                 if(mSnap.exists()) document.getElementById('stat-month').innerText = mSnap.data().count;
             } catch(e){}
-
-            // تعبئة الحقول الحالية
-            if(siteData.banner.title_fr) {
-                document.getElementById('ad-b-title-fr').value = siteData.banner.title_fr;
-                document.getElementById('ad-b-title-ar').value = siteData.banner.title_ar;
-                document.getElementById('ad-b-loc-fr').value = siteData.banner.loc_fr;
-                document.getElementById('ad-b-loc-ar').value = siteData.banner.loc_ar;
-                document.getElementById('ad-b-date').value = siteData.banner.date;
-                document.getElementById('ad-b-link').value = siteData.banner.link;
-            }
         }
 
-        // دوال الإضافة والتعديل في لوحة التحكم
         window.saveBanner = async function() {
             const data = {
                 title_fr: document.getElementById('ad-b-title-fr').value,
@@ -561,6 +580,12 @@
             alert("Réalisation ajoutée !");
         }
 
+        window.addPartner = async function() {
+            const data = { img: document.getElementById('ad-p-img').value };
+            await addDoc(collection(db, "partners"), data);
+            alert("Partenaire ajouté !");
+        }
+
         window.saveSettings = async function() {
             const data = {
                 email: document.getElementById('ad-email').value,
@@ -575,11 +600,9 @@
             alert("Paramètres enregistrés !");
         }
 
-        // تشغيل التحميل عند فتح الصفحة
-        if(urlParams.get('page') !== 'admin16') {
+        if(!isAdminRoute) {
             loadData();
         }
-
     </script>
 </body>
 </html>
