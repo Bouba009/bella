@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bella Skills</title>
-    <!-- خطوط جوجل -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <!-- مكتبة الأيقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -16,12 +14,10 @@
         body { font-family: 'Poppins', 'Cairo', sans-serif; background-color: var(--bg); color: var(--text); overflow-x: hidden; }
         html[dir="rtl"] body { font-family: 'Cairo', sans-serif; }
 
-        /* --- الأنيميشن الخلفي --- */
         #bg-animation { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; overflow: hidden; }
         .floating-icon { position: absolute; color: var(--primary); opacity: 0.1; animation: floatUp linear infinite; }
         @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); } 100% { transform: translateY(-20vh) rotate(360deg); } }
 
-        /* --- الهيدر والقائمة --- */
         header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo-container img { max-height: 55px; width: auto; transition: 0.3s; }
         .nav-controls { display: flex; gap: 15px; align-items: center; }
@@ -37,16 +33,16 @@
         #sidebar a { display: block; padding: 15px 0; color: var(--text); text-decoration: none; border-bottom: 1px solid #eee; font-weight: bold;}
 
         /* --- البانر --- */
-        .banner { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: var(--white); padding: 60px 20px; text-align: center; margin: 20px 5%; border-radius: 15px; box-shadow: 0 10px 20px rgba(90, 45, 130, 0.2); position: relative; overflow: hidden;}
-        .banner-bg { position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: 0; }
+        .banner { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: var(--white); padding: 60px 20px; text-align: center; margin: 20px 5%; border-radius: 15px; box-shadow: 0 10px 20px rgba(90, 45, 130, 0.2); position: relative; overflow: hidden; min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;}
+        .banner-bg { position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; z-index: 0; }
         .banner-content { position: relative; z-index: 1; }
-        .banner h1 { margin-bottom: 15px; font-size: 2.5em; }
-        .banner-details { margin-bottom: 30px; font-size: 1.1em; }
+        .banner h1 { margin-bottom: 15px; font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);}
+        .banner-details { margin-bottom: 30px; font-size: 1.1em; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);}
         .banner-details span { margin: 0 10px; }
         .register-btn { background: var(--white); color: var(--primary); text-decoration: none; padding: 15px 35px; border-radius: 30px; font-weight: bold; display: inline-block; animation: pulse 1.5s infinite; transition: 0.3s; font-size: 1.1em; }
         @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255,255,255,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
 
-        /* --- الأقسام (خدمات، أعمال، شركاء) --- */
+        /* --- الأقسام --- */
         section { padding: 40px 5%; }
         .section-title { text-align: center; color: var(--primary); margin-bottom: 40px; font-size: 2em; position: relative; }
         .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: var(--primary); border-radius: 5px; }
@@ -76,7 +72,7 @@
         .modal-content { background: white; padding: 30px; border-radius: 15px; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative; }
         .modal-close { position: absolute; top: 10px; right: 10px; font-size: 24px; cursor: pointer; color: var(--primary); background: #eee; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; border-radius: 50%; }
         html[dir="rtl"] .modal-close { right: auto; left: 10px; }
-        .modal-content img { width: 100%; border-radius: 10px; margin-bottom: 15px; max-height: 300px; object-fit: cover; }
+        .modal-content img { width: 100%; border-radius: 10px; margin-bottom: 15px; max-height: 400px; object-fit: cover; }
 
         #toast { visibility: hidden; min-width: 250px; background-color: var(--success); color: #fff; text-align: center; border-radius: 10px; padding: 16px; position: fixed; z-index: 3000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 16px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
@@ -84,7 +80,7 @@
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
-        /* --- واجهة الإدارة الاحترافية --- */
+        /* --- واجهة الإدارة --- */
         #admin-panel { display: none; height: 100vh; overflow: hidden; background: var(--bg); }
         .admin-login { max-width: 400px; margin: 15vh auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
         .admin-login input { width: 100%; padding: 15px; margin: 20px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 1em; }
@@ -130,7 +126,7 @@
         html[dir="rtl"] .archive-title { border-left: none; border-right: 4px solid var(--primary); padding-left: 0; padding-right: 10px; }
         
         .list-item { display: flex; justify-content: space-between; align-items: center; background: white; border: 1px solid #eee; padding: 12px 15px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .list-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 15px; border: 1px solid #ddd; }
+        .list-item img { width: 80px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 15px; border: 1px solid #ddd; }
         html[dir="rtl"] .list-item img { margin-right: 0; margin-left: 15px; }
         .list-item-info { flex: 1; display: flex; align-items: center; font-weight: bold; color: #444; }
         .list-actions button { padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; margin-left: 5px; color: white; transition: 0.2s;}
@@ -140,11 +136,10 @@
 </head>
 <body>
 
-    <!-- الخلفية والإشعارات -->
     <div id="bg-animation"></div>
     <div id="toast"></div>
 
-    <!-- ================= الواجهة العامة للموقع ================= -->
+    <!-- ================= الواجهة العامة ================= -->
     <div id="public-view">
         <header>
             <div class="logo-container">
@@ -166,10 +161,11 @@
             <a href="#footer" onclick="toggleSidebar()" data-i18n="menuContact">Contact</a>
         </div>
 
-        <div class="banner" id="banner">
+        <!-- البانر العام -->
+        <div class="banner" id="banner" style="display:none;">
             <img id="b-bg" class="banner-bg" src="" style="display:none;" alt="">
             <div class="banner-content">
-                <h1 id="b-title">Chargement...</h1>
+                <h1 id="b-title">...</h1>
                 <p class="banner-details">
                     <i class="fas fa-map-marker-alt"></i> <span id="b-location">...</span> | 
                     <i class="fas fa-calendar-alt"></i> <span id="b-date">...</span>
@@ -216,7 +212,7 @@
         <a href="https://wa.me/213559066605" class="fab-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
     </div>
 
-    <!-- نافذة قراءة المزيد -->
+    <!-- مودال الأعمال -->
     <div id="blog-modal">
         <div class="modal-content">
             <i class="fas fa-times modal-close" onclick="closeModal()"></i>
@@ -229,7 +225,6 @@
     <!-- ================= واجهة لوحة تحكم الأدمن ================= -->
     <div id="admin-panel">
         
-        <!-- شاشة تسجيل الدخول -->
         <div id="login-section" class="admin-login">
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZvc2VX08-mtAOEnVZNA2xH8QGRGz2GbqIuMTKDh0suB-bjVIAogCm7ji820GlbHAkWWKsOg2yn3EAH7nMM_w_lvT3OH4H-UgYzsTiur_l3CzK2fcw2n_jTX1Z-t25DaLbwrY0jnDE13Zo3lrh8ZkXF5ybieZJOdpBQ4Xkr_zbn8LFS3zQDf5Bft28Zr4/s320/1000013350.png" style="max-height:60px; margin-bottom:20px;">
             <h2 style="color:var(--primary); margin-bottom: 20px;">Connexion Admin</h2>
@@ -237,10 +232,8 @@
             <button onclick="checkAdmin()">Entrer</button>
         </div>
 
-        <!-- لوحة التحكم (تظهر بعد الدخول) -->
         <div id="dashboard-layout" class="admin-layout" style="display:none;">
             
-            <!-- القائمة الجانبية للأدمن -->
             <div class="admin-nav">
                 <div class="admin-nav-header">Bella Skills CMS</div>
                 <button class="nav-btn active" onclick="switchAdminTab('dash')"><i class="fas fa-chart-line"></i> Dashboard</button>
@@ -252,10 +245,9 @@
                 <button class="logout-btn" onclick="window.location.reload()"><i class="fas fa-sign-out-alt"></i> Quitter</button>
             </div>
 
-            <!-- محتوى الأقسام -->
             <div class="admin-main">
                 
-                <!-- 1. الإحصائيات -->
+                <!-- 1. الداشبورد -->
                 <div id="sec-dash" class="admin-sec active">
                     <h2 class="sec-header">Statistiques du site</h2>
                     <div class="dashboard-stats">
@@ -265,38 +257,38 @@
                     </div>
                 </div>
 
-                <!-- 2. البانر -->
+                <!-- 2. البانر (مع الأرشيف) -->
                 <div id="sec-banner" class="admin-sec">
-                    <h2 class="sec-header">Gérer l'événement (Banner)</h2>
+                    <h2 class="sec-header"><span><i class="fas fa-bullhorn"></i> Gérer l'événement (Banners)</span> <button class="btn-new" onclick="resetForm('banner')">Nouveau +</button></h2>
                     <div class="form-card">
-                        <div class="form-group">
-                            <label>Image de fond (Optionnel)</label>
-                            <input type="file" id="ad-b-img" accept="image/*">
-                        </div>
+                        <input type="hidden" id="ad-b-id">
+                        <div class="form-group"><label>Image de fond (Optionnelle mais recommandée - Haute Qualité)</label><input type="file" id="ad-b-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-fr" placeholder="Lieu (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-ar" placeholder="المكان (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-date" placeholder="Date / التاريخ"></div>
                         <div class="form-group"><input type="text" id="ad-b-link" placeholder="Lien d'inscription / رابط التسجيل (Google Form...)"></div>
-                        <button class="btn-save" id="btn-save-banner" onclick="saveBanner()">Publier / نشر الحدث</button>
+                        <button class="btn-save" id="btn-save-banner" onclick="saveBanner()">Ajouter l'événement / إضافة الحدث</button>
+                    </div>
+                    <div class="archive-section">
+                        <h3 class="archive-title">Archive des Événements / أرشيف الأحداث (Le dernier est affiché / الأخير هو الذي يظهر)</h3>
+                        <div id="list-banners"></div>
                     </div>
                 </div>
 
                 <!-- 3. الخدمات -->
                 <div id="sec-services" class="admin-sec">
-                    <h2 class="sec-header">Gérer les Services</h2>
+                    <h2 class="sec-header"><span><i class="fas fa-concierge-bell"></i> Gérer les Services</span> <button class="btn-new" onclick="resetForm('service')">Nouveau +</button></h2>
                     <div class="form-card">
-                        <button class="btn-reset" onclick="resetForm('service')"><i class="fas fa-plus"></i> Nouveau Service / خدمة جديدة</button>
                         <input type="hidden" id="ad-s-id">
-                        <div class="form-group"><label>Image du service</label><input type="file" id="ad-s-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image du service (Haute Qualité)</label><input type="file" id="ad-s-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-s-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-s-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><textarea id="ad-s-desc-fr" placeholder="Description courte (FR)"></textarea></div>
                         <div class="form-group"><textarea id="ad-s-desc-ar" placeholder="وصف قصير (AR)"></textarea></div>
                         <button class="btn-save" id="btn-save-service" onclick="saveService()">Ajouter / إضافة الخدمة</button>
                     </div>
-                    <!-- الأرشيف -->
                     <div class="archive-section">
                         <h3 class="archive-title">Archive des Services / أرشيف الخدمات</h3>
                         <div id="list-services"></div>
@@ -305,18 +297,16 @@
 
                 <!-- 4. الأعمال -->
                 <div id="sec-works" class="admin-sec">
-                    <h2 class="sec-header">Gérer les Réalisations (Blog)</h2>
+                    <h2 class="sec-header"><span><i class="fas fa-briefcase"></i> Gérer les Réalisations</span> <button class="btn-new" onclick="resetForm('work')">Nouveau +</button></h2>
                     <div class="form-card">
-                        <button class="btn-reset" onclick="resetForm('work')"><i class="fas fa-plus"></i> Nouvelle Réalisation / عمل جديد</button>
                         <input type="hidden" id="ad-w-id">
-                        <div class="form-group"><label>Image de la réalisation</label><input type="file" id="ad-w-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image de la réalisation (Haute Qualité)</label><input type="file" id="ad-w-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><textarea id="ad-w-desc-fr" placeholder="Texte complet (FR)"></textarea></div>
                         <div class="form-group"><textarea id="ad-w-desc-ar" placeholder="النص الكامل (AR)"></textarea></div>
                         <button class="btn-save" id="btn-save-work" onclick="saveWork()">Ajouter / إضافة العمل</button>
                     </div>
-                    <!-- الأرشيف -->
                     <div class="archive-section">
                         <h3 class="archive-title">Archive des Réalisations / أرشيف الأعمال</h3>
                         <div id="list-works"></div>
@@ -325,12 +315,11 @@
 
                 <!-- 5. الشركاء -->
                 <div id="sec-partners" class="admin-sec">
-                    <h2 class="sec-header">Gérer les Partenaires</h2>
+                    <h2 class="sec-header"><i class="fas fa-handshake"></i> Gérer les Partenaires</h2>
                     <div class="form-card">
-                        <div class="form-group"><label>Logo du partenaire</label><input type="file" id="ad-p-img" accept="image/*"></div>
+                        <div class="form-group"><label>Logo du partenaire (Haute Qualité)</label><input type="file" id="ad-p-img" accept="image/*"></div>
                         <button class="btn-save" id="btn-save-partner" onclick="addPartner()">Ajouter / إضافة الشريك</button>
                     </div>
-                    <!-- الأرشيف -->
                     <div class="archive-section">
                         <h3 class="archive-title">Archive des Partenaires / الشركاء الحاليين</h3>
                         <div id="list-partners"></div>
@@ -339,7 +328,7 @@
 
                 <!-- 6. الإعدادات -->
                 <div id="sec-settings" class="admin-sec">
-                    <h2 class="sec-header">Paramètres Généraux</h2>
+                    <h2 class="sec-header"><i class="fas fa-cogs"></i> Paramètres Généraux</h2>
                     <div class="form-card">
                         <div class="form-group"><label>Contact</label><input type="text" id="ad-email" placeholder="Email"><input type="text" id="ad-phone" placeholder="Téléphone" style="margin-top:10px;"></div>
                         <div class="form-group"><label>Réseaux Sociaux</label><input type="text" id="ad-fb" placeholder="Lien Facebook (URL)"><input type="text" id="ad-ig" placeholder="Lien Instagram (URL)" style="margin-top:10px;"></div>
@@ -353,24 +342,27 @@
         </div>
     </div>
 
-    <!-- ================= سكريبت فايربيس والمنطق البرمجي ================= -->
+    <!-- ================= سكريبت فايربيس المحدث (مع Firebase Storage) ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        // استيراد Firebase Storage لدعم الصور عالية الجودة
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-        // إعدادات فايربيس الخاصة بك
         const firebaseConfig = {
             apiKey: "AIzaSyA1xTHV828178vImPGLFQhr1DS4k9ME28s",
             authDomain: "bellaskills-8edbb.firebaseapp.com",
             projectId: "bellaskills-8edbb",
+            storageBucket: "bellaskills-8edbb.firebasestorage.app", // مطلوب لرفع الصور
             messagingSenderId: "730699617338",
             appId: "1:730699617338:web:2bacbc4078984770e31103"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
-        // --- نظام الترجمة ---
+        // --- الترجمة ---
         let currentLang = 'fr';
         const translations = {
             fr: { menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", registerBtn: "S'inscrire à l'événement", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite" },
@@ -388,7 +380,6 @@
 
         window.toggleSidebar = function() { document.getElementById('sidebar').classList.toggle('active'); };
 
-        // --- تأثيرات الخلفية ---
         const bgContainer = document.getElementById('bg-animation');
         const icons = ['fa-pen', 'fa-book', 'fa-folder', 'fa-chart-pie', 'fa-pencil-alt', 'fa-clipboard'];
         for(let i=0; i<15; i++) {
@@ -401,43 +392,38 @@
             setTimeout(() => { toast.className = toast.className.replace("show", "").replace("error", ""); }, 4000);
         }
 
-        // --- نظام ضغط الصور الخفيف ليناسب Firestore ---
-        function compressAndConvertToBase64(file) {
-            return new Promise((resolve, reject) => {
-                if(!file) resolve(null);
-                const reader = new FileReader(); reader.readAsDataURL(file);
-                reader.onload = event => {
-                    const img = new Image(); img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const maxSize = 500; // تصغير الأبعاد لحل مشكلة المساحة
-                        let width = img.width; let height = img.height;
-                        if (width > maxSize) { height *= maxSize / width; width = maxSize; }
-                        canvas.width = width; canvas.height = height;
-                        const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
-                        const base64String = canvas.toDataURL('image/jpeg', 0.5); // جودة متوسطة
-                        resolve(base64String); 
-                    };
-                };
-                reader.onerror = error => reject(error);
-            });
+        // --- رفع الصور بجودة عالية إلى Firebase Storage ---
+        async function uploadHighQualityImage(file, folder) {
+            if(!file) return null;
+            try {
+                const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
+                await uploadBytesResumable(storageRef, file);
+                return await getDownloadURL(storageRef);
+            } catch (error) {
+                throw new Error("خطأ في رفع الصورة. تأكد من تفعيل قواعد Storage. التفاصيل: " + error.message);
+            }
         }
 
-        // --- إدارة البيانات (تخزين محلي + سحابي) ---
-        let siteData = { banner: {}, settings: {}, services: [], works: [], partners: [] };
+        // --- البيانات ---
+        let siteData = { banners: [], settings: {}, services: [], works: [], partners: [] };
         
         function loadLocalData() {
             const local = localStorage.getItem('bella_data'); if(local) { siteData = JSON.parse(local); renderUI(); }
         }
 
         function renderUI() {
-            // رسم الواجهة للزوار
-            const b = siteData.banner || {};
-            if(b.title_fr || b.title_ar) {
+            // Public UI (Banner يعرض آخر بانر تمت إضافته)
+            const banners = siteData.banners || [];
+            if(banners.length > 0) {
+                document.getElementById('banner').style.display = 'flex';
+                // جلب آخر عنصر في المصفوفة (أحدث بانر)
+                const b = banners[banners.length - 1];
                 document.getElementById('b-title').innerText = currentLang === 'ar' ? b.title_ar : b.title_fr;
                 document.getElementById('b-location').innerText = currentLang === 'ar' ? b.loc_ar : b.loc_fr;
                 document.getElementById('b-date').innerText = b.date || ''; document.getElementById('b-link').href = b.link || '#';
                 if(b.img) { document.getElementById('b-bg').src = b.img; document.getElementById('b-bg').style.display = 'block'; }
+            } else {
+                document.getElementById('banner').style.display = 'none';
             }
 
             const s = siteData.settings || {};
@@ -452,7 +438,6 @@
             document.getElementById('works-grid').innerHTML = (siteData.works || []).map((w, i) => `<div class="card" onclick="openBlog(${i})"><img src="${w.img}"><h3>${currentLang === 'ar' ? w.title_ar : w.title_fr}</h3><p>${(currentLang === 'ar' ? w.desc_ar : w.desc_fr).substring(0, 60)}...</p><span style="color:var(--primary); font-weight:bold; margin-top:15px; display:inline-block;">${translations[currentLang].readMore}</span></div>`).join('');
             document.getElementById('partners-grid').innerHTML = (siteData.partners || []).map(p => `<img src="${p.img}">`).join('');
             
-            // تحديث الأرشيف في لوحة الإدارة
             if(isAdminRoute && document.getElementById('dashboard-layout').style.display === 'flex') { fillAdminInputs(); }
         }
 
@@ -464,18 +449,20 @@
         }
         window.closeModal = function() { document.getElementById('blog-modal').style.display = 'none'; }
 
-        // الاستماع للتغييرات المباشرة (Real-time)
+        // الاستماع المباشر للتحديثات (بما فيها مجموعة البانرات الجديدة)
         function initFirebaseListeners() {
-            onSnapshot(doc(db, "site", "banner"), (doc) => { if(doc.exists()) siteData.banner = doc.data(); else siteData.banner = {}; updateLocalAndUI(); });
+            // ترتيب البانرات حسب وقت الإنشاء
+            const qBanners = query(collection(db, "banners"), orderBy("timestamp", "asc"));
+            onSnapshot(qBanners, (snap) => { siteData.banners = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); }, (e) => console.log(e));
+            
             onSnapshot(doc(db, "site", "settings"), (doc) => { if(doc.exists()) siteData.settings = doc.data(); else siteData.settings = {}; updateLocalAndUI(); });
-            onSnapshot(collection(db, "services"), (snap) => { siteData.services = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); });
-            onSnapshot(collection(db, "works"), (snap) => { siteData.works = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); });
-            onSnapshot(collection(db, "partners"), (snap) => { siteData.partners = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); });
+            onSnapshot(collection(db, "services"), (snap) => { siteData.services = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); }, (e) => console.log(e));
+            onSnapshot(collection(db, "works"), (snap) => { siteData.works = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); }, (e) => console.log(e));
+            onSnapshot(collection(db, "partners"), (snap) => { siteData.partners = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); }, (e) => console.log(e));
         }
 
         function updateLocalAndUI() { localStorage.setItem('bella_data', JSON.stringify(siteData)); renderUI(); }
 
-        // --- التوجيه والإحصائيات ---
         const isAdminRoute = window.location.pathname.endsWith('/admin16') || window.location.hash.includes('admin16');
         
         loadLocalData(); 
@@ -484,7 +471,6 @@
         if(isAdminRoute) {
             document.getElementById('public-view').style.display = 'none'; document.getElementById('bg-animation').style.display = 'none'; document.getElementById('admin-panel').style.display = 'block';
         } else {
-            // تسجيل الزيارات
             const today = new Date().toISOString().split('T')[0]; const month = today.substring(0,7);
             if(localStorage.getItem('lastVisit') !== today) {
                 localStorage.setItem('lastVisit', today);
@@ -495,7 +481,7 @@
 
         window.trackRegistration = function() { setDoc(doc(db, "stats", "registrations"), { count: increment(1) }, { merge: true }).catch(e=>{}); }
 
-        // --- وظائف لوحة التحكم (الأدمن) ---
+        // --- وظائف لوحة التحكم ---
         window.switchAdminTab = function(tabId) {
             document.querySelectorAll('.admin-sec').forEach(el => el.classList.remove('active'));
             document.getElementById('sec-' + tabId).classList.add('active');
@@ -509,7 +495,6 @@
                 document.getElementById('dashboard-layout').style.display = 'flex';
                 fillAdminInputs();
                 
-                // جلب الإحصائيات
                 const today = new Date().toISOString().split('T')[0]; const month = today.substring(0,7);
                 try {
                     const dSnap = await getDoc(doc(db, "stats", "visits_" + today)); if(dSnap.exists()) document.getElementById('stat-day').innerText = dSnap.data().count;
@@ -520,16 +505,13 @@
         }
 
         function fillAdminInputs() {
-            const b = siteData.banner || {};
-            document.getElementById('ad-b-title-fr').value = b.title_fr || ''; document.getElementById('ad-b-title-ar').value = b.title_ar || '';
-            document.getElementById('ad-b-loc-fr').value = b.loc_fr || ''; document.getElementById('ad-b-loc-ar').value = b.loc_ar || '';
-            document.getElementById('ad-b-date').value = b.date || ''; document.getElementById('ad-b-link').value = b.link || '';
-            
             const s = siteData.settings || {};
             document.getElementById('ad-email').value = s.email || ''; document.getElementById('ad-phone').value = s.phone || '';
             document.getElementById('ad-fb').value = s.fb || ''; document.getElementById('ad-ig').value = s.ig || '';
             document.getElementById('ad-map').value = s.map || ''; document.getElementById('ad-about-fr').value = s.about_fr || ''; document.getElementById('ad-about-ar').value = s.about_ar || '';
             
+            // توليد الأرشيف
+            document.getElementById('list-banners').innerHTML = (siteData.banners||[]).map(b => `<div class="list-item"><div class="list-item-info"><img src="${b.img||''}">${b.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('banner','${b.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('banners','${b.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
             document.getElementById('list-services').innerHTML = (siteData.services||[]).map(s => `<div class="list-item"><div class="list-item-info"><img src="${s.img}">${s.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('service','${s.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('services','${s.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
             document.getElementById('list-works').innerHTML = (siteData.works||[]).map(w => `<div class="list-item"><div class="list-item-info"><img src="${w.img}">${w.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('work','${w.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('works','${w.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
             document.getElementById('list-partners').innerHTML = (siteData.partners||[]).map(p => `<div class="list-item"><div class="list-item-info"><img src="${p.img}"></div><div class="list-actions"><button class="btn-delete" onclick="deleteItem('partners','${p.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
@@ -537,19 +519,28 @@
 
         function setBtnLoading(id, state) { document.getElementById(id).disabled = state; document.getElementById(id).innerText = state ? "En cours... / جاري..." : "Enregistrer / حفظ"; }
 
-        // --- عمليات الحفظ (تمت إضافة حماية Optional Chaining لمنع توقف الكود نهائياً) ---
+        // --- عمليات الحفظ (بجودة عالية وبأرشيف للبانر) ---
         window.saveBanner = async function() {
             setBtnLoading("btn-save-banner", true);
             try {
-                let imgData = (siteData.banner && siteData.banner.img) ? siteData.banner.img : "";
+                const id = document.getElementById('ad-b-id').value;
+                const existing = id ? siteData.banners.find(x => x.id === id) : null;
+                let imgUrl = existing ? existing.img : "";
+                
                 const file = document.getElementById('ad-b-img').files[0];
-                if(file) imgData = await compressAndConvertToBase64(file);
+                if(file) imgUrl = await uploadHighQualityImage(file, "banners");
                 
-                const data = { img: imgData, title_fr: document.getElementById('ad-b-title-fr').value, title_ar: document.getElementById('ad-b-title-ar').value, loc_fr: document.getElementById('ad-b-loc-fr').value, loc_ar: document.getElementById('ad-b-loc-ar').value, date: document.getElementById('ad-b-date').value, link: document.getElementById('ad-b-link').value };
+                const data = { 
+                    img: imgUrl, title_fr: document.getElementById('ad-b-title-fr').value, title_ar: document.getElementById('ad-b-title-ar').value, 
+                    loc_fr: document.getElementById('ad-b-loc-fr').value, loc_ar: document.getElementById('ad-b-loc-ar').value, 
+                    date: document.getElementById('ad-b-date').value, link: document.getElementById('ad-b-link').value,
+                    timestamp: existing ? existing.timestamp : new Date().getTime() // للحفاظ على الترتيب
+                };
                 
-                await setDoc(doc(db, "site", "banner"), data);
-                showToast("تم نشر الحدث بنجاح", "Bannière publiée avec succès"); 
-                document.getElementById('ad-b-img').value = '';
+                if(id) await updateDoc(doc(db, "banners", id), data); else await addDoc(collection(db, "banners"), data);
+                
+                showToast("تم إضافة/تحديث الحدث", "Événement enregistré avec succès"); 
+                resetForm('banner');
             } catch (error) { showToast("حدث خطأ", "Erreur", true); alert(error.message); } finally { setBtnLoading("btn-save-banner", false); }
         }
 
@@ -557,14 +548,14 @@
             setBtnLoading("btn-save-service", true);
             try {
                 const id = document.getElementById('ad-s-id').value;
-                const existingService = id ? siteData.services.find(x => x.id === id) : null;
-                let imgData = existingService ? existingService.img : "";
+                const existing = id ? siteData.services.find(x => x.id === id) : null;
+                let imgUrl = existing ? existing.img : "";
                 
                 const file = document.getElementById('ad-s-img').files[0];
-                if(file) imgData = await compressAndConvertToBase64(file);
-                if(!imgData) { showToast("أضف صورة للخدمة", "Ajoutez une image au service", true); setBtnLoading("btn-save-service", false); return; }
+                if(file) imgUrl = await uploadHighQualityImage(file, "services");
+                if(!imgUrl) { showToast("أضف صورة للخدمة", "Ajoutez une image", true); setBtnLoading("btn-save-service", false); return; }
 
-                const data = { img: imgData, title_fr: document.getElementById('ad-s-title-fr').value, title_ar: document.getElementById('ad-s-title-ar').value, desc_fr: document.getElementById('ad-s-desc-fr').value, desc_ar: document.getElementById('ad-s-desc-ar').value };
+                const data = { img: imgUrl, title_fr: document.getElementById('ad-s-title-fr').value, title_ar: document.getElementById('ad-s-title-ar').value, desc_fr: document.getElementById('ad-s-desc-fr').value, desc_ar: document.getElementById('ad-s-desc-ar').value };
                 if(id) await updateDoc(doc(db, "services", id), data); else await addDoc(collection(db, "services"), data);
                 
                 showToast("تم حفظ الخدمة", "Service enregistré"); resetForm('service');
@@ -575,14 +566,14 @@
             setBtnLoading("btn-save-work", true);
             try {
                 const id = document.getElementById('ad-w-id').value;
-                const existingWork = id ? siteData.works.find(x => x.id === id) : null;
-                let imgData = existingWork ? existingWork.img : "";
+                const existing = id ? siteData.works.find(x => x.id === id) : null;
+                let imgUrl = existing ? existing.img : "";
                 
                 const file = document.getElementById('ad-w-img').files[0];
-                if(file) imgData = await compressAndConvertToBase64(file);
-                if(!imgData) { showToast("أضف صورة للعمل", "Ajoutez une image", true); setBtnLoading("btn-save-work", false); return; }
+                if(file) imgUrl = await uploadHighQualityImage(file, "works");
+                if(!imgUrl) { showToast("أضف صورة للعمل", "Ajoutez une image", true); setBtnLoading("btn-save-work", false); return; }
 
-                const data = { img: imgData, title_fr: document.getElementById('ad-w-title-fr').value, title_ar: document.getElementById('ad-w-title-ar').value, desc_fr: document.getElementById('ad-w-desc-fr').value, desc_ar: document.getElementById('ad-w-desc-ar').value };
+                const data = { img: imgUrl, title_fr: document.getElementById('ad-w-title-fr').value, title_ar: document.getElementById('ad-w-title-ar').value, desc_fr: document.getElementById('ad-w-desc-fr').value, desc_ar: document.getElementById('ad-w-desc-ar').value };
                 if(id) await updateDoc(doc(db, "works", id), data); else await addDoc(collection(db, "works"), data);
                 
                 showToast("تم حفظ العمل", "Réalisation enregistrée"); resetForm('work');
@@ -594,11 +585,11 @@
             try {
                 const file = document.getElementById('ad-p-img').files[0];
                 if(file) {
-                    const imgData = await compressAndConvertToBase64(file);
-                    await addDoc(collection(db, "partners"), { img: imgData });
+                    const imgUrl = await uploadHighQualityImage(file, "partners");
+                    await addDoc(collection(db, "partners"), { img: imgUrl });
                     showToast("تم إضافة الشريك", "Partenaire ajouté"); document.getElementById('ad-p-img').value = '';
                 } else { showToast("اختر صورة للشعار", "Choisissez un logo", true); }
-            } catch (error) { showToast("خطأ", "Erreur", true); } finally { setBtnLoading("btn-save-partner", false); }
+            } catch (error) { showToast("خطأ", "Erreur", true); alert(error.message); } finally { setBtnLoading("btn-save-partner", false); }
         }
 
         window.saveSettings = async function() {
@@ -609,20 +600,25 @@
             } catch (error) { showToast("خطأ", "Erreur", true); } finally { setBtnLoading("btn-save-settings", false); }
         }
 
-        // --- التعديل والحذف والتفريغ ---
+        // --- التعديل والتفريغ والحذف ---
         window.editItem = function(type, id) {
-            if(type === 'service') {
+            if(type === 'banner') {
+                const b = siteData.banners.find(x => x.id === id); document.getElementById('ad-b-id').value = b.id;
+                document.getElementById('ad-b-title-fr').value = b.title_fr; document.getElementById('ad-b-title-ar').value = b.title_ar; document.getElementById('ad-b-loc-fr').value = b.loc_fr; document.getElementById('ad-b-loc-ar').value = b.loc_ar; document.getElementById('ad-b-date').value = b.date; document.getElementById('ad-b-link').value = b.link;
+                document.getElementById('btn-save-banner').innerText = "Mettre à jour / تحديث الحدث"; window.location.hash = "#ad-b-title-fr";
+            } else if(type === 'service') {
                 const s = siteData.services.find(x => x.id === id); document.getElementById('ad-s-id').value = s.id;
                 document.getElementById('ad-s-title-fr').value = s.title_fr; document.getElementById('ad-s-title-ar').value = s.title_ar; document.getElementById('ad-s-desc-fr').value = s.desc_fr; document.getElementById('ad-s-desc-ar').value = s.desc_ar;
-                document.getElementById('btn-save-service').innerText = "Mettre à jour / تحديث الخدمة";
+                document.getElementById('btn-save-service').innerText = "Mettre à jour / تحديث الخدمة"; window.location.hash = "#ad-s-title-fr";
             } else if (type === 'work') {
                 const w = siteData.works.find(x => x.id === id); document.getElementById('ad-w-id').value = w.id;
                 document.getElementById('ad-w-title-fr').value = w.title_fr; document.getElementById('ad-w-title-ar').value = w.title_ar; document.getElementById('ad-w-desc-fr').value = w.desc_fr; document.getElementById('ad-w-desc-ar').value = w.desc_ar;
-                document.getElementById('btn-save-work').innerText = "Mettre à jour / تحديث العمل";
+                document.getElementById('btn-save-work').innerText = "Mettre à jour / تحديث العمل"; window.location.hash = "#ad-w-title-fr";
             }
         }
 
         window.resetForm = function(type) {
+            if(type === 'banner') { document.getElementById('ad-b-id').value=''; document.getElementById('ad-b-img').value=''; document.getElementById('ad-b-title-fr').value=''; document.getElementById('ad-b-title-ar').value=''; document.getElementById('ad-b-loc-fr').value=''; document.getElementById('ad-b-loc-ar').value=''; document.getElementById('ad-b-date').value=''; document.getElementById('ad-b-link').value=''; document.getElementById('btn-save-banner').innerText="Ajouter l'événement / إضافة الحدث"; }
             if(type === 'service') { document.getElementById('ad-s-id').value=''; document.getElementById('ad-s-img').value=''; document.getElementById('ad-s-title-fr').value=''; document.getElementById('ad-s-title-ar').value=''; document.getElementById('ad-s-desc-fr').value=''; document.getElementById('ad-s-desc-ar').value=''; document.getElementById('btn-save-service').innerText="Ajouter / إضافة الخدمة"; }
             if(type === 'work') { document.getElementById('ad-w-id').value=''; document.getElementById('ad-w-img').value=''; document.getElementById('ad-w-title-fr').value=''; document.getElementById('ad-w-title-ar').value=''; document.getElementById('ad-w-desc-fr').value=''; document.getElementById('ad-w-desc-ar').value=''; document.getElementById('btn-save-work').innerText="Ajouter / إضافة العمل"; }
         }
