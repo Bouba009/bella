@@ -335,21 +335,27 @@
         </div>
     </div>
 
+    <!-- ================= سكريبت فايربيس المحدث ================= -->
     <script type="module">
+        // استدعاء مكتبات فايربيس الصحيحة لملفات HTML
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
+        // إعدادات فايربيس الخاصة بك بالضبط
         const firebaseConfig = {
             apiKey: "AIzaSyA1xTHV828178vImPGLFQhr1DS4k9ME28s",
             authDomain: "bellaskills-8edbb.firebaseapp.com",
             projectId: "bellaskills-8edbb",
             storageBucket: "bellaskills-8edbb.firebasestorage.app",
             messagingSenderId: "730699617338",
-            appId: "1:730699617338:web:2bacbc4078984770e31103"
+            appId: "1:730699617338:web:2bacbc4078984770e31103",
+            measurementId: "G-E8RP1L6KWJ"
         };
 
         const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
         const db = getFirestore(app);
         const storage = getStorage(app);
 
@@ -410,9 +416,14 @@
 
         async function uploadHighQualityImage(file, folder) {
             if(!file) return null;
-            const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
-            const snapshot = await uploadBytes(storageRef, file);
-            return await getDownloadURL(snapshot.ref);
+            try {
+                const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
+                const snapshot = await uploadBytes(storageRef, file);
+                return await getDownloadURL(snapshot.ref);
+            } catch (error) {
+                console.error("Storage Error:", error);
+                throw new Error("تأكد من تفعيل Storage Rules في فايربيس");
+            }
         }
 
         let siteData = { banners: [], settings: {}, services: [], works: [], partners: [] };
@@ -515,7 +526,7 @@
             document.getElementById('list-partners').innerHTML = (siteData.partners||[]).map(p => `<div class="list-item"><div class="list-item-info"><img src="${p.img}"></div><div class="list-actions"><button class="btn-delete" onclick="deleteItem('partners','${p.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
         }
 
-        // --- نظام الطوارئ لفك التجميد عن الزر ---
+        // --- نظام حماية الزر من التشنج ---
         function setBtnLoading(id, state) { 
             const btn = document.getElementById(id);
             if(!btn) return;
@@ -523,12 +534,11 @@
             btn.innerText = state ? "En cours... / جاري التحميل..." : "Enregistrer / حفظ"; 
             
             if (state) {
-                // إذا مرّت 10 ثوانٍ ولم ينتهي، الكود سيفك الزر إجبارياً ويخبرك بالمشكلة
                 window['timeout_' + id] = setTimeout(() => {
                     if(btn.disabled) {
                         btn.disabled = false;
                         btn.innerText = "Enregistrer / حفظ";
-                        alert("⚠️ عذراً، انتهى وقت الطلب (Timeout)!\n\nالسبب الوحيد لذلك هو أنك لم تقم بإنشاء أو تفعيل قاعدة بيانات (Firestore) أو التخزين (Storage) من لوحة تحكم Firebase. \nيرجى الدخول لحسابك في فايربيس وتفعيلهما أولاً.");
+                        alert("⚠️ عذراً، تأخر الرد من الخادم!\n\n1. تأكد أنك قمت بإنشاء قاعدة بيانات (Firestore) و(Storage) في حسابك على Firebase.\n2. تأكد أن قواعد الأمان (Rules) مسموحة لعملية الكتابة.\n3. تأكد من جودة اتصالك بالإنترنت.");
                     }
                 }, 10000);
             } else {
