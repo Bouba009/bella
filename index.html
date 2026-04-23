@@ -271,7 +271,7 @@
                     <h2 class="sec-header"><span><i class="fas fa-bullhorn"></i> Gérer l'événement (Banners)</span> <button class="btn-new" onclick="resetForm('banner')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-b-id">
-                        <div class="form-group"><label>Image de fond (يتم حفظها محلياً في الكود)</label><input type="file" id="ad-b-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image de fond (يتم رفعها للسيرفر ليراها الجميع)</label><input type="file" id="ad-b-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-fr" placeholder="Lieu (FR)"></div>
@@ -287,7 +287,7 @@
                     <h2 class="sec-header"><span><i class="fas fa-concierge-bell"></i> Gérer les Services</span> <button class="btn-new" onclick="resetForm('service')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-s-id">
-                        <div class="form-group"><label>Image du service (يتم حفظها محلياً)</label><input type="file" id="ad-s-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image du service</label><input type="file" id="ad-s-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-s-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-s-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><textarea id="ad-s-desc-fr" placeholder="Description courte (FR)"></textarea></div>
@@ -301,7 +301,7 @@
                     <h2 class="sec-header"><span><i class="fas fa-briefcase"></i> Gérer les Réalisations</span> <button class="btn-new" onclick="resetForm('work')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-w-id">
-                        <div class="form-group"><label>Image de la réalisation (يتم حفظها محلياً)</label><input type="file" id="ad-w-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image de la réalisation</label><input type="file" id="ad-w-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><textarea id="ad-w-desc-fr" placeholder="Texte complet (FR)"></textarea></div>
@@ -314,7 +314,7 @@
                 <div id="sec-partners" class="admin-sec">
                     <h2 class="sec-header"><i class="fas fa-handshake"></i> Gérer les Partenaires</h2>
                     <div class="form-card">
-                        <div class="form-group"><label>Logo du partenaire (يتم حفظه محلياً)</label><input type="file" id="ad-p-img" accept="image/*"></div>
+                        <div class="form-group"><label>Logo du partenaire</label><input type="file" id="ad-p-img" accept="image/*"></div>
                         <button class="btn-save" id="btn-save-partner" onclick="addPartner()">Ajouter / إضافة الشريك</button>
                     </div>
                     <div class="archive-section"><h3 class="archive-title">Archive des Partenaires</h3><div id="list-partners"></div></div>
@@ -335,12 +335,12 @@
         </div>
     </div>
 
-    <!-- ================= سكريبت فايربيس (بدون Storage) المحدث ================= -->
+    <!-- ================= سكريبت فايربيس (مع تفعيل Storage ليرى الجميع الصور) ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-        // تم حذف استدعاء مكتبة Storage تماماً
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA1xTHV828178vImPGLFQhr1DS4k9ME28s",
@@ -355,6 +355,7 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
         const staticServices = [
             { fr: "Programmes de formation, coaching et accompagnement", ar: "برامج التكوين، التدريب والمرافقة" },
@@ -411,36 +412,17 @@
             setTimeout(() => { toast.className = toast.className.replace("show", "").replace("error", ""); }, 4000);
         }
 
-        // --- الدالة الجديدة: تحويل الصورة محلياً إلى كود Base64 مع ضغط حجمها ---
-        function uploadHighQualityImage(file) {
-            return new Promise((resolve, reject) => {
-                if (!file) return resolve(null);
-                
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                
-                reader.onload = (event) => {
-                    // تصغير الصورة لكي لا تتجاوز مساحة Firestore أو التخزين المحلي
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const maxWidth = 800; // أقصى عرض مسموح للصورة
-                        const scaleSize = maxWidth / img.width;
-                        
-                        canvas.width = maxWidth;
-                        canvas.height = img.height * scaleSize;
-                        
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        
-                        // إرجاع كود الصورة بصيغة jpeg وبجودة 70% لتوفير المساحة
-                        resolve(canvas.toDataURL('image/jpeg', 0.7)); 
-                    };
-                    img.onerror = (error) => reject(error);
-                };
-                reader.onerror = (error) => reject(error);
-            });
+        async function uploadHighQualityImage(file) {
+            if(!file) return null;
+            try {
+                // رفع الصورة لـ Firebase Storage ليراها الجميع
+                const storageRef = ref(storage, `images/${Date.now()}_${file.name}`);
+                const snapshot = await uploadBytes(storageRef, file);
+                return await getDownloadURL(snapshot.ref);
+            } catch (error) {
+                console.error("Storage Error:", error);
+                throw new Error("تأكد من تفعيل قواعد Storage في حسابك على فايربيس لتتمكن من الرفع ليراه الجميع.");
+            }
         }
 
         let siteData = { banners: [], settings: {}, services: [], works: [], partners: [] };
@@ -508,12 +490,7 @@
         }
 
         function updateLocalAndUI() { 
-            // التخزين المحلي للبيانات والصور 
-            try {
-                localStorage.setItem('bella_data', JSON.stringify(siteData)); 
-            } catch (e) {
-                console.warn("المساحة المحلية ممتلئة قليلاً، لكن البيانات محفوظة في قاعدة البيانات.");
-            }
+            try { localStorage.setItem('bella_data', JSON.stringify(siteData)); } catch(e){}
             renderUI(); 
         }
 
@@ -551,6 +528,7 @@
             document.getElementById('list-partners').innerHTML = (siteData.partners||[]).map(p => `<div class="list-item"><div class="list-item-info"><img src="${p.img}"></div><div class="list-actions"><button class="btn-delete" onclick="deleteItem('partners','${p.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
         }
 
+        // --- نظام حماية الزر ---
         function setBtnLoading(id, state) { 
             const btn = document.getElementById(id);
             if(!btn) return;
@@ -562,7 +540,7 @@
                     if(btn.disabled) {
                         btn.disabled = false;
                         btn.innerText = "Enregistrer / حفظ";
-                        alert("⚠️ عذراً، تأخر الخادم في الرد.\n\nتأكد أن قاعدة البيانات (Firestore Database) مفعلة وقواعد الحماية (Rules) تسمح بالكتابة.");
+                        alert("⚠️ عذراً، تأخر الخادم في الرد.\n\nتأكد أن Storage مفعلة وقواعد الحماية (Rules) تسمح بالكتابة في حسابك على فايربيس.");
                     }
                 }, 10000);
             } else {
