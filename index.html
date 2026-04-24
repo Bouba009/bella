@@ -95,7 +95,6 @@
         
         #blog-modal .modal-content img { width: 100%; border-radius: 10px; margin-bottom: 15px; max-height: 400px; object-fit: cover; }
         
-        /* تصميم قائمة الخدمات في المودال */
         .services-list { list-style: none; padding: 0; margin-top: 20px; }
         .services-list li { background: var(--bg); padding: 15px 20px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid var(--primary); font-weight: bold; color: var(--dark); display: flex; align-items: center; gap: 15px;}
         html[dir="rtl"] .services-list li { border-left: none; border-right: 4px solid var(--primary); }
@@ -243,9 +242,7 @@
         <div class="modal-content">
             <i class="fas fa-times modal-close" onclick="closeServicesModal()"></i>
             <h2 style="color:var(--primary); text-align:center; margin-bottom:20px; border-bottom: 2px solid #eee; padding-bottom:15px;" data-i18n="titleServices">Nos Services</h2>
-            <ul class="services-list" id="services-full-list">
-                <!-- قائمة الخدمات ستظهر هنا -->
-            </ul>
+            <ul class="services-list" id="services-full-list"></ul>
         </div>
     </div>
 
@@ -358,12 +355,11 @@
         </div>
     </div>
 
-    <!-- ================= سكريبت فايربيس العالمي ================= -->
+    <!-- ================= سكريبت فايربيس (بدون Storage - معتمد على Firestore للصور) ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA1xTHV828178vImPGLFQhr1DS4k9ME28s",
@@ -378,7 +374,6 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
         let currentLang = 'fr';
         const translations = {
@@ -409,33 +404,29 @@
             setTimeout(() => { toast.className = toast.className.replace("show", "").replace("error", ""); }, 4000);
         }
 
-        // --- دالة رفع الصور مع نظام بديل (Fallback) يمنع التشنج ---
-        async function uploadHighQualityImage(file) {
-            if(!file) return null;
-            try {
-                // المحاولة الأولى: الرفع لـ Firebase Storage
-                const storageRef = ref(storage, `uploads/${Date.now()}_${file.name}`);
-                const snapshot = await uploadBytes(storageRef, file);
-                return await getDownloadURL(snapshot.ref); 
-            } catch (error) {
-                // إذا فشل التخزين السحابي (بسبب القواعد أو الإنترنت)، نحول الصورة لنص Base64 ونحفظها في Firestore مباشرة!
-                console.warn("Storage failed, using Base64 Fallback.");
-                return new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const img = new Image();
-                        img.onload = () => {
-                            const canvas = document.createElement('canvas');
-                            const MAX_WIDTH = 800; const scaleSize = MAX_WIDTH / img.width;
-                            canvas.width = MAX_WIDTH; canvas.height = img.height * scaleSize;
-                            const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                            resolve(canvas.toDataURL('image/jpeg', 0.6));
-                        }
-                        img.src = e.target.result;
-                    }
-                    reader.readAsDataURL(file);
-                });
-            }
+        // --- تقنية تحويل الصورة إلى Base64 مباشر (مضادة للتشنج نهائياً) ---
+        function compressImageToBase64(file) {
+            return new Promise((resolve) => {
+                if (!file) { resolve(""); return; }
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width; let height = img.height;
+                        const MAX_WIDTH = 800; // تصغير العرض لتخفيف الضغط على قواعد البيانات
+                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                        canvas.width = width; canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.6)); // ضغط بجودة 60%
+                    };
+                    img.onerror = () => { resolve(""); }; // إذا فشلت الصورة لن يتجمد
+                    img.src = event.target.result;
+                };
+                reader.onerror = () => { resolve(""); };
+                reader.readAsDataURL(file);
+            });
         }
 
         let siteData = { banners: [], settings: {}, services: [], works: [], partners: [] };
@@ -459,7 +450,6 @@
             const r2 = srvs.slice(half);
             const genHtml = (arr) => arr.map(item => `<div class="marquee-item">${currentLang === 'ar' ? item.title_ar : item.title_fr}</div>`).join('');
             
-            // مضاعفة المحتوى ليدور بدون توقف
             document.getElementById('mq-row1').innerHTML = genHtml(r1) + genHtml(r1) + genHtml(r1);
             document.getElementById('mq-row2').innerHTML = genHtml(r2) + genHtml(r2) + genHtml(r2);
         }
@@ -555,11 +545,23 @@
             document.getElementById('list-partners').innerHTML = (siteData.partners||[]).map(p => `<div class="list-item"><div class="list-item-info"><img src="${p.img}"></div><div class="list-actions"><button class="btn-delete" onclick="deleteItem('partners','${p.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
         }
 
+        // --- نظام حماية الزر (تم تقليل التايم اوت وإزالة التنبيه المزعج) ---
         function setBtnLoading(id, state) { 
             const btn = document.getElementById(id);
             if(!btn) return;
             btn.disabled = state; 
-            btn.innerText = state ? "En cours... / جاري..." : "Enregistrer / حفظ"; 
+            btn.innerText = state ? "En cours... / جاري التحميل..." : "Enregistrer / حفظ"; 
+            
+            if (state) {
+                window['timeout_' + id] = setTimeout(() => {
+                    if(btn.disabled) {
+                        btn.disabled = false; btn.innerText = "Enregistrer / حفظ";
+                        alert("حدث خطأ في الاتصال بقاعدة البيانات. تأكد من الإنترنت أو صلاحيات Firestore.");
+                    }
+                }, 15000);
+            } else {
+                clearTimeout(window['timeout_' + id]);
+            }
         }
 
         window.saveBanner = async function() {
@@ -569,7 +571,8 @@
                 const existing = id ? siteData.banners.find(x => x.id === id) : null;
                 let imgUrl = existing ? existing.img : "";
                 const file = document.getElementById('ad-b-img').files[0];
-                if(file) imgUrl = await uploadHighQualityImage(file);
+                
+                if(file) { imgUrl = await compressImageToBase64(file); } // استخدام الدالة الجديدة
                 
                 const data = { 
                     img: imgUrl || "", title_fr: document.getElementById('ad-b-title-fr').value || "", title_ar: document.getElementById('ad-b-title-ar').value || "", 
@@ -577,9 +580,10 @@
                     date: document.getElementById('ad-b-date').value || "", link: document.getElementById('ad-b-link').value || "",
                     timestamp: (existing && existing.timestamp) ? existing.timestamp : Date.now() 
                 };
+                
                 if(id) await updateDoc(doc(db, "banners", id), data); else await addDoc(collection(db, "banners"), data);
-                showToast("تم الحفظ للجميع بنجاح", "Enregistré avec succès"); resetForm('banner');
-            } catch (error) { alert("خطأ: " + error.message); } finally { setBtnLoading("btn-save-banner", false); } 
+                showToast("تم الحفظ بنجاح", "Enregistré avec succès"); resetForm('banner'); setBtnLoading("btn-save-banner", false);
+            } catch (error) { setBtnLoading("btn-save-banner", false); alert("خطأ: " + error.message); } 
         }
 
         // حفظ الخدمة (نصوص فقط بدون صورة)
@@ -592,8 +596,8 @@
                 if(!data.title_fr && !data.title_ar) { showToast("أدخل اسم الخدمة", "Entrez le nom", true); setBtnLoading("btn-save-service", false); return;}
 
                 if(id) await updateDoc(doc(db, "services", id), data); else await addDoc(collection(db, "services"), data);
-                showToast("تم حفظ الخدمة", "Service enregistré"); resetForm('service');
-            } catch (error) { alert("خطأ: " + error.message); } finally { setBtnLoading("btn-save-service", false); } 
+                showToast("تم حفظ الخدمة", "Service enregistré"); resetForm('service'); setBtnLoading("btn-save-service", false);
+            } catch (error) { setBtnLoading("btn-save-service", false); alert("خطأ: " + error.message); } 
         }
 
         window.saveWork = async function() {
@@ -603,13 +607,14 @@
                 const existing = id ? siteData.works.find(x => x.id === id) : null;
                 let imgUrl = existing ? existing.img : "";
                 const file = document.getElementById('ad-w-img').files[0];
-                if(file) imgUrl = await uploadHighQualityImage(file);
+                
+                if(file) { imgUrl = await compressImageToBase64(file); }
                 if(!imgUrl && !id) { showToast("أضف صورة للعمل", "Ajoutez une image", true); setBtnLoading("btn-save-work", false); return; }
 
                 const data = { img: imgUrl, title_fr: document.getElementById('ad-w-title-fr').value, title_ar: document.getElementById('ad-w-title-ar').value, desc_fr: document.getElementById('ad-w-desc-fr').value, desc_ar: document.getElementById('ad-w-desc-ar').value };
                 if(id) await updateDoc(doc(db, "works", id), data); else await addDoc(collection(db, "works"), data);
-                showToast("تم الحفظ", "Réalisation enregistrée"); resetForm('work');
-            } catch (error) { alert("خطأ: " + error.message); } finally { setBtnLoading("btn-save-work", false); } 
+                showToast("تم الحفظ", "Réalisation enregistrée"); resetForm('work'); setBtnLoading("btn-save-work", false);
+            } catch (error) { setBtnLoading("btn-save-work", false); alert("خطأ: " + error.message); } 
         }
 
         window.addPartner = async function() {
@@ -617,19 +622,20 @@
             try {
                 const file = document.getElementById('ad-p-img').files[0];
                 if(file) {
-                    const imgUrl = await uploadHighQualityImage(file);
+                    const imgUrl = await compressImageToBase64(file);
                     await addDoc(collection(db, "partners"), { img: imgUrl });
                     showToast("تم إضافة الشريك", "Partenaire ajouté"); document.getElementById('ad-p-img').value = '';
                 } else { showToast("اختر صورة", "Choisissez un logo", true); }
-            } catch (error) { alert("خطأ: " + error.message); } finally { setBtnLoading("btn-save-partner", false); } 
+                setBtnLoading("btn-save-partner", false);
+            } catch (error) { setBtnLoading("btn-save-partner", false); alert("خطأ: " + error.message); } 
         }
 
         window.saveSettings = async function() {
             setBtnLoading("btn-save-settings", true);
             try {
                 const data = { email: document.getElementById('ad-email').value, phone: document.getElementById('ad-phone').value, fb: document.getElementById('ad-fb').value, ig: document.getElementById('ad-ig').value, map: document.getElementById('ad-map').value, about_fr: document.getElementById('ad-about-fr').value, about_ar: document.getElementById('ad-about-ar').value };
-                await setDoc(doc(db, "site", "settings"), data); showToast("تم حفظ الإعدادات", "Paramètres enregistrés");
-            } catch (error) { alert("خطأ: " + error.message); } finally { setBtnLoading("btn-save-settings", false); } 
+                await setDoc(doc(db, "site", "settings"), data); showToast("تم حفظ الإعدادات", "Paramètres enregistrés"); setBtnLoading("btn-save-settings", false);
+            } catch (error) { setBtnLoading("btn-save-settings", false); alert("خطأ: " + error.message); } 
         }
 
         window.editItem = function(type, id) {
