@@ -81,11 +81,14 @@
         footer { background: var(--white); padding: 50px 5% 20px; margin-top: 40px; border-top: 4px solid var(--primary); }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 30px; }
         
-        /* جعل الخريطة متجاوبة بالكامل */
         .map-container iframe { width: 100% !important; height: 200px !important; border: none !important; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         
         .social-links a { color: var(--white); background: var(--primary); width: 40px; height: 40px; display: inline-flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 20px; margin-right: 10px; text-decoration: none; transition: 0.3s; }
         .copy { text-align: center; font-size: 0.9em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
+        
+        /* زر اقرأ المزيد في الفوتر */
+        .read-more-btn { color: var(--primary); font-weight: bold; cursor: pointer; display: inline-block; margin-top: 5px; transition: 0.3s; }
+        .read-more-btn:hover { color: var(--primary-light); text-decoration: underline; }
 
         .fab-whatsapp { position: fixed; bottom: 30px; left: 30px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 35px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); z-index: 1000; text-decoration: none; transition: 0.3s; }
         html[dir="rtl"] .fab-whatsapp { left: auto; right: 30px; }
@@ -222,6 +225,7 @@
             <div class="footer-grid">
                 <div>
                     <h3 data-i18n="aboutUs" style="color:var(--primary); margin-bottom:15px;">Qui sommes-nous</h3>
+                    <!-- قسم من نحن مع زر قراءة المزيد -->
                     <p id="f-about" style="font-size: 0.95em; color:#555; line-height: 1.8;"></p>
                 </div>
                 <div>
@@ -346,7 +350,12 @@
                     <div class="form-card">
                         <div class="form-group"><label data-i18n="lblContact">Contact</label><input type="text" id="ad-email" placeholder="Email"><input type="text" id="ad-phone" placeholder="Téléphone / Phone" style="margin-top:10px;"></div>
                         <div class="form-group"><label data-i18n="lblSocial">Réseaux Sociaux</label><input type="text" id="ad-fb" placeholder="Facebook (URL)"><input type="text" id="ad-ig" placeholder="Instagram (URL)" style="margin-top:10px;"></div>
-                        <div class="form-group"><label data-i18n="lblMap">Localisation (Map Iframe / URL)</label><textarea id="ad-map" placeholder="Code HTML (Iframe) ou URL"></textarea></div>
+                        
+                        <div class="form-group">
+                            <label data-i18n="lblMap">Localisation (Code Iframe)</label>
+                            <textarea id="ad-map" placeholder='<iframe src="https://www.google.com/maps/embed?pb=..."></iframe>'></textarea>
+                        </div>
+
                         <div class="form-group"><label data-i18n="lblAbout">À propos</label><textarea id="ad-about-fr" placeholder="Texte (FR)"></textarea><textarea id="ad-about-ar" placeholder="Texte (AR)" style="margin-top:10px;"></textarea></div>
                         <button class="btn-save" id="btn-save-settings" onclick="saveSettings()" data-i18n="btnSave">Enregistrer</button>
                     </div>
@@ -377,14 +386,15 @@
 
         let currentLang = 'fr';
         
+        // نظام الترجمة الشامل
         const translations = {
             fr: { 
-                menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", registerBtn: "S'inscrire à l'événement", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite", clickToView: "Cliquez pour voir tous les services", noServices: "Aucun service pour le moment", errorMsg: "Une erreur s'est produite : ", successSave: "Enregistré avec succès", successDel: "Élément supprimé", sureDel: "Êtes-vous sûr de vouloir supprimer ?", chooseImg: "Veuillez choisir une image", enterName: "Veuillez entrer le nom", wrongPwd: "Mot de passe incorrect",
-                adminLogin: "Connexion Admin", enterBtn: "Entrer", navDash: "Tableau de bord", navEvent: "L'événement", navServices: "Services", navWorks: "Réalisations", navPartners: "Partenaires", navSettings: "Paramètres", navLogout: "Quitter", dashTitle: "Statistiques du site", statToday: "Visites (Aujourd'hui)", statMonth: "Visites (Ce Mois)", statReg: "Clics Inscription", btnNew: "Nouveau +", lblBgImg: "Image de fond (Optionnelle)", btnSave: "Enregistrer", archive: "Archive", lblSrvName: "Nom du service", lblImg: "Image", lblLogo: "Logo", lblContact: "Contact", lblSocial: "Réseaux Sociaux", lblMap: "Localisation (Code Iframe de préférence)", lblAbout: "À propos", btnUpdate: "Mettre à jour", btnLoading: "En cours..."
+                menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", registerBtn: "S'inscrire à l'événement", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite", readLess: "Réduire", clickToView: "Cliquez pour voir tous les services", noServices: "Aucun service pour le moment", errorMsg: "Une erreur s'est produite : ", successSave: "Enregistré avec succès", successDel: "Élément supprimé", sureDel: "Êtes-vous sûr de vouloir supprimer ?", chooseImg: "Veuillez choisir une image", enterName: "Veuillez entrer le nom", wrongPwd: "Mot de passe incorrect",
+                adminLogin: "Connexion Admin", enterBtn: "Entrer", navDash: "Tableau de bord", navEvent: "L'événement", navServices: "Services", navWorks: "Réalisations", navPartners: "Partenaires", navSettings: "Paramètres", navLogout: "Quitter", dashTitle: "Statistiques du site", statToday: "Visites (Aujourd'hui)", statMonth: "Visites (Ce Mois)", statReg: "Clics Inscription", btnNew: "Nouveau +", lblBgImg: "Image de fond (Optionnelle)", btnSave: "Enregistrer", archive: "Archive", lblSrvName: "Nom du service", lblImg: "Image", lblLogo: "Logo", lblContact: "Contact", lblSocial: "Réseaux Sociaux", lblMap: "Localisation (Code Iframe de Google Maps)", lblAbout: "À propos", btnUpdate: "Mettre à jour", btnLoading: "En cours..."
             },
             ar: { 
-                menuEvent: "الحدث", menuServices: "خدماتنا", menuWorks: "أعمالنا", menuPartners: "شركاؤنا", menuContact: "اتصل بنا", registerBtn: "سجل في الحدث الآن", titleServices: "خدماتنا", titleWorks: "أعمالنا", titlePartners: "شركاؤنا", aboutUs: "من نحن", contactUs: "تواصل معنا", privacy: "سياسة الخصوصية", readMore: "اقرأ المزيد", clickToView: "اضغط هنا لرؤية جميع الخدمات", noServices: "لا توجد خدمات حالياً", errorMsg: "حدث خطأ: ", successSave: "تم الحفظ بنجاح", successDel: "تم الحذف بنجاح", sureDel: "هل أنت متأكد من الحذف؟", chooseImg: "يرجى اختيار صورة", enterName: "يرجى إدخال الاسم", wrongPwd: "كلمة المرور خاطئة",
-                adminLogin: "تسجيل دخول الإدارة", enterBtn: "دخول", navDash: "لوحة القيادة", navEvent: "الحدث", navServices: "الخدمات", navWorks: "الأعمال", navPartners: "الشركاء", navSettings: "الإعدادات", navLogout: "خروج", dashTitle: "إحصائيات الموقع", statToday: "زيارات اليوم", statMonth: "زيارات هذا الشهر", statReg: "نقرات التسجيل", btnNew: "جديد +", lblBgImg: "صورة الخلفية (اختياري)", btnSave: "حفظ", archive: "الأرشيف", lblSrvName: "اسم الخدمة", lblImg: "الصورة", lblLogo: "الشعار", lblContact: "معلومات الاتصال", lblSocial: "التواصل الاجتماعي", lblMap: "خريطة جوجل (يفضل كود Iframe)", lblAbout: "من نحن", btnUpdate: "تحديث", btnLoading: "جاري التحميل..."
+                menuEvent: "الحدث", menuServices: "خدماتنا", menuWorks: "أعمالنا", menuPartners: "شركاؤنا", menuContact: "اتصل بنا", registerBtn: "سجل في الحدث الآن", titleServices: "خدماتنا", titleWorks: "أعمالنا", titlePartners: "شركاؤنا", aboutUs: "من نحن", contactUs: "تواصل معنا", privacy: "سياسة الخصوصية", readMore: "اقرأ المزيد", readLess: "إخفاء النص", clickToView: "اضغط هنا لرؤية جميع الخدمات", noServices: "لا توجد خدمات حالياً", errorMsg: "حدث خطأ: ", successSave: "تم الحفظ بنجاح", successDel: "تم الحذف بنجاح", sureDel: "هل أنت متأكد من الحذف؟", chooseImg: "يرجى اختيار صورة", enterName: "يرجى إدخال الاسم", wrongPwd: "كلمة المرور خاطئة",
+                adminLogin: "تسجيل دخول الإدارة", enterBtn: "دخول", navDash: "لوحة القيادة", navEvent: "الحدث", navServices: "الخدمات", navWorks: "الأعمال", navPartners: "الشركاء", navSettings: "الإعدادات", navLogout: "خروج", dashTitle: "إحصائيات الموقع", statToday: "زيارات اليوم", statMonth: "زيارات هذا الشهر", statReg: "نقرات التسجيل", btnNew: "جديد +", lblBgImg: "صورة الخلفية (اختياري)", btnSave: "حفظ", archive: "الأرشيف", lblSrvName: "اسم الخدمة", lblImg: "الصورة", lblLogo: "الشعار", lblContact: "معلومات الاتصال", lblSocial: "التواصل الاجتماعي", lblMap: "خريطة جوجل (الصق كود Iframe)", lblAbout: "من نحن", btnUpdate: "تحديث", btnLoading: "جاري التحميل..."
             }
         };
 
@@ -468,6 +478,22 @@
         window.openServicesModal = function() { document.getElementById('all-services-modal').style.display = 'flex'; }
         window.closeServicesModal = function() { document.getElementById('all-services-modal').style.display = 'none'; }
 
+        // دالة عرض وإخفاء النص الطويل في قسم من نحن
+        window.toggleAboutText = function() {
+            const contentSpan = document.getElementById('about-text-content');
+            const btn = document.getElementById('about-toggle-btn');
+            
+            if(contentSpan.getAttribute('data-state') === 'short') {
+                contentSpan.innerText = decodeURIComponent(contentSpan.getAttribute('data-full')) + ' ';
+                contentSpan.setAttribute('data-state', 'full');
+                btn.innerText = translations[currentLang].readLess;
+            } else {
+                contentSpan.innerText = decodeURIComponent(contentSpan.getAttribute('data-short'));
+                contentSpan.setAttribute('data-state', 'short');
+                btn.innerText = translations[currentLang].readMore;
+            }
+        }
+
         function renderUI() {
             renderMarqueeAndModal();
 
@@ -486,18 +512,30 @@
             }
 
             const s = siteData.settings || {};
-            if(s.email) {
-                document.getElementById('f-about').innerText = currentLang === 'ar' ? s.about_ar : s.about_fr;
-                document.getElementById('f-email').innerText = s.email; document.getElementById('f-phone').innerText = s.phone;
+            if(s.email || s.about_fr) {
+                // إعداد نص من نحن مع ميزة القص (Read More)
+                let fullText = currentLang === 'ar' ? (s.about_ar || '') : (s.about_fr || '');
+                const aboutContainer = document.getElementById('f-about');
+                
+                if (fullText.length > 120) {
+                    let shortText = fullText.substring(0, 120) + '... ';
+                    aboutContainer.innerHTML = `<span id="about-text-content" data-full="${encodeURIComponent(fullText)}" data-short="${encodeURIComponent(shortText)}" data-state="short">${shortText}</span>
+                                                <span id="about-toggle-btn" class="read-more-btn" onclick="toggleAboutText()">${translations[currentLang].readMore}</span>`;
+                } else {
+                    aboutContainer.innerText = fullText;
+                }
+
+                document.getElementById('f-email').innerText = s.email || ''; document.getElementById('f-phone').innerText = s.phone || '';
                 document.getElementById('f-fb').href = s.fb || '#'; document.getElementById('f-ig').href = s.ig || '#';
                 
-                // ميزة التعرف الذكي على الخريطة
+                // إصلاح الخريطة (تقبل Iframe أو تحاول تحويل الرابط العادي)
                 if(s.map) {
                     let mapData = s.map.trim();
-                    if(mapData.startsWith("http") && !mapData.includes("<iframe")) {
-                        document.getElementById('f-map').innerHTML = `<iframe src="${mapData}" style="border:0;" allowfullscreen="" loading="lazy"></iframe>`;
-                    } else {
+                    if(mapData.includes('<iframe')) {
                         document.getElementById('f-map').innerHTML = mapData;
+                    } else if (mapData.startsWith("http")) {
+                        // إذا أخطأ المستخدم ووضع رابط عادي، نضعه في Iframe ولكن جوجل قد تمنع ظهوره
+                        document.getElementById('f-map').innerHTML = `<iframe src="${mapData}" allowfullscreen="" loading="lazy"></iframe>`;
                     }
                 } else { document.getElementById('f-map').innerHTML = ''; }
             }
@@ -530,7 +568,6 @@
         const isAdminRoute = window.location.pathname.endsWith('/admin16') || window.location.hash.includes('admin16');
         initFirebaseListeners(); 
 
-        // نظام الزيارات والإحصائيات اللحظي والحقيقي
         const todayStr = new Date().toISOString().split('T')[0];
         const monthStr = todayStr.substring(0,7);
 
@@ -559,7 +596,7 @@
                 document.getElementById('dashboard-layout').style.display = 'flex'; 
                 fillAdminInputs();
 
-                // الاستماع اللحظي (Real-time) للإحصائيات بمجرد دخول الإدارة
+                // الاستماع اللحظي (Real-time) للإحصائيات
                 onSnapshot(doc(db, "stats", "day_" + todayStr), (doc) => { document.getElementById('stat-day').innerText = doc.exists() ? doc.data().count : 0; });
                 onSnapshot(doc(db, "stats", "month_" + monthStr), (doc) => { document.getElementById('stat-month').innerText = doc.exists() ? doc.data().count : 0; });
                 onSnapshot(doc(db, "stats", "registrations"), (doc) => { document.getElementById('stat-reg').innerText = doc.exists() ? doc.data().count : 0; });
