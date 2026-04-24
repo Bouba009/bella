@@ -73,9 +73,10 @@
         .card h3 { margin: 20px 0 10px; color: var(--primary); font-size: 1.3em; }
         .card p { padding: 0 20px; color: #666; font-size: 0.95em; line-height: 1.6; }
 
+        /* الشركاء بالألوان الطبيعية */
         .partners-container { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
-        .partners-container img { height: 70px; filter: grayscale(100%); transition: all 0.3s ease; opacity: 0.7; }
-        .partners-container img:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.1); }
+        .partners-container img { height: 70px; transition: all 0.3s ease; opacity: 0.9; }
+        .partners-container img:hover { opacity: 1; transform: scale(1.1); }
 
         /* --- الفوتر --- */
         footer { background: var(--white); padding: 50px 5% 20px; margin-top: 40px; border-top: 4px solid var(--primary); }
@@ -195,10 +196,10 @@
             </div>
         </div>
 
-        <!-- قسم الخدمات الجديد (شريط متحرك + قابل للضغط) -->
+        <!-- قسم الخدمات -->
         <div class="services-section" id="services" onclick="openServicesModal()">
             <h2 class="section-title" data-i18n="titleServices">Nos Services</h2>
-            <p class="services-hint" data-i18n="clickToView">Cliquez pour voir toutes les services / اضغط لرؤية جميع الخدمات <i class="fas fa-hand-pointer"></i></p>
+            <p class="services-hint"><span data-i18n="clickToView">Cliquez pour voir tous les services</span> <i class="fas fa-hand-pointer"></i></p>
             <div class="full-width-marquee">
                 <div class="marquee-track row1" id="mq-row1"></div>
                 <div class="marquee-track row2" id="mq-row2"></div>
@@ -246,7 +247,7 @@
         </div>
     </div>
 
-    <!-- مودال الأعمال (Réalisations) -->
+    <!-- مودال الأعمال -->
     <div id="blog-modal" class="modal">
         <div class="modal-content">
             <i class="fas fa-times modal-close" onclick="closeBlogModal()"></i>
@@ -260,9 +261,9 @@
     <div id="admin-panel">
         <div id="login-section" class="admin-login">
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZvc2VX08-mtAOEnVZNA2xH8QGRGz2GbqIuMTKDh0suB-bjVIAogCm7ji820GlbHAkWWKsOg2yn3EAH7nMM_w_lvT3OH4H-UgYzsTiur_l3CzK2fcw2n_jTX1Z-t25DaLbwrY0jnDE13Zo3lrh8ZkXF5ybieZJOdpBQ4Xkr_zbn8LFS3zQDf5Bft28Zr4/s320/1000013350.png" style="max-height:60px; margin-bottom:20px;">
-            <h2 style="color:var(--primary); margin-bottom: 20px;">Connexion Admin</h2>
-            <input type="password" id="admin-pwd" placeholder="Mot de passe">
-            <button onclick="checkAdmin()">Entrer</button>
+            <h2 style="color:var(--primary); margin-bottom: 20px;" data-i18n="adminLogin">Connexion Admin</h2>
+            <input type="password" id="admin-pwd" placeholder="Mot de passe / كلمة المرور">
+            <button onclick="checkAdmin()">Entrer / دخول</button>
         </div>
 
         <div id="dashboard-layout" class="admin-layout" style="display:none;">
@@ -270,7 +271,7 @@
                 <div class="admin-nav-header">Bella Skills CMS</div>
                 <button class="nav-btn active" onclick="switchAdminTab('dash')"><i class="fas fa-chart-line"></i> Dashboard</button>
                 <button class="nav-btn" onclick="switchAdminTab('banner')"><i class="fas fa-bullhorn"></i> L'événement</button>
-                <button class="nav-btn" onclick="switchAdminTab('services')"><i class="fas fa-concierge-bell"></i> Services (Textes)</button>
+                <button class="nav-btn" onclick="switchAdminTab('services')"><i class="fas fa-concierge-bell"></i> Services</button>
                 <button class="nav-btn" onclick="switchAdminTab('works')"><i class="fas fa-briefcase"></i> Réalisations</button>
                 <button class="nav-btn" onclick="switchAdminTab('partners')"><i class="fas fa-handshake"></i> Partenaires</button>
                 <button class="nav-btn" onclick="switchAdminTab('settings')"><i class="fas fa-cogs"></i> Paramètres</button>
@@ -291,63 +292,61 @@
                     <h2 class="sec-header"><span><i class="fas fa-bullhorn"></i> Gérer l'événement (Banners)</span> <button class="btn-new" onclick="resetForm('banner')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-b-id">
-                        <div class="form-group"><label>Image de fond (Optionnelle)</label><input type="file" id="ad-b-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image de fond / صورة الخلفية</label><input type="file" id="ad-b-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-fr" placeholder="Lieu (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-ar" placeholder="المكان (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-date" placeholder="Date / التاريخ"></div>
                         <div class="form-group"><input type="text" id="ad-b-link" placeholder="Lien d'inscription / رابط التسجيل"></div>
-                        <button class="btn-save" id="btn-save-banner" onclick="saveBanner()">Ajouter l'événement / إضافة الحدث</button>
+                        <button class="btn-save" id="btn-save-banner" onclick="saveBanner()">Ajouter / إضافة</button>
                     </div>
-                    <div class="archive-section"><h3 class="archive-title">Archive des Événements</h3><div id="list-banners"></div></div>
+                    <div class="archive-section"><h3 class="archive-title">Archive</h3><div id="list-banners"></div></div>
                 </div>
 
-                <!-- قسم الخدمات المعدل (نصوص فقط) -->
                 <div id="sec-services" class="admin-sec">
-                    <h2 class="sec-header"><span><i class="fas fa-concierge-bell"></i> Gérer les Services (Textes)</span> <button class="btn-new" onclick="resetForm('service')">Nouveau +</button></h2>
-                    <p style="margin-bottom: 20px; color: #666; font-size: 0.9em;">Ces textes s'afficheront dans la barre défilante (Marquee). / هذه النصوص ستظهر في الشريط المتحرك.</p>
+                    <h2 class="sec-header"><span><i class="fas fa-concierge-bell"></i> Gérer les Services</span> <button class="btn-new" onclick="resetForm('service')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-s-id">
                         <div class="form-group"><label>Nom du service / اسم الخدمة</label></div>
                         <div class="form-group"><input type="text" id="ad-s-title-fr" placeholder="Titre (FR) - ex: Marketing Digital"></div>
                         <div class="form-group"><input type="text" id="ad-s-title-ar" placeholder="العنوان (AR) - مثال: التسويق الرقمي"></div>
-                        <button class="btn-save" id="btn-save-service" onclick="saveService()">Ajouter / إضافة الخدمة</button>
+                        <button class="btn-save" id="btn-save-service" onclick="saveService()">Ajouter / إضافة</button>
                     </div>
-                    <div class="archive-section"><h3 class="archive-title">Archive des Services</h3><div id="list-services"></div></div>
+                    <div class="archive-section"><h3 class="archive-title">Archive</h3><div id="list-services"></div></div>
                 </div>
 
                 <div id="sec-works" class="admin-sec">
                     <h2 class="sec-header"><span><i class="fas fa-briefcase"></i> Gérer les Réalisations</span> <button class="btn-new" onclick="resetForm('work')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-w-id">
-                        <div class="form-group"><label>Image de la réalisation</label><input type="file" id="ad-w-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image / الصورة</label><input type="file" id="ad-w-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><textarea id="ad-w-desc-fr" placeholder="Texte complet (FR)"></textarea></div>
                         <div class="form-group"><textarea id="ad-w-desc-ar" placeholder="النص الكامل (AR)"></textarea></div>
-                        <button class="btn-save" id="btn-save-work" onclick="saveWork()">Ajouter / إضافة العمل</button>
+                        <button class="btn-save" id="btn-save-work" onclick="saveWork()">Ajouter / إضافة</button>
                     </div>
-                    <div class="archive-section"><h3 class="archive-title">Archive des Réalisations</h3><div id="list-works"></div></div>
+                    <div class="archive-section"><h3 class="archive-title">Archive</h3><div id="list-works"></div></div>
                 </div>
 
                 <div id="sec-partners" class="admin-sec">
                     <h2 class="sec-header"><i class="fas fa-handshake"></i> Gérer les Partenaires</h2>
                     <div class="form-card">
-                        <div class="form-group"><label>Logo du partenaire</label><input type="file" id="ad-p-img" accept="image/*"></div>
-                        <button class="btn-save" id="btn-save-partner" onclick="addPartner()">Ajouter / إضافة الشريك</button>
+                        <div class="form-group"><label>Logo / الشعار</label><input type="file" id="ad-p-img" accept="image/*"></div>
+                        <button class="btn-save" id="btn-save-partner" onclick="addPartner()">Ajouter / إضافة</button>
                     </div>
-                    <div class="archive-section"><h3 class="archive-title">Archive des Partenaires</h3><div id="list-partners"></div></div>
+                    <div class="archive-section"><h3 class="archive-title">Archive</h3><div id="list-partners"></div></div>
                 </div>
 
                 <div id="sec-settings" class="admin-sec">
                     <h2 class="sec-header"><i class="fas fa-cogs"></i> Paramètres Généraux</h2>
                     <div class="form-card">
-                        <div class="form-group"><label>Contact</label><input type="text" id="ad-email" placeholder="Email"><input type="text" id="ad-phone" placeholder="Téléphone" style="margin-top:10px;"></div>
-                        <div class="form-group"><label>Réseaux Sociaux</label><input type="text" id="ad-fb" placeholder="Lien Facebook (URL)"><input type="text" id="ad-ig" placeholder="Lien Instagram (URL)" style="margin-top:10px;"></div>
+                        <div class="form-group"><label>Contact / الاتصال</label><input type="text" id="ad-email" placeholder="Email"><input type="text" id="ad-phone" placeholder="Téléphone" style="margin-top:10px;"></div>
+                        <div class="form-group"><label>Réseaux Sociaux / التواصل الاجتماعي</label><input type="text" id="ad-fb" placeholder="Facebook (URL)"><input type="text" id="ad-ig" placeholder="Instagram (URL)" style="margin-top:10px;"></div>
                         <div class="form-group"><label>Localisation (Map)</label><textarea id="ad-map" placeholder="Code HTML (Iframe) Google Maps"></textarea></div>
                         <div class="form-group"><label>À propos / من نحن</label><textarea id="ad-about-fr" placeholder="Qui sommes-nous (FR)"></textarea><textarea id="ad-about-ar" placeholder="من نحن (AR)" style="margin-top:10px;"></textarea></div>
-                        <button class="btn-save" id="btn-save-settings" onclick="saveSettings()">Enregistrer / حفظ الإعدادات</button>
+                        <button class="btn-save" id="btn-save-settings" onclick="saveSettings()">Enregistrer / حفظ</button>
                     </div>
                 </div>
 
@@ -355,7 +354,6 @@
         </div>
     </div>
 
-    <!-- ================= سكريبت فايربيس (بدون Storage - معتمد على Firestore للصور) ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
@@ -377,8 +375,8 @@
 
         let currentLang = 'fr';
         const translations = {
-            fr: { menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", registerBtn: "S'inscrire à l'événement", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite", clickToView: "Cliquez pour voir toutes les services / اضغط لرؤية جميع الخدمات" },
-            ar: { menuEvent: "الحدث", menuServices: "خدماتنا", menuWorks: "أعمالنا", menuPartners: "شركاؤنا", menuContact: "اتصل بنا", registerBtn: "سجل في الحدث الآن", titleServices: "خدماتنا", titleWorks: "أعمالنا", titlePartners: "شركاؤنا", aboutUs: "من نحن", contactUs: "تواصل معنا", privacy: "سياسة الخصوصية", readMore: "اقرأ المزيد", clickToView: "اضغط هنا لرؤية جميع الخدمات" }
+            fr: { menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", registerBtn: "S'inscrire à l'événement", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite", clickToView: "Cliquez pour voir tous les services", noServices: "Aucun service pour le moment", errorMsg: "Une erreur s'est produite : ", successSave: "Enregistré avec succès", successDel: "Élément supprimé", sureDel: "Êtes-vous sûr de vouloir supprimer ?", chooseImg: "Veuillez choisir une image", enterName: "Veuillez entrer le nom", wrongPwd: "Mot de passe incorrect" },
+            ar: { menuEvent: "الحدث", menuServices: "خدماتنا", menuWorks: "أعمالنا", menuPartners: "شركاؤنا", menuContact: "اتصل بنا", registerBtn: "سجل في الحدث الآن", titleServices: "خدماتنا", titleWorks: "أعمالنا", titlePartners: "شركاؤنا", aboutUs: "من نحن", contactUs: "تواصل معنا", privacy: "سياسة الخصوصية", readMore: "اقرأ المزيد", clickToView: "اضغط هنا لرؤية جميع الخدمات", noServices: "لا توجد خدمات حالياً", errorMsg: "حدث خطأ: ", successSave: "تم الحفظ بنجاح", successDel: "تم الحذف بنجاح", sureDel: "هل أنت متأكد من الحذف؟", chooseImg: "يرجى اختيار صورة", enterName: "يرجى إدخال الاسم", wrongPwd: "كلمة المرور خاطئة" }
         };
 
         window.toggleLanguage = function() {
@@ -399,12 +397,13 @@
             el.style.left = `${Math.random() * 100}vw`; el.style.fontSize = `${Math.random() * 20 + 15}px`; el.style.animationDuration = `${Math.random() * 10 + 15}s`; bgContainer.appendChild(el);
         }
 
-        function showToast(msgAr, msgFr, isError = false) {
-            const toast = document.getElementById("toast"); toast.innerText = currentLang === 'ar' ? msgAr : msgFr; toast.className = isError ? "show error" : "show";
+        function showToast(key, isError = false) {
+            const toast = document.getElementById("toast"); 
+            toast.innerText = translations[currentLang][key] || key; 
+            toast.className = isError ? "show error" : "show";
             setTimeout(() => { toast.className = toast.className.replace("show", "").replace("error", ""); }, 4000);
         }
 
-        // --- تقنية تحويل الصورة إلى Base64 مباشر (مضادة للتشنج نهائياً) ---
         function compressImageToBase64(file) {
             return new Promise((resolve) => {
                 if (!file) { resolve(""); return; }
@@ -414,14 +413,14 @@
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
                         let width = img.width; let height = img.height;
-                        const MAX_WIDTH = 800; // تصغير العرض لتخفيف الضغط على قواعد البيانات
+                        const MAX_WIDTH = 800; 
                         if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
                         canvas.width = width; canvas.height = height;
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.6)); // ضغط بجودة 60%
+                        resolve(canvas.toDataURL('image/jpeg', 0.6)); 
                     };
-                    img.onerror = () => { resolve(""); }; // إذا فشلت الصورة لن يتجمد
+                    img.onerror = () => { resolve(""); }; 
                     img.src = event.target.result;
                 };
                 reader.onerror = () => { resolve(""); };
@@ -433,18 +432,16 @@
 
         function renderMarqueeAndModal() {
             let srvs = siteData.services || [];
-            
-            // تحديث نافذة المودال بقائمة الخدمات
             const modalList = document.getElementById('services-full-list');
+            
             if(srvs.length === 0) {
-                modalList.innerHTML = `<li><i class="fas fa-info-circle"></i> ${currentLang === 'ar' ? 'لا توجد خدمات حالياً' : 'Aucun service pour le moment'}</li>`;
+                modalList.innerHTML = `<li><i class="fas fa-info-circle"></i> ${translations[currentLang].noServices}</li>`;
                 document.getElementById('mq-row1').innerHTML = ''; document.getElementById('mq-row2').innerHTML = '';
                 return;
             }
 
             modalList.innerHTML = srvs.map(s => `<li><i class="fas fa-check-circle"></i> ${currentLang === 'ar' ? s.title_ar : s.title_fr}</li>`).join('');
 
-            // تحديث الشريط المتحرك
             const half = Math.ceil(srvs.length / 2);
             const r1 = srvs.slice(0, half);
             const r2 = srvs.slice(half);
@@ -496,7 +493,6 @@
         }
         window.closeBlogModal = function() { document.getElementById('blog-modal').style.display = 'none'; }
 
-        // --- الاتصال المباشر بالسيرفر ---
         function initFirebaseListeners() {
             onSnapshot(collection(db, "banners"), (snap) => { 
                 let b = snap.docs.map(d => ({id: d.id, ...d.data()})); b.sort((x, y) => (x.timestamp || 0) - (y.timestamp || 0)); 
@@ -527,7 +523,7 @@
         window.checkAdmin = async function() {
             if(btoa(document.getElementById('admin-pwd').value) === "YmVsbGEyMDI2") { 
                 document.getElementById('login-section').style.display = 'none'; document.getElementById('dashboard-layout').style.display = 'flex'; fillAdminInputs();
-            } else { showToast("كلمة المرور خاطئة", "Mot de passe incorrect", true); }
+            } else { showToast("wrongPwd", true); }
         }
 
         function fillAdminInputs() {
@@ -536,32 +532,17 @@
             document.getElementById('ad-fb').value = s.fb || ''; document.getElementById('ad-ig').value = s.ig || '';
             document.getElementById('ad-map').value = s.map || ''; document.getElementById('ad-about-fr').value = s.about_fr || ''; document.getElementById('ad-about-ar').value = s.about_ar || '';
             
-            document.getElementById('list-banners').innerHTML = (siteData.banners||[]).map(b => `<div class="list-item"><div class="list-item-info"><img src="${b.img||''}">${b.title_fr||'بدون عنوان'}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('banner','${b.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('banners','${b.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
-            
-            // أرشيف الخدمات (نصوص فقط)
+            document.getElementById('list-banners').innerHTML = (siteData.banners||[]).map(b => `<div class="list-item"><div class="list-item-info"><img src="${b.img||''}">${b.title_fr||''}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('banner','${b.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('banners','${b.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
             document.getElementById('list-services').innerHTML = (siteData.services||[]).map(s => `<div class="list-item"><div class="list-item-info"><i class="fas fa-check" style="margin: 0 10px; color:var(--primary);"></i> ${s.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('service','${s.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('services','${s.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
-            
             document.getElementById('list-works').innerHTML = (siteData.works||[]).map(w => `<div class="list-item"><div class="list-item-info"><img src="${w.img}">${w.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('work','${w.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('works','${w.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
             document.getElementById('list-partners').innerHTML = (siteData.partners||[]).map(p => `<div class="list-item"><div class="list-item-info"><img src="${p.img}"></div><div class="list-actions"><button class="btn-delete" onclick="deleteItem('partners','${p.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
         }
 
-        // --- نظام حماية الزر (تم تقليل التايم اوت وإزالة التنبيه المزعج) ---
         function setBtnLoading(id, state) { 
             const btn = document.getElementById(id);
             if(!btn) return;
             btn.disabled = state; 
-            btn.innerText = state ? "En cours... / جاري التحميل..." : "Enregistrer / حفظ"; 
-            
-            if (state) {
-                window['timeout_' + id] = setTimeout(() => {
-                    if(btn.disabled) {
-                        btn.disabled = false; btn.innerText = "Enregistrer / حفظ";
-                        alert("حدث خطأ في الاتصال بقاعدة البيانات. تأكد من الإنترنت أو صلاحيات Firestore.");
-                    }
-                }, 15000);
-            } else {
-                clearTimeout(window['timeout_' + id]);
-            }
+            btn.innerText = state ? (currentLang === 'ar' ? "جاري التحميل..." : "En cours...") : (currentLang === 'ar' ? "حفظ" : "Enregistrer"); 
         }
 
         window.saveBanner = async function() {
@@ -572,7 +553,7 @@
                 let imgUrl = existing ? existing.img : "";
                 const file = document.getElementById('ad-b-img').files[0];
                 
-                if(file) { imgUrl = await compressImageToBase64(file); } // استخدام الدالة الجديدة
+                if(file) { imgUrl = await compressImageToBase64(file); }
                 
                 const data = { 
                     img: imgUrl || "", title_fr: document.getElementById('ad-b-title-fr').value || "", title_ar: document.getElementById('ad-b-title-ar').value || "", 
@@ -582,22 +563,19 @@
                 };
                 
                 if(id) await updateDoc(doc(db, "banners", id), data); else await addDoc(collection(db, "banners"), data);
-                showToast("تم الحفظ بنجاح", "Enregistré avec succès"); resetForm('banner'); setBtnLoading("btn-save-banner", false);
-            } catch (error) { setBtnLoading("btn-save-banner", false); alert("خطأ: " + error.message); } 
+                showToast("successSave"); resetForm('banner');
+            } catch (error) { alert(translations[currentLang].errorMsg + error.message); } finally { setBtnLoading("btn-save-banner", false); } 
         }
 
-        // حفظ الخدمة (نصوص فقط بدون صورة)
         window.saveService = async function() {
             setBtnLoading("btn-save-service", true);
             try {
                 const id = document.getElementById('ad-s-id').value;
                 const data = { title_fr: document.getElementById('ad-s-title-fr').value, title_ar: document.getElementById('ad-s-title-ar').value };
-                
-                if(!data.title_fr && !data.title_ar) { showToast("أدخل اسم الخدمة", "Entrez le nom", true); setBtnLoading("btn-save-service", false); return;}
-
+                if(!data.title_fr && !data.title_ar) { showToast("enterName", true); setBtnLoading("btn-save-service", false); return;}
                 if(id) await updateDoc(doc(db, "services", id), data); else await addDoc(collection(db, "services"), data);
-                showToast("تم حفظ الخدمة", "Service enregistré"); resetForm('service'); setBtnLoading("btn-save-service", false);
-            } catch (error) { setBtnLoading("btn-save-service", false); alert("خطأ: " + error.message); } 
+                showToast("successSave"); resetForm('service'); 
+            } catch (error) { alert(translations[currentLang].errorMsg + error.message); } finally { setBtnLoading("btn-save-service", false); } 
         }
 
         window.saveWork = async function() {
@@ -609,12 +587,12 @@
                 const file = document.getElementById('ad-w-img').files[0];
                 
                 if(file) { imgUrl = await compressImageToBase64(file); }
-                if(!imgUrl && !id) { showToast("أضف صورة للعمل", "Ajoutez une image", true); setBtnLoading("btn-save-work", false); return; }
+                if(!imgUrl && !id) { showToast("chooseImg", true); setBtnLoading("btn-save-work", false); return; }
 
                 const data = { img: imgUrl, title_fr: document.getElementById('ad-w-title-fr').value, title_ar: document.getElementById('ad-w-title-ar').value, desc_fr: document.getElementById('ad-w-desc-fr').value, desc_ar: document.getElementById('ad-w-desc-ar').value };
                 if(id) await updateDoc(doc(db, "works", id), data); else await addDoc(collection(db, "works"), data);
-                showToast("تم الحفظ", "Réalisation enregistrée"); resetForm('work'); setBtnLoading("btn-save-work", false);
-            } catch (error) { setBtnLoading("btn-save-work", false); alert("خطأ: " + error.message); } 
+                showToast("successSave"); resetForm('work'); 
+            } catch (error) { alert(translations[currentLang].errorMsg + error.message); } finally { setBtnLoading("btn-save-work", false); } 
         }
 
         window.addPartner = async function() {
@@ -624,46 +602,47 @@
                 if(file) {
                     const imgUrl = await compressImageToBase64(file);
                     await addDoc(collection(db, "partners"), { img: imgUrl });
-                    showToast("تم إضافة الشريك", "Partenaire ajouté"); document.getElementById('ad-p-img').value = '';
-                } else { showToast("اختر صورة", "Choisissez un logo", true); }
-                setBtnLoading("btn-save-partner", false);
-            } catch (error) { setBtnLoading("btn-save-partner", false); alert("خطأ: " + error.message); } 
+                    showToast("successSave"); document.getElementById('ad-p-img').value = '';
+                } else { showToast("chooseImg", true); }
+            } catch (error) { alert(translations[currentLang].errorMsg + error.message); } finally { setBtnLoading("btn-save-partner", false); } 
         }
 
         window.saveSettings = async function() {
             setBtnLoading("btn-save-settings", true);
             try {
                 const data = { email: document.getElementById('ad-email').value, phone: document.getElementById('ad-phone').value, fb: document.getElementById('ad-fb').value, ig: document.getElementById('ad-ig').value, map: document.getElementById('ad-map').value, about_fr: document.getElementById('ad-about-fr').value, about_ar: document.getElementById('ad-about-ar').value };
-                await setDoc(doc(db, "site", "settings"), data); showToast("تم حفظ الإعدادات", "Paramètres enregistrés"); setBtnLoading("btn-save-settings", false);
-            } catch (error) { setBtnLoading("btn-save-settings", false); alert("خطأ: " + error.message); } 
+                await setDoc(doc(db, "site", "settings"), data); showToast("successSave"); 
+            } catch (error) { alert(translations[currentLang].errorMsg + error.message); } finally { setBtnLoading("btn-save-settings", false); } 
         }
 
         window.editItem = function(type, id) {
+            let btnText = currentLang === 'ar' ? "تحديث" : "Mettre à jour";
             if(type === 'banner') {
                 const b = siteData.banners.find(x => x.id === id); document.getElementById('ad-b-id').value = b.id;
                 document.getElementById('ad-b-title-fr').value = b.title_fr; document.getElementById('ad-b-title-ar').value = b.title_ar; document.getElementById('ad-b-loc-fr').value = b.loc_fr; document.getElementById('ad-b-loc-ar').value = b.loc_ar; document.getElementById('ad-b-date').value = b.date; document.getElementById('ad-b-link').value = b.link;
-                document.getElementById('btn-save-banner').innerText = "Mettre à jour / تحديث الحدث"; window.location.hash = "#ad-b-title-fr";
+                document.getElementById('btn-save-banner').innerText = btnText; window.location.hash = "#ad-b-title-fr";
             } else if(type === 'service') {
                 const s = siteData.services.find(x => x.id === id); document.getElementById('ad-s-id').value = s.id;
                 document.getElementById('ad-s-title-fr').value = s.title_fr; document.getElementById('ad-s-title-ar').value = s.title_ar;
-                document.getElementById('btn-save-service').innerText = "Mettre à jour / تحديث الخدمة"; window.location.hash = "#ad-s-title-fr";
+                document.getElementById('btn-save-service').innerText = btnText; window.location.hash = "#ad-s-title-fr";
             } else if (type === 'work') {
                 const w = siteData.works.find(x => x.id === id); document.getElementById('ad-w-id').value = w.id;
                 document.getElementById('ad-w-title-fr').value = w.title_fr; document.getElementById('ad-w-title-ar').value = w.title_ar; document.getElementById('ad-w-desc-fr').value = w.desc_fr; document.getElementById('ad-w-desc-ar').value = w.desc_ar;
-                document.getElementById('btn-save-work').innerText = "Mettre à jour / تحديث العمل"; window.location.hash = "#ad-w-title-fr";
+                document.getElementById('btn-save-work').innerText = btnText; window.location.hash = "#ad-w-title-fr";
             }
         }
 
         window.resetForm = function(type) {
-            if(type === 'banner') { document.getElementById('ad-b-id').value=''; document.getElementById('ad-b-img').value=''; document.getElementById('ad-b-title-fr').value=''; document.getElementById('ad-b-title-ar').value=''; document.getElementById('ad-b-loc-fr').value=''; document.getElementById('ad-b-loc-ar').value=''; document.getElementById('ad-b-date').value=''; document.getElementById('ad-b-link').value=''; document.getElementById('btn-save-banner').innerText="Ajouter l'événement / إضافة الحدث"; }
-            if(type === 'service') { document.getElementById('ad-s-id').value=''; document.getElementById('ad-s-title-fr').value=''; document.getElementById('ad-s-title-ar').value=''; document.getElementById('btn-save-service').innerText="Ajouter / إضافة الخدمة"; }
-            if(type === 'work') { document.getElementById('ad-w-id').value=''; document.getElementById('ad-w-img').value=''; document.getElementById('ad-w-title-fr').value=''; document.getElementById('ad-w-title-ar').value=''; document.getElementById('ad-w-desc-fr').value=''; document.getElementById('ad-w-desc-ar').value=''; document.getElementById('btn-save-work').innerText="Ajouter / إضافة العمل"; }
+            let btnText = currentLang === 'ar' ? "إضافة" : "Ajouter";
+            if(type === 'banner') { document.getElementById('ad-b-id').value=''; document.getElementById('ad-b-img').value=''; document.getElementById('ad-b-title-fr').value=''; document.getElementById('ad-b-title-ar').value=''; document.getElementById('ad-b-loc-fr').value=''; document.getElementById('ad-b-loc-ar').value=''; document.getElementById('ad-b-date').value=''; document.getElementById('ad-b-link').value=''; document.getElementById('btn-save-banner').innerText=btnText; }
+            if(type === 'service') { document.getElementById('ad-s-id').value=''; document.getElementById('ad-s-title-fr').value=''; document.getElementById('ad-s-title-ar').value=''; document.getElementById('btn-save-service').innerText=btnText; }
+            if(type === 'work') { document.getElementById('ad-w-id').value=''; document.getElementById('ad-w-img').value=''; document.getElementById('ad-w-title-fr').value=''; document.getElementById('ad-w-title-ar').value=''; document.getElementById('ad-w-desc-fr').value=''; document.getElementById('ad-w-desc-ar').value=''; document.getElementById('btn-save-work').innerText=btnText; }
         }
 
         window.deleteItem = async function(col, id) {
-            if(confirm("هل أنت متأكد من الحذف؟ / Êtes-vous sûr de vouloir supprimer ?")) {
-                try { await deleteDoc(doc(db, col, id)); showToast("تم الحذف", "Élément supprimé"); } 
-                catch(error) { alert("خطأ: \n" + error.message); }
+            if(confirm(translations[currentLang].sureDel)) {
+                try { await deleteDoc(doc(db, col, id)); showToast("successDel"); } 
+                catch(error) { alert(translations[currentLang].errorMsg + error.message); }
             }
         }
     </script>
