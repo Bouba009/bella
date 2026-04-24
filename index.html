@@ -14,6 +14,40 @@
         body { font-family: 'Poppins', 'Cairo', sans-serif; background-color: var(--bg); color: var(--text); overflow-x: hidden; }
         html[dir="rtl"] body { font-family: 'Cairo', sans-serif; }
 
+        /* --- شاشة التحميل (Preloader) --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--white);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .preloader-text {
+            color: var(--primary);
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            animation: pulseText 1s infinite alternate;
+            font-weight: bold;
+        }
+        .preloader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulseText { 0% { transform: scale(0.9); opacity: 0.7; } 100% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 10px rgba(90, 45, 130, 0.3); } }
+
         #bg-animation { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; overflow: hidden; }
         .floating-icon { position: absolute; color: var(--primary); opacity: 0.1; animation: floatUp linear infinite; }
         @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); } 100% { transform: translateY(-20vh) rotate(360deg); } }
@@ -166,6 +200,12 @@
 </head>
 <body>
 
+    <!-- شاشة التحميل -->
+    <div id="preloader">
+        <h1 class="preloader-text">Bella Skills</h1>
+        <div class="preloader-spinner"></div>
+    </div>
+
     <div id="bg-animation"></div>
     <div id="toast"></div>
 
@@ -238,7 +278,7 @@
                 </div>
                 <div class="map-container" id="f-map"></div>
             </div>
-            <p class="copy">© 2026 Bella Skills. <a href="#" id="f-privacy" data-i18n="privacy">Politique de confidentialité</a></p>
+            <p class="copy">© 2024 Bella Skills. <a href="#" id="f-privacy" data-i18n="privacy">Politique de confidentialité</a></p>
         </footer>
         <a href="https://wa.me/213559066605" class="fab-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
     </div>
@@ -388,6 +428,16 @@
         const db = getFirestore(app);
 
         let currentLang = 'fr';
+
+        // إخفاء شاشة التحميل بعد ثانية واحدة (1000 ملي ثانية)
+        setTimeout(() => {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+                setTimeout(() => { preloader.style.display = 'none'; }, 400); // إزالته تماماً بعد التلاشي
+            }
+        }, 1000);
         
         const translations = {
             fr: { 
