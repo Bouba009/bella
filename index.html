@@ -86,7 +86,6 @@
         .social-links a { color: var(--white); background: var(--primary); width: 40px; height: 40px; display: inline-flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 20px; margin-right: 10px; text-decoration: none; transition: 0.3s; }
         .copy { text-align: center; font-size: 0.9em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
         
-        /* زر اقرأ المزيد في الفوتر */
         .read-more-btn { color: var(--primary); font-weight: bold; cursor: pointer; display: inline-block; margin-top: 5px; transition: 0.3s; }
         .read-more-btn:hover { color: var(--primary-light); text-decoration: underline; }
 
@@ -197,7 +196,8 @@
             <div class="banner-content">
                 <h1 id="b-title">...</h1>
                 <p class="banner-details"><i class="fas fa-map-marker-alt"></i> <span id="b-location">...</span> | <i class="fas fa-calendar-alt"></i> <span id="b-date">...</span></p>
-                <a href="#" id="b-link" class="register-btn" target="_blank" onclick="trackRegistration()" data-i18n="registerBtn">S'inscrire à l'événement</a>
+                <!-- الزر أصبح ديناميكياً يأخذ النص من قاعدة البيانات -->
+                <a href="#" id="b-link" class="register-btn" target="_blank" onclick="trackRegistration()">...</a>
             </div>
         </div>
 
@@ -225,7 +225,6 @@
             <div class="footer-grid">
                 <div>
                     <h3 data-i18n="aboutUs" style="color:var(--primary); margin-bottom:15px;">Qui sommes-nous</h3>
-                    <!-- قسم من نحن مع زر قراءة المزيد -->
                     <p id="f-about" style="font-size: 0.95em; color:#555; line-height: 1.8;"></p>
                 </div>
                 <div>
@@ -305,6 +304,12 @@
                         <div class="form-group"><input type="text" id="ad-b-loc-ar" placeholder="Lieu (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-date" placeholder="Date (FR / AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-link" placeholder="Lien (URL)"></div>
+                        
+                        <!-- إضافة حقول نص الزر هنا -->
+                        <div class="form-group" style="margin-top:20px;"><label data-i18n="lblBtnText">Texte du bouton / نص الزر</label></div>
+                        <div class="form-group"><input type="text" id="ad-b-btn-fr" placeholder="Texte du bouton (FR) - ex: S'inscrire à l'événement"></div>
+                        <div class="form-group"><input type="text" id="ad-b-btn-ar" placeholder="نص الزر (AR) - مثال: التسجيل في الحدث"></div>
+                        
                         <button class="btn-save" id="btn-save-banner" onclick="saveBanner()" data-i18n="btnSave">Ajouter</button>
                     </div>
                     <div class="archive-section"><h3 class="archive-title" data-i18n="archive">Archive</h3><div id="list-banners"></div></div>
@@ -350,12 +355,10 @@
                     <div class="form-card">
                         <div class="form-group"><label data-i18n="lblContact">Contact</label><input type="text" id="ad-email" placeholder="Email"><input type="text" id="ad-phone" placeholder="Téléphone / Phone" style="margin-top:10px;"></div>
                         <div class="form-group"><label data-i18n="lblSocial">Réseaux Sociaux</label><input type="text" id="ad-fb" placeholder="Facebook (URL)"><input type="text" id="ad-ig" placeholder="Instagram (URL)" style="margin-top:10px;"></div>
-                        
                         <div class="form-group">
                             <label data-i18n="lblMap">Localisation (Code Iframe)</label>
                             <textarea id="ad-map" placeholder='<iframe src="https://www.google.com/maps/embed?pb=..."></iframe>'></textarea>
                         </div>
-
                         <div class="form-group"><label data-i18n="lblAbout">À propos</label><textarea id="ad-about-fr" placeholder="Texte (FR)"></textarea><textarea id="ad-about-ar" placeholder="Texte (AR)" style="margin-top:10px;"></textarea></div>
                         <button class="btn-save" id="btn-save-settings" onclick="saveSettings()" data-i18n="btnSave">Enregistrer</button>
                     </div>
@@ -386,15 +389,14 @@
 
         let currentLang = 'fr';
         
-        // نظام الترجمة الشامل
         const translations = {
             fr: { 
-                menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", registerBtn: "S'inscrire à l'événement", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite", readLess: "Réduire", clickToView: "Cliquez pour voir tous les services", noServices: "Aucun service pour le moment", errorMsg: "Une erreur s'est produite : ", successSave: "Enregistré avec succès", successDel: "Élément supprimé", sureDel: "Êtes-vous sûr de vouloir supprimer ?", chooseImg: "Veuillez choisir une image", enterName: "Veuillez entrer le nom", wrongPwd: "Mot de passe incorrect",
-                adminLogin: "Connexion Admin", enterBtn: "Entrer", navDash: "Tableau de bord", navEvent: "L'événement", navServices: "Services", navWorks: "Réalisations", navPartners: "Partenaires", navSettings: "Paramètres", navLogout: "Quitter", dashTitle: "Statistiques du site", statToday: "Visites (Aujourd'hui)", statMonth: "Visites (Ce Mois)", statReg: "Clics Inscription", btnNew: "Nouveau +", lblBgImg: "Image de fond (Optionnelle)", btnSave: "Enregistrer", archive: "Archive", lblSrvName: "Nom du service", lblImg: "Image", lblLogo: "Logo", lblContact: "Contact", lblSocial: "Réseaux Sociaux", lblMap: "Localisation (Code Iframe de Google Maps)", lblAbout: "À propos", btnUpdate: "Mettre à jour", btnLoading: "En cours..."
+                menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite", readLess: "Réduire", clickToView: "Cliquez pour voir tous les services", noServices: "Aucun service pour le moment", errorMsg: "Une erreur s'est produite : ", successSave: "Enregistré avec succès", successDel: "Élément supprimé", sureDel: "Êtes-vous sûr de vouloir supprimer ?", chooseImg: "Veuillez choisir une image", enterName: "Veuillez entrer le nom", wrongPwd: "Mot de passe incorrect",
+                adminLogin: "Connexion Admin", enterBtn: "Entrer", navDash: "Tableau de bord", navEvent: "L'événement", navServices: "Services", navWorks: "Réalisations", navPartners: "Partenaires", navSettings: "Paramètres", navLogout: "Quitter", dashTitle: "Statistiques du site", statToday: "Visites (Aujourd'hui)", statMonth: "Visites (Ce Mois)", statReg: "Clics Inscription", btnNew: "Nouveau +", lblBgImg: "Image de fond (Optionnelle)", btnSave: "Enregistrer", archive: "Archive", lblSrvName: "Nom du service", lblImg: "Image", lblLogo: "Logo", lblContact: "Contact", lblSocial: "Réseaux Sociaux", lblMap: "Localisation (Code Iframe de Google Maps)", lblAbout: "À propos", lblBtnText: "Texte du bouton", btnUpdate: "Mettre à jour", btnLoading: "En cours..."
             },
             ar: { 
-                menuEvent: "الحدث", menuServices: "خدماتنا", menuWorks: "أعمالنا", menuPartners: "شركاؤنا", menuContact: "اتصل بنا", registerBtn: "سجل في الحدث الآن", titleServices: "خدماتنا", titleWorks: "أعمالنا", titlePartners: "شركاؤنا", aboutUs: "من نحن", contactUs: "تواصل معنا", privacy: "سياسة الخصوصية", readMore: "اقرأ المزيد", readLess: "إخفاء النص", clickToView: "اضغط هنا لرؤية جميع الخدمات", noServices: "لا توجد خدمات حالياً", errorMsg: "حدث خطأ: ", successSave: "تم الحفظ بنجاح", successDel: "تم الحذف بنجاح", sureDel: "هل أنت متأكد من الحذف؟", chooseImg: "يرجى اختيار صورة", enterName: "يرجى إدخال الاسم", wrongPwd: "كلمة المرور خاطئة",
-                adminLogin: "تسجيل دخول الإدارة", enterBtn: "دخول", navDash: "لوحة القيادة", navEvent: "الحدث", navServices: "الخدمات", navWorks: "الأعمال", navPartners: "الشركاء", navSettings: "الإعدادات", navLogout: "خروج", dashTitle: "إحصائيات الموقع", statToday: "زيارات اليوم", statMonth: "زيارات هذا الشهر", statReg: "نقرات التسجيل", btnNew: "جديد +", lblBgImg: "صورة الخلفية (اختياري)", btnSave: "حفظ", archive: "الأرشيف", lblSrvName: "اسم الخدمة", lblImg: "الصورة", lblLogo: "الشعار", lblContact: "معلومات الاتصال", lblSocial: "التواصل الاجتماعي", lblMap: "خريطة جوجل (الصق كود Iframe)", lblAbout: "من نحن", btnUpdate: "تحديث", btnLoading: "جاري التحميل..."
+                menuEvent: "الحدث", menuServices: "خدماتنا", menuWorks: "أعمالنا", menuPartners: "شركاؤنا", menuContact: "اتصل بنا", titleServices: "خدماتنا", titleWorks: "أعمالنا", titlePartners: "شركاؤنا", aboutUs: "من نحن", contactUs: "تواصل معنا", privacy: "سياسة الخصوصية", readMore: "اقرأ المزيد", readLess: "إخفاء النص", clickToView: "اضغط هنا لرؤية جميع الخدمات", noServices: "لا توجد خدمات حالياً", errorMsg: "حدث خطأ: ", successSave: "تم الحفظ بنجاح", successDel: "تم الحذف بنجاح", sureDel: "هل أنت متأكد من الحذف؟", chooseImg: "يرجى اختيار صورة", enterName: "يرجى إدخال الاسم", wrongPwd: "كلمة المرور خاطئة",
+                adminLogin: "تسجيل دخول الإدارة", enterBtn: "دخول", navDash: "لوحة القيادة", navEvent: "الحدث", navServices: "الخدمات", navWorks: "الأعمال", navPartners: "الشركاء", navSettings: "الإعدادات", navLogout: "خروج", dashTitle: "إحصائيات الموقع", statToday: "زيارات اليوم", statMonth: "زيارات هذا الشهر", statReg: "نقرات التسجيل", btnNew: "جديد +", lblBgImg: "صورة الخلفية (اختياري)", btnSave: "حفظ", archive: "الأرشيف", lblSrvName: "اسم الخدمة", lblImg: "الصورة", lblLogo: "الشعار", lblContact: "معلومات الاتصال", lblSocial: "التواصل الاجتماعي", lblMap: "خريطة جوجل (الصق كود Iframe)", lblAbout: "من نحن", lblBtnText: "نص الزر", btnUpdate: "تحديث", btnLoading: "جاري التحميل..."
             }
         };
 
@@ -478,11 +480,9 @@
         window.openServicesModal = function() { document.getElementById('all-services-modal').style.display = 'flex'; }
         window.closeServicesModal = function() { document.getElementById('all-services-modal').style.display = 'none'; }
 
-        // دالة عرض وإخفاء النص الطويل في قسم من نحن
         window.toggleAboutText = function() {
             const contentSpan = document.getElementById('about-text-content');
             const btn = document.getElementById('about-toggle-btn');
-            
             if(contentSpan.getAttribute('data-state') === 'short') {
                 contentSpan.innerText = decodeURIComponent(contentSpan.getAttribute('data-full')) + ' ';
                 contentSpan.setAttribute('data-state', 'full');
@@ -505,6 +505,11 @@
                     document.getElementById('b-title').innerText = currentLang === 'ar' ? (b.title_ar||'') : (b.title_fr||'');
                     document.getElementById('b-location').innerText = currentLang === 'ar' ? (b.loc_ar||'') : (b.loc_fr||'');
                     document.getElementById('b-date').innerText = b.date || ''; document.getElementById('b-link').href = b.link || '#';
+                    
+                    // تحديد نص الزر برمجياً حسب الإدخال أو النص الافتراضي
+                    let defaultBtnText = currentLang === 'ar' ? "التسجيل" : "S'inscrire";
+                    document.getElementById('b-link').innerText = currentLang === 'ar' ? (b.btn_ar || defaultBtnText) : (b.btn_fr || defaultBtnText);
+
                     if(b.img) { document.getElementById('b-bg').src = b.img; document.getElementById('b-bg').style.display = 'block'; }
                 }
             } else {
@@ -513,30 +518,21 @@
 
             const s = siteData.settings || {};
             if(s.email || s.about_fr) {
-                // إعداد نص من نحن مع ميزة القص (Read More)
                 let fullText = currentLang === 'ar' ? (s.about_ar || '') : (s.about_fr || '');
                 const aboutContainer = document.getElementById('f-about');
-                
                 if (fullText.length > 120) {
                     let shortText = fullText.substring(0, 120) + '... ';
                     aboutContainer.innerHTML = `<span id="about-text-content" data-full="${encodeURIComponent(fullText)}" data-short="${encodeURIComponent(shortText)}" data-state="short">${shortText}</span>
                                                 <span id="about-toggle-btn" class="read-more-btn" onclick="toggleAboutText()">${translations[currentLang].readMore}</span>`;
-                } else {
-                    aboutContainer.innerText = fullText;
-                }
+                } else { aboutContainer.innerText = fullText; }
 
                 document.getElementById('f-email').innerText = s.email || ''; document.getElementById('f-phone').innerText = s.phone || '';
                 document.getElementById('f-fb').href = s.fb || '#'; document.getElementById('f-ig').href = s.ig || '#';
                 
-                // إصلاح الخريطة (تقبل Iframe أو تحاول تحويل الرابط العادي)
                 if(s.map) {
                     let mapData = s.map.trim();
-                    if(mapData.includes('<iframe')) {
-                        document.getElementById('f-map').innerHTML = mapData;
-                    } else if (mapData.startsWith("http")) {
-                        // إذا أخطأ المستخدم ووضع رابط عادي، نضعه في Iframe ولكن جوجل قد تمنع ظهوره
-                        document.getElementById('f-map').innerHTML = `<iframe src="${mapData}" allowfullscreen="" loading="lazy"></iframe>`;
-                    }
+                    if(mapData.includes('<iframe')) { document.getElementById('f-map').innerHTML = mapData; } 
+                    else if (mapData.startsWith("http")) { document.getElementById('f-map').innerHTML = `<iframe src="${mapData}" allowfullscreen="" loading="lazy"></iframe>`; }
                 } else { document.getElementById('f-map').innerHTML = ''; }
             }
 
@@ -595,8 +591,6 @@
                 document.getElementById('login-section').style.display = 'none'; 
                 document.getElementById('dashboard-layout').style.display = 'flex'; 
                 fillAdminInputs();
-
-                // الاستماع اللحظي (Real-time) للإحصائيات
                 onSnapshot(doc(db, "stats", "day_" + todayStr), (doc) => { document.getElementById('stat-day').innerText = doc.exists() ? doc.data().count : 0; });
                 onSnapshot(doc(db, "stats", "month_" + monthStr), (doc) => { document.getElementById('stat-month').innerText = doc.exists() ? doc.data().count : 0; });
                 onSnapshot(doc(db, "stats", "registrations"), (doc) => { document.getElementById('stat-reg').innerText = doc.exists() ? doc.data().count : 0; });
@@ -640,6 +634,7 @@
                     img: imgUrl || "", title_fr: document.getElementById('ad-b-title-fr').value || "", title_ar: document.getElementById('ad-b-title-ar').value || "", 
                     loc_fr: document.getElementById('ad-b-loc-fr').value || "", loc_ar: document.getElementById('ad-b-loc-ar').value || "", 
                     date: document.getElementById('ad-b-date').value || "", link: document.getElementById('ad-b-link').value || "",
+                    btn_fr: document.getElementById('ad-b-btn-fr').value || "", btn_ar: document.getElementById('ad-b-btn-ar').value || "",
                     timestamp: (existing && existing.timestamp) ? existing.timestamp : Date.now() 
                 };
                 
@@ -701,6 +696,7 @@
             if(type === 'banner') {
                 const b = siteData.banners.find(x => x.id === id); document.getElementById('ad-b-id').value = b.id;
                 document.getElementById('ad-b-title-fr').value = b.title_fr; document.getElementById('ad-b-title-ar').value = b.title_ar; document.getElementById('ad-b-loc-fr').value = b.loc_fr; document.getElementById('ad-b-loc-ar').value = b.loc_ar; document.getElementById('ad-b-date').value = b.date; document.getElementById('ad-b-link').value = b.link;
+                document.getElementById('ad-b-btn-fr').value = b.btn_fr || ''; document.getElementById('ad-b-btn-ar').value = b.btn_ar || '';
                 const btn = document.getElementById('btn-save-banner'); btn.innerText = btnText; btn.setAttribute('data-edit-mode', 'true'); window.location.hash = "#ad-b-title-fr";
             } else if(type === 'service') {
                 const s = siteData.services.find(x => x.id === id); document.getElementById('ad-s-id').value = s.id;
@@ -715,7 +711,7 @@
 
         window.resetForm = function(type) {
             let btnText = translations[currentLang].btnSave;
-            if(type === 'banner') { document.getElementById('ad-b-id').value=''; document.getElementById('ad-b-img').value=''; document.getElementById('ad-b-title-fr').value=''; document.getElementById('ad-b-title-ar').value=''; document.getElementById('ad-b-loc-fr').value=''; document.getElementById('ad-b-loc-ar').value=''; document.getElementById('ad-b-date').value=''; document.getElementById('ad-b-link').value=''; const btn = document.getElementById('btn-save-banner'); btn.innerText=btnText; btn.removeAttribute('data-edit-mode'); }
+            if(type === 'banner') { document.getElementById('ad-b-id').value=''; document.getElementById('ad-b-img').value=''; document.getElementById('ad-b-title-fr').value=''; document.getElementById('ad-b-title-ar').value=''; document.getElementById('ad-b-loc-fr').value=''; document.getElementById('ad-b-loc-ar').value=''; document.getElementById('ad-b-date').value=''; document.getElementById('ad-b-link').value=''; document.getElementById('ad-b-btn-fr').value=''; document.getElementById('ad-b-btn-ar').value=''; const btn = document.getElementById('btn-save-banner'); btn.innerText=btnText; btn.removeAttribute('data-edit-mode'); }
             if(type === 'service') { document.getElementById('ad-s-id').value=''; document.getElementById('ad-s-title-fr').value=''; document.getElementById('ad-s-title-ar').value=''; const btn = document.getElementById('btn-save-service'); btn.innerText=btnText; btn.removeAttribute('data-edit-mode');}
             if(type === 'work') { document.getElementById('ad-w-id').value=''; document.getElementById('ad-w-img').value=''; document.getElementById('ad-w-title-fr').value=''; document.getElementById('ad-w-title-ar').value=''; document.getElementById('ad-w-desc-fr').value=''; document.getElementById('ad-w-desc-ar').value=''; const btn = document.getElementById('btn-save-work'); btn.innerText=btnText; btn.removeAttribute('data-edit-mode');}
         }
