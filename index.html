@@ -77,10 +77,13 @@
         .partners-container img { height: 70px; transition: all 0.3s ease; opacity: 0.9; }
         .partners-container img:hover { opacity: 1; transform: scale(1.1); }
 
-        /* --- الفوتر --- */
+        /* --- الفوتر والخريطة --- */
         footer { background: var(--white); padding: 50px 5% 20px; margin-top: 40px; border-top: 4px solid var(--primary); }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 30px; }
-        .map-container iframe { width: 100%; height: 200px; border: none; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
+        /* جعل الخريطة متجاوبة بالكامل */
+        .map-container iframe { width: 100% !important; height: 200px !important; border: none !important; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
         .social-links a { color: var(--white); background: var(--primary); width: 40px; height: 40px; display: inline-flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 20px; margin-right: 10px; text-decoration: none; transition: 0.3s; }
         .copy { text-align: center; font-size: 0.9em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
 
@@ -293,9 +296,9 @@
                         <input type="hidden" id="ad-b-id">
                         <div class="form-group"><label data-i18n="lblBgImg">Image de fond (Optionnelle)</label><input type="file" id="ad-b-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-fr" placeholder="Titre (FR)"></div>
-                        <div class="form-group"><input type="text" id="ad-b-title-ar" placeholder="العنوان (AR)"></div>
+                        <div class="form-group"><input type="text" id="ad-b-title-ar" placeholder="Titre (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-fr" placeholder="Lieu (FR)"></div>
-                        <div class="form-group"><input type="text" id="ad-b-loc-ar" placeholder="المكان (AR)"></div>
+                        <div class="form-group"><input type="text" id="ad-b-loc-ar" placeholder="Lieu (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-date" placeholder="Date (FR / AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-link" placeholder="Lien (URL)"></div>
                         <button class="btn-save" id="btn-save-banner" onclick="saveBanner()" data-i18n="btnSave">Ajouter</button>
@@ -309,7 +312,7 @@
                         <input type="hidden" id="ad-s-id">
                         <div class="form-group"><label data-i18n="lblSrvName">Nom du service</label></div>
                         <div class="form-group"><input type="text" id="ad-s-title-fr" placeholder="Titre (FR)"></div>
-                        <div class="form-group"><input type="text" id="ad-s-title-ar" placeholder="العنوان (AR)"></div>
+                        <div class="form-group"><input type="text" id="ad-s-title-ar" placeholder="Titre (AR)"></div>
                         <button class="btn-save" id="btn-save-service" onclick="saveService()" data-i18n="btnSave">Ajouter</button>
                     </div>
                     <div class="archive-section"><h3 class="archive-title" data-i18n="archive">Archive</h3><div id="list-services"></div></div>
@@ -321,9 +324,9 @@
                         <input type="hidden" id="ad-w-id">
                         <div class="form-group"><label data-i18n="lblImg">Image</label><input type="file" id="ad-w-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-fr" placeholder="Titre (FR)"></div>
-                        <div class="form-group"><input type="text" id="ad-w-title-ar" placeholder="العنوان (AR)"></div>
+                        <div class="form-group"><input type="text" id="ad-w-title-ar" placeholder="Titre (AR)"></div>
                         <div class="form-group"><textarea id="ad-w-desc-fr" placeholder="Texte complet (FR)"></textarea></div>
-                        <div class="form-group"><textarea id="ad-w-desc-ar" placeholder="النص الكامل (AR)"></textarea></div>
+                        <div class="form-group"><textarea id="ad-w-desc-ar" placeholder="Texte complet (AR)"></textarea></div>
                         <button class="btn-save" id="btn-save-work" onclick="saveWork()" data-i18n="btnSave">Ajouter</button>
                     </div>
                     <div class="archive-section"><h3 class="archive-title" data-i18n="archive">Archive</h3><div id="list-works"></div></div>
@@ -341,10 +344,10 @@
                 <div id="sec-settings" class="admin-sec">
                     <h2 class="sec-header"><i class="fas fa-cogs"></i> <span data-i18n="navSettings">Paramètres</span></h2>
                     <div class="form-card">
-                        <div class="form-group"><label data-i18n="lblContact">Contact</label><input type="text" id="ad-email" placeholder="Email"><input type="text" id="ad-phone" placeholder="Téléphone" style="margin-top:10px;"></div>
+                        <div class="form-group"><label data-i18n="lblContact">Contact</label><input type="text" id="ad-email" placeholder="Email"><input type="text" id="ad-phone" placeholder="Téléphone / Phone" style="margin-top:10px;"></div>
                         <div class="form-group"><label data-i18n="lblSocial">Réseaux Sociaux</label><input type="text" id="ad-fb" placeholder="Facebook (URL)"><input type="text" id="ad-ig" placeholder="Instagram (URL)" style="margin-top:10px;"></div>
-                        <div class="form-group"><label data-i18n="lblMap">Localisation (Map)</label><textarea id="ad-map" placeholder="Lien (URL) ou HTML (Iframe)"></textarea></div>
-                        <div class="form-group"><label data-i18n="lblAbout">À propos</label><textarea id="ad-about-fr" placeholder="Texte (FR)"></textarea><textarea id="ad-about-ar" placeholder="النص (AR)" style="margin-top:10px;"></textarea></div>
+                        <div class="form-group"><label data-i18n="lblMap">Localisation (Map Iframe / URL)</label><textarea id="ad-map" placeholder="Code HTML (Iframe) ou URL"></textarea></div>
+                        <div class="form-group"><label data-i18n="lblAbout">À propos</label><textarea id="ad-about-fr" placeholder="Texte (FR)"></textarea><textarea id="ad-about-ar" placeholder="Texte (AR)" style="margin-top:10px;"></textarea></div>
                         <button class="btn-save" id="btn-save-settings" onclick="saveSettings()" data-i18n="btnSave">Enregistrer</button>
                     </div>
                 </div>
@@ -374,15 +377,14 @@
 
         let currentLang = 'fr';
         
-        // نظام الترجمة الشامل (بما فيها لوحة التحكم والرسائل المنبثقة)
         const translations = {
             fr: { 
                 menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", registerBtn: "S'inscrire à l'événement", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite", clickToView: "Cliquez pour voir tous les services", noServices: "Aucun service pour le moment", errorMsg: "Une erreur s'est produite : ", successSave: "Enregistré avec succès", successDel: "Élément supprimé", sureDel: "Êtes-vous sûr de vouloir supprimer ?", chooseImg: "Veuillez choisir une image", enterName: "Veuillez entrer le nom", wrongPwd: "Mot de passe incorrect",
-                adminLogin: "Connexion Admin", enterBtn: "Entrer", navDash: "Tableau de bord", navEvent: "L'événement", navServices: "Services", navWorks: "Réalisations", navPartners: "Partenaires", navSettings: "Paramètres", navLogout: "Quitter", dashTitle: "Statistiques du site", statToday: "Visites (Aujourd'hui)", statMonth: "Visites (Ce Mois)", statReg: "Clics Inscription", btnNew: "Nouveau +", lblBgImg: "Image de fond (Optionnelle)", btnSave: "Enregistrer", archive: "Archive", lblSrvName: "Nom du service", lblImg: "Image", lblLogo: "Logo", lblContact: "Contact", lblSocial: "Réseaux Sociaux", lblMap: "Localisation (Map)", lblAbout: "À propos", btnUpdate: "Mettre à jour", btnLoading: "En cours..."
+                adminLogin: "Connexion Admin", enterBtn: "Entrer", navDash: "Tableau de bord", navEvent: "L'événement", navServices: "Services", navWorks: "Réalisations", navPartners: "Partenaires", navSettings: "Paramètres", navLogout: "Quitter", dashTitle: "Statistiques du site", statToday: "Visites (Aujourd'hui)", statMonth: "Visites (Ce Mois)", statReg: "Clics Inscription", btnNew: "Nouveau +", lblBgImg: "Image de fond (Optionnelle)", btnSave: "Enregistrer", archive: "Archive", lblSrvName: "Nom du service", lblImg: "Image", lblLogo: "Logo", lblContact: "Contact", lblSocial: "Réseaux Sociaux", lblMap: "Localisation (Code Iframe de préférence)", lblAbout: "À propos", btnUpdate: "Mettre à jour", btnLoading: "En cours..."
             },
             ar: { 
                 menuEvent: "الحدث", menuServices: "خدماتنا", menuWorks: "أعمالنا", menuPartners: "شركاؤنا", menuContact: "اتصل بنا", registerBtn: "سجل في الحدث الآن", titleServices: "خدماتنا", titleWorks: "أعمالنا", titlePartners: "شركاؤنا", aboutUs: "من نحن", contactUs: "تواصل معنا", privacy: "سياسة الخصوصية", readMore: "اقرأ المزيد", clickToView: "اضغط هنا لرؤية جميع الخدمات", noServices: "لا توجد خدمات حالياً", errorMsg: "حدث خطأ: ", successSave: "تم الحفظ بنجاح", successDel: "تم الحذف بنجاح", sureDel: "هل أنت متأكد من الحذف؟", chooseImg: "يرجى اختيار صورة", enterName: "يرجى إدخال الاسم", wrongPwd: "كلمة المرور خاطئة",
-                adminLogin: "تسجيل دخول الإدارة", enterBtn: "دخول", navDash: "لوحة القيادة", navEvent: "الحدث", navServices: "الخدمات", navWorks: "الأعمال", navPartners: "الشركاء", navSettings: "الإعدادات", navLogout: "خروج", dashTitle: "إحصائيات الموقع", statToday: "زيارات اليوم", statMonth: "زيارات هذا الشهر", statReg: "نقرات التسجيل", btnNew: "جديد +", lblBgImg: "صورة الخلفية (اختياري)", btnSave: "حفظ", archive: "الأرشيف", lblSrvName: "اسم الخدمة", lblImg: "الصورة", lblLogo: "الشعار", lblContact: "معلومات الاتصال", lblSocial: "التواصل الاجتماعي", lblMap: "الخريطة", lblAbout: "من نحن", btnUpdate: "تحديث", btnLoading: "جاري التحميل..."
+                adminLogin: "تسجيل دخول الإدارة", enterBtn: "دخول", navDash: "لوحة القيادة", navEvent: "الحدث", navServices: "الخدمات", navWorks: "الأعمال", navPartners: "الشركاء", navSettings: "الإعدادات", navLogout: "خروج", dashTitle: "إحصائيات الموقع", statToday: "زيارات اليوم", statMonth: "زيارات هذا الشهر", statReg: "نقرات التسجيل", btnNew: "جديد +", lblBgImg: "صورة الخلفية (اختياري)", btnSave: "حفظ", archive: "الأرشيف", lblSrvName: "اسم الخدمة", lblImg: "الصورة", lblLogo: "الشعار", lblContact: "معلومات الاتصال", lblSocial: "التواصل الاجتماعي", lblMap: "خريطة جوجل (يفضل كود Iframe)", lblAbout: "من نحن", btnUpdate: "تحديث", btnLoading: "جاري التحميل..."
             }
         };
 
@@ -392,11 +394,10 @@
             document.documentElement.lang = currentLang;
             document.getElementById('lang-toggle').innerText = currentLang === 'ar' ? 'Français' : 'عربي';
             document.querySelectorAll('[data-i18n]').forEach(el => { el.innerText = translations[currentLang][el.getAttribute('data-i18n')]; });
-            // تحديث الأزرار داخل لوحة التحكم إن كانت مفتوحة
+            
             document.querySelectorAll('.btn-save').forEach(btn => {
                 if(!btn.disabled) btn.innerText = translations[currentLang][btn.getAttribute('data-i18n')] || translations[currentLang].btnSave;
             });
-            // تحديث خانة كلمة السر
             document.getElementById('admin-pwd').placeholder = currentLang === 'ar' ? 'كلمة المرور' : 'Mot de passe';
             renderUI();
         };
@@ -417,7 +418,6 @@
             setTimeout(() => { toast.className = toast.className.replace("show", "").replace("error", ""); }, 4000);
         }
 
-        // دالة الـ Base64 لضغط الصور وحفظها في قاعدة البيانات مباشرة 
         function compressImageToBase64(file) {
             return new Promise((resolve) => {
                 if (!file) { resolve(""); return; }
@@ -454,12 +454,12 @@
                 return;
             }
 
-            modalList.innerHTML = srvs.map(s => `<li><i class="fas fa-check-circle"></i> ${currentLang === 'ar' ? s.title_ar : s.title_fr}</li>`).join('');
+            modalList.innerHTML = srvs.map(s => `<li><i class="fas fa-check-circle"></i> ${currentLang === 'ar' ? (s.title_ar||s.title_fr) : (s.title_fr||s.title_ar)}</li>`).join('');
 
             const half = Math.ceil(srvs.length / 2);
             const r1 = srvs.slice(0, half);
             const r2 = srvs.slice(half);
-            const genHtml = (arr) => arr.map(item => `<div class="marquee-item">${currentLang === 'ar' ? item.title_ar : item.title_fr}</div>`).join('');
+            const genHtml = (arr) => arr.map(item => `<div class="marquee-item">${currentLang === 'ar' ? (item.title_ar||item.title_fr) : (item.title_fr||item.title_ar)}</div>`).join('');
             
             document.getElementById('mq-row1').innerHTML = genHtml(r1) + genHtml(r1) + genHtml(r1);
             document.getElementById('mq-row2').innerHTML = genHtml(r2) + genHtml(r2) + genHtml(r2);
@@ -491,18 +491,18 @@
                 document.getElementById('f-email').innerText = s.email; document.getElementById('f-phone').innerText = s.phone;
                 document.getElementById('f-fb').href = s.fb || '#'; document.getElementById('f-ig').href = s.ig || '#';
                 
-                // التعرف الذكي على الخريطة (رابط عادي أو Iframe)
+                // ميزة التعرف الذكي على الخريطة
                 if(s.map) {
                     let mapData = s.map.trim();
                     if(mapData.startsWith("http") && !mapData.includes("<iframe")) {
-                        document.getElementById('f-map').innerHTML = `<iframe src="${mapData}" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>`;
+                        document.getElementById('f-map').innerHTML = `<iframe src="${mapData}" style="border:0;" allowfullscreen="" loading="lazy"></iframe>`;
                     } else {
                         document.getElementById('f-map').innerHTML = mapData;
                     }
                 } else { document.getElementById('f-map').innerHTML = ''; }
             }
 
-            document.getElementById('works-grid').innerHTML = (siteData.works || []).map((w, i) => `<div class="card" onclick="openBlog(${i})"><img src="${w.img}"><h3>${currentLang === 'ar' ? w.title_ar : w.title_fr}</h3><p>${(currentLang === 'ar' ? w.desc_ar : w.desc_fr).substring(0, 60)}...</p><span style="color:var(--primary); font-weight:bold; margin-top:15px; display:inline-block;">${translations[currentLang].readMore}</span></div>`).join('');
+            document.getElementById('works-grid').innerHTML = (siteData.works || []).map((w, i) => `<div class="card" onclick="openBlog(${i})"><img src="${w.img}"><h3>${currentLang === 'ar' ? (w.title_ar||w.title_fr) : (w.title_fr||w.title_ar)}</h3><p>${(currentLang === 'ar' ? (w.desc_ar||'') : (w.desc_fr||'')).substring(0, 60)}...</p><span style="color:var(--primary); font-weight:bold; margin-top:15px; display:inline-block;">${translations[currentLang].readMore}</span></div>`).join('');
             document.getElementById('partners-grid').innerHTML = (siteData.partners || []).map(p => `<img src="${p.img}">`).join('');
             
             if(isAdminRoute && document.getElementById('dashboard-layout').style.display === 'flex') { fillAdminInputs(); }
@@ -510,8 +510,8 @@
 
         window.openBlog = function(i) {
             const w = siteData.works[i]; document.getElementById('m-img').src = w.img;
-            document.getElementById('m-title').innerText = currentLang === 'ar' ? w.title_ar : w.title_fr;
-            document.getElementById('m-desc').innerText = currentLang === 'ar' ? w.desc_ar : w.desc_fr;
+            document.getElementById('m-title').innerText = currentLang === 'ar' ? (w.title_ar||w.title_fr) : (w.title_fr||w.title_ar);
+            document.getElementById('m-desc').innerText = currentLang === 'ar' ? (w.desc_ar||w.desc_fr) : (w.desc_fr||w.desc_ar);
             document.getElementById('blog-modal').style.display = 'flex';
         }
         window.closeBlogModal = function() { document.getElementById('blog-modal').style.display = 'none'; }
@@ -530,7 +530,17 @@
         const isAdminRoute = window.location.pathname.endsWith('/admin16') || window.location.hash.includes('admin16');
         initFirebaseListeners(); 
 
-        if(isAdminRoute) {
+        // نظام الزيارات والإحصائيات اللحظي والحقيقي
+        const todayStr = new Date().toISOString().split('T')[0];
+        const monthStr = todayStr.substring(0,7);
+
+        if(!isAdminRoute) {
+            if(localStorage.getItem('visited_' + todayStr) !== 'true') {
+                localStorage.setItem('visited_' + todayStr, 'true');
+                setDoc(doc(db, "stats", "day_" + todayStr), { count: increment(1) }, { merge: true }).catch(e=>{});
+                setDoc(doc(db, "stats", "month_" + monthStr), { count: increment(1) }, { merge: true }).catch(e=>{});
+            }
+        } else {
             document.getElementById('public-view').style.display = 'none'; document.getElementById('bg-animation').style.display = 'none'; document.getElementById('admin-panel').style.display = 'block';
         }
 
@@ -545,7 +555,14 @@
 
         window.checkAdmin = async function() {
             if(btoa(document.getElementById('admin-pwd').value) === "YmVsbGEyMDI2") { 
-                document.getElementById('login-section').style.display = 'none'; document.getElementById('dashboard-layout').style.display = 'flex'; fillAdminInputs();
+                document.getElementById('login-section').style.display = 'none'; 
+                document.getElementById('dashboard-layout').style.display = 'flex'; 
+                fillAdminInputs();
+
+                // الاستماع اللحظي (Real-time) للإحصائيات بمجرد دخول الإدارة
+                onSnapshot(doc(db, "stats", "day_" + todayStr), (doc) => { document.getElementById('stat-day').innerText = doc.exists() ? doc.data().count : 0; });
+                onSnapshot(doc(db, "stats", "month_" + monthStr), (doc) => { document.getElementById('stat-month').innerText = doc.exists() ? doc.data().count : 0; });
+                onSnapshot(doc(db, "stats", "registrations"), (doc) => { document.getElementById('stat-reg').innerText = doc.exists() ? doc.data().count : 0; });
             } else { showToast("wrongPwd", true); }
         }
 
