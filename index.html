@@ -271,7 +271,7 @@
                     <h2 class="sec-header"><span><i class="fas fa-bullhorn"></i> Gérer l'événement (Banners)</span> <button class="btn-new" onclick="resetForm('banner')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-b-id">
-                        <div class="form-group"><label>Image de fond (يتم رفعها للسيرفر ليراها الجميع)</label><input type="file" id="ad-b-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image de fond (ترفع للسيرفر ليراها الجميع)</label><input type="file" id="ad-b-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-fr" placeholder="Lieu (FR)"></div>
@@ -335,11 +335,12 @@
         </div>
     </div>
 
-    <!-- ================= سكريبت فايربيس (مع تفعيل Storage ليرى الجميع الصور) ================= -->
+    <!-- ================= سكريبت فايربيس العالمي ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        // إعادة Firebase Storage لرفع الصور للسيرفر ليراها الجميع
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
@@ -355,7 +356,7 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
-        const storage = getStorage(app);
+        const storage = getStorage(app); // تعريف Storage من جديد
 
         const staticServices = [
             { fr: "Programmes de formation, coaching et accompagnement", ar: "برامج التكوين، التدريب والمرافقة" },
@@ -412,22 +413,21 @@
             setTimeout(() => { toast.className = toast.className.replace("show", "").replace("error", ""); }, 4000);
         }
 
+        // --- رفع الصورة للسيرفر ليراها الجميع ---
         async function uploadHighQualityImage(file) {
             if(!file) return null;
             try {
-                // رفع الصورة لـ Firebase Storage ليراها الجميع
-                const storageRef = ref(storage, `images/${Date.now()}_${file.name}`);
+                const storageRef = ref(storage, `uploads/${Date.now()}_${file.name}`);
                 const snapshot = await uploadBytes(storageRef, file);
-                return await getDownloadURL(snapshot.ref);
+                return await getDownloadURL(snapshot.ref); // يجلب رابطاً يعمل في كل أنحاء العالم
             } catch (error) {
                 console.error("Storage Error:", error);
-                throw new Error("تأكد من تفعيل قواعد Storage في حسابك على فايربيس لتتمكن من الرفع ليراه الجميع.");
+                throw new Error("حدث خطأ أثناء رفع الصورة للسيرفر. يرجى تفعيل (Storage) في حساب Firebase.");
             }
         }
 
         let siteData = { banners: [], settings: {}, services: [], works: [], partners: [] };
-        function loadLocalData() { const local = localStorage.getItem('bella_data'); if(local) { siteData = JSON.parse(local); renderUI(); } }
-
+        
         function renderMarquee() {
             const half = Math.ceil(staticServices.length / 2);
             const r1 = staticServices.slice(0, half);
@@ -477,25 +477,22 @@
         }
         window.closeModal = function() { document.getElementById('blog-modal').style.display = 'none'; }
 
+        // --- الاتصال المباشر بقاعدة بيانات فايربيس (لجلب التحديثات للجميع) ---
         function initFirebaseListeners() {
+            // هذه الدوال هي التي تقوم بتحديث الموقع تلقائياً لدى جميع المستخدمين
             onSnapshot(collection(db, "banners"), (snap) => { 
                 let b = snap.docs.map(d => ({id: d.id, ...d.data()}));
                 b.sort((x, y) => (x.timestamp || 0) - (y.timestamp || 0)); 
-                siteData.banners = b; updateLocalAndUI(); 
+                siteData.banners = b; renderUI(); 
             });
-            onSnapshot(doc(db, "site", "settings"), (doc) => { if(doc.exists()) siteData.settings = doc.data(); else siteData.settings = {}; updateLocalAndUI(); });
-            onSnapshot(collection(db, "services"), (snap) => { siteData.services = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); });
-            onSnapshot(collection(db, "works"), (snap) => { siteData.works = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); });
-            onSnapshot(collection(db, "partners"), (snap) => { siteData.partners = snap.docs.map(d => ({id: d.id, ...d.data()})); updateLocalAndUI(); });
-        }
-
-        function updateLocalAndUI() { 
-            try { localStorage.setItem('bella_data', JSON.stringify(siteData)); } catch(e){}
-            renderUI(); 
+            onSnapshot(doc(db, "site", "settings"), (doc) => { if(doc.exists()) siteData.settings = doc.data(); else siteData.settings = {}; renderUI(); });
+            onSnapshot(collection(db, "services"), (snap) => { siteData.services = snap.docs.map(d => ({id: d.id, ...d.data()})); renderUI(); });
+            onSnapshot(collection(db, "works"), (snap) => { siteData.works = snap.docs.map(d => ({id: d.id, ...d.data()})); renderUI(); });
+            onSnapshot(collection(db, "partners"), (snap) => { siteData.partners = snap.docs.map(d => ({id: d.id, ...d.data()})); renderUI(); });
         }
 
         const isAdminRoute = window.location.pathname.endsWith('/admin16') || window.location.hash.includes('admin16');
-        loadLocalData(); initFirebaseListeners();
+        initFirebaseListeners(); // بدأ الاتصال بالسيرفر
 
         if(isAdminRoute) {
             document.getElementById('public-view').style.display = 'none'; document.getElementById('bg-animation').style.display = 'none'; document.getElementById('admin-panel').style.display = 'block';
@@ -540,9 +537,9 @@
                     if(btn.disabled) {
                         btn.disabled = false;
                         btn.innerText = "Enregistrer / حفظ";
-                        alert("⚠️ عذراً، تأخر الخادم في الرد.\n\nتأكد أن Storage مفعلة وقواعد الحماية (Rules) تسمح بالكتابة في حسابك على فايربيس.");
+                        alert("⚠️ تأخر السيرفر في الرد!\n\nهل قمت بتفعيل Firestore و Storage ووضعت الـ Rules كما في الخطوات؟\nإذا لم تفعل ذلك، فلن يتمكن الموقع من رفع التحديثات لكي يراها الناس.");
                     }
-                }, 10000);
+                }, 12000);
             } else {
                 clearTimeout(window['timeout_' + id]);
             }
