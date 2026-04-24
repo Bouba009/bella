@@ -73,7 +73,6 @@
         .card h3 { margin: 20px 0 10px; color: var(--primary); font-size: 1.3em; }
         .card p { padding: 0 20px; color: #666; font-size: 0.95em; line-height: 1.6; }
 
-        /* الشركاء بالألوان الطبيعية */
         .partners-container { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
         .partners-container img { height: 70px; transition: all 0.3s ease; opacity: 0.9; }
         .partners-container img:hover { opacity: 1; transform: scale(1.1); }
@@ -262,91 +261,91 @@
         <div id="login-section" class="admin-login">
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZvc2VX08-mtAOEnVZNA2xH8QGRGz2GbqIuMTKDh0suB-bjVIAogCm7ji820GlbHAkWWKsOg2yn3EAH7nMM_w_lvT3OH4H-UgYzsTiur_l3CzK2fcw2n_jTX1Z-t25DaLbwrY0jnDE13Zo3lrh8ZkXF5ybieZJOdpBQ4Xkr_zbn8LFS3zQDf5Bft28Zr4/s320/1000013350.png" style="max-height:60px; margin-bottom:20px;">
             <h2 style="color:var(--primary); margin-bottom: 20px;" data-i18n="adminLogin">Connexion Admin</h2>
-            <input type="password" id="admin-pwd" placeholder="Mot de passe / كلمة المرور">
-            <button onclick="checkAdmin()">Entrer / دخول</button>
+            <input type="password" id="admin-pwd" placeholder="Mot de passe">
+            <button onclick="checkAdmin()" data-i18n="enterBtn">Entrer</button>
         </div>
 
         <div id="dashboard-layout" class="admin-layout" style="display:none;">
             <div class="admin-nav">
                 <div class="admin-nav-header">Bella Skills CMS</div>
-                <button class="nav-btn active" onclick="switchAdminTab('dash')"><i class="fas fa-chart-line"></i> Dashboard</button>
-                <button class="nav-btn" onclick="switchAdminTab('banner')"><i class="fas fa-bullhorn"></i> L'événement</button>
-                <button class="nav-btn" onclick="switchAdminTab('services')"><i class="fas fa-concierge-bell"></i> Services</button>
-                <button class="nav-btn" onclick="switchAdminTab('works')"><i class="fas fa-briefcase"></i> Réalisations</button>
-                <button class="nav-btn" onclick="switchAdminTab('partners')"><i class="fas fa-handshake"></i> Partenaires</button>
-                <button class="nav-btn" onclick="switchAdminTab('settings')"><i class="fas fa-cogs"></i> Paramètres</button>
-                <button class="logout-btn" onclick="window.location.reload()"><i class="fas fa-sign-out-alt"></i> Quitter</button>
+                <button class="nav-btn active" onclick="switchAdminTab('dash')"><i class="fas fa-chart-line"></i> <span data-i18n="navDash">Dashboard</span></button>
+                <button class="nav-btn" onclick="switchAdminTab('banner')"><i class="fas fa-bullhorn"></i> <span data-i18n="navEvent">L'événement</span></button>
+                <button class="nav-btn" onclick="switchAdminTab('services')"><i class="fas fa-concierge-bell"></i> <span data-i18n="navServices">Services</span></button>
+                <button class="nav-btn" onclick="switchAdminTab('works')"><i class="fas fa-briefcase"></i> <span data-i18n="navWorks">Réalisations</span></button>
+                <button class="nav-btn" onclick="switchAdminTab('partners')"><i class="fas fa-handshake"></i> <span data-i18n="navPartners">Partenaires</span></button>
+                <button class="nav-btn" onclick="switchAdminTab('settings')"><i class="fas fa-cogs"></i> <span data-i18n="navSettings">Paramètres</span></button>
+                <button class="logout-btn" onclick="window.location.reload()"><i class="fas fa-sign-out-alt"></i> <span data-i18n="navLogout">Quitter</span></button>
             </div>
 
             <div class="admin-main">
                 <div id="sec-dash" class="admin-sec active">
-                    <h2 class="sec-header">Statistiques du site</h2>
+                    <h2 class="sec-header" data-i18n="dashTitle">Statistiques du site</h2>
                     <div class="dashboard-stats">
-                        <div class="stat-box c1">Visites (Aujourd'hui) <span id="stat-day">0</span></div>
-                        <div class="stat-box c2">Visites (Ce Mois) <span id="stat-month">0</span></div>
-                        <div class="stat-box c3">Clics Inscription <span id="stat-reg">0</span></div>
+                        <div class="stat-box c1"><span data-i18n="statToday">Visites (Aujourd'hui)</span> <span id="stat-day">0</span></div>
+                        <div class="stat-box c2"><span data-i18n="statMonth">Visites (Ce Mois)</span> <span id="stat-month">0</span></div>
+                        <div class="stat-box c3"><span data-i18n="statReg">Clics Inscription</span> <span id="stat-reg">0</span></div>
                     </div>
                 </div>
 
                 <div id="sec-banner" class="admin-sec">
-                    <h2 class="sec-header"><span><i class="fas fa-bullhorn"></i> Gérer l'événement (Banners)</span> <button class="btn-new" onclick="resetForm('banner')">Nouveau +</button></h2>
+                    <h2 class="sec-header"><span><i class="fas fa-bullhorn"></i> <span data-i18n="navEvent">L'événement</span></span> <button class="btn-new" onclick="resetForm('banner')" data-i18n="btnNew">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-b-id">
-                        <div class="form-group"><label>Image de fond / صورة الخلفية</label><input type="file" id="ad-b-img" accept="image/*"></div>
+                        <div class="form-group"><label data-i18n="lblBgImg">Image de fond (Optionnelle)</label><input type="file" id="ad-b-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-fr" placeholder="Lieu (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-ar" placeholder="المكان (AR)"></div>
-                        <div class="form-group"><input type="text" id="ad-b-date" placeholder="Date / التاريخ"></div>
-                        <div class="form-group"><input type="text" id="ad-b-link" placeholder="Lien d'inscription / رابط التسجيل"></div>
-                        <button class="btn-save" id="btn-save-banner" onclick="saveBanner()">Ajouter / إضافة</button>
+                        <div class="form-group"><input type="text" id="ad-b-date" placeholder="Date (FR / AR)"></div>
+                        <div class="form-group"><input type="text" id="ad-b-link" placeholder="Lien (URL)"></div>
+                        <button class="btn-save" id="btn-save-banner" onclick="saveBanner()" data-i18n="btnSave">Ajouter</button>
                     </div>
-                    <div class="archive-section"><h3 class="archive-title">Archive</h3><div id="list-banners"></div></div>
+                    <div class="archive-section"><h3 class="archive-title" data-i18n="archive">Archive</h3><div id="list-banners"></div></div>
                 </div>
 
                 <div id="sec-services" class="admin-sec">
-                    <h2 class="sec-header"><span><i class="fas fa-concierge-bell"></i> Gérer les Services</span> <button class="btn-new" onclick="resetForm('service')">Nouveau +</button></h2>
+                    <h2 class="sec-header"><span><i class="fas fa-concierge-bell"></i> <span data-i18n="navServices">Services</span></span> <button class="btn-new" onclick="resetForm('service')" data-i18n="btnNew">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-s-id">
-                        <div class="form-group"><label>Nom du service / اسم الخدمة</label></div>
-                        <div class="form-group"><input type="text" id="ad-s-title-fr" placeholder="Titre (FR) - ex: Marketing Digital"></div>
-                        <div class="form-group"><input type="text" id="ad-s-title-ar" placeholder="العنوان (AR) - مثال: التسويق الرقمي"></div>
-                        <button class="btn-save" id="btn-save-service" onclick="saveService()">Ajouter / إضافة</button>
+                        <div class="form-group"><label data-i18n="lblSrvName">Nom du service</label></div>
+                        <div class="form-group"><input type="text" id="ad-s-title-fr" placeholder="Titre (FR)"></div>
+                        <div class="form-group"><input type="text" id="ad-s-title-ar" placeholder="العنوان (AR)"></div>
+                        <button class="btn-save" id="btn-save-service" onclick="saveService()" data-i18n="btnSave">Ajouter</button>
                     </div>
-                    <div class="archive-section"><h3 class="archive-title">Archive</h3><div id="list-services"></div></div>
+                    <div class="archive-section"><h3 class="archive-title" data-i18n="archive">Archive</h3><div id="list-services"></div></div>
                 </div>
 
                 <div id="sec-works" class="admin-sec">
-                    <h2 class="sec-header"><span><i class="fas fa-briefcase"></i> Gérer les Réalisations</span> <button class="btn-new" onclick="resetForm('work')">Nouveau +</button></h2>
+                    <h2 class="sec-header"><span><i class="fas fa-briefcase"></i> <span data-i18n="navWorks">Réalisations</span></span> <button class="btn-new" onclick="resetForm('work')" data-i18n="btnNew">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-w-id">
-                        <div class="form-group"><label>Image / الصورة</label><input type="file" id="ad-w-img" accept="image/*"></div>
+                        <div class="form-group"><label data-i18n="lblImg">Image</label><input type="file" id="ad-w-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><textarea id="ad-w-desc-fr" placeholder="Texte complet (FR)"></textarea></div>
                         <div class="form-group"><textarea id="ad-w-desc-ar" placeholder="النص الكامل (AR)"></textarea></div>
-                        <button class="btn-save" id="btn-save-work" onclick="saveWork()">Ajouter / إضافة</button>
+                        <button class="btn-save" id="btn-save-work" onclick="saveWork()" data-i18n="btnSave">Ajouter</button>
                     </div>
-                    <div class="archive-section"><h3 class="archive-title">Archive</h3><div id="list-works"></div></div>
+                    <div class="archive-section"><h3 class="archive-title" data-i18n="archive">Archive</h3><div id="list-works"></div></div>
                 </div>
 
                 <div id="sec-partners" class="admin-sec">
-                    <h2 class="sec-header"><i class="fas fa-handshake"></i> Gérer les Partenaires</h2>
+                    <h2 class="sec-header"><i class="fas fa-handshake"></i> <span data-i18n="navPartners">Partenaires</span></h2>
                     <div class="form-card">
-                        <div class="form-group"><label>Logo / الشعار</label><input type="file" id="ad-p-img" accept="image/*"></div>
-                        <button class="btn-save" id="btn-save-partner" onclick="addPartner()">Ajouter / إضافة</button>
+                        <div class="form-group"><label data-i18n="lblLogo">Logo</label><input type="file" id="ad-p-img" accept="image/*"></div>
+                        <button class="btn-save" id="btn-save-partner" onclick="addPartner()" data-i18n="btnSave">Ajouter</button>
                     </div>
-                    <div class="archive-section"><h3 class="archive-title">Archive</h3><div id="list-partners"></div></div>
+                    <div class="archive-section"><h3 class="archive-title" data-i18n="archive">Archive</h3><div id="list-partners"></div></div>
                 </div>
 
                 <div id="sec-settings" class="admin-sec">
-                    <h2 class="sec-header"><i class="fas fa-cogs"></i> Paramètres Généraux</h2>
+                    <h2 class="sec-header"><i class="fas fa-cogs"></i> <span data-i18n="navSettings">Paramètres</span></h2>
                     <div class="form-card">
-                        <div class="form-group"><label>Contact / الاتصال</label><input type="text" id="ad-email" placeholder="Email"><input type="text" id="ad-phone" placeholder="Téléphone" style="margin-top:10px;"></div>
-                        <div class="form-group"><label>Réseaux Sociaux / التواصل الاجتماعي</label><input type="text" id="ad-fb" placeholder="Facebook (URL)"><input type="text" id="ad-ig" placeholder="Instagram (URL)" style="margin-top:10px;"></div>
-                        <div class="form-group"><label>Localisation (Map)</label><textarea id="ad-map" placeholder="Code HTML (Iframe) Google Maps"></textarea></div>
-                        <div class="form-group"><label>À propos / من نحن</label><textarea id="ad-about-fr" placeholder="Qui sommes-nous (FR)"></textarea><textarea id="ad-about-ar" placeholder="من نحن (AR)" style="margin-top:10px;"></textarea></div>
-                        <button class="btn-save" id="btn-save-settings" onclick="saveSettings()">Enregistrer / حفظ</button>
+                        <div class="form-group"><label data-i18n="lblContact">Contact</label><input type="text" id="ad-email" placeholder="Email"><input type="text" id="ad-phone" placeholder="Téléphone" style="margin-top:10px;"></div>
+                        <div class="form-group"><label data-i18n="lblSocial">Réseaux Sociaux</label><input type="text" id="ad-fb" placeholder="Facebook (URL)"><input type="text" id="ad-ig" placeholder="Instagram (URL)" style="margin-top:10px;"></div>
+                        <div class="form-group"><label data-i18n="lblMap">Localisation (Map)</label><textarea id="ad-map" placeholder="Lien (URL) ou HTML (Iframe)"></textarea></div>
+                        <div class="form-group"><label data-i18n="lblAbout">À propos</label><textarea id="ad-about-fr" placeholder="Texte (FR)"></textarea><textarea id="ad-about-ar" placeholder="النص (AR)" style="margin-top:10px;"></textarea></div>
+                        <button class="btn-save" id="btn-save-settings" onclick="saveSettings()" data-i18n="btnSave">Enregistrer</button>
                     </div>
                 </div>
 
@@ -374,9 +373,17 @@
         const db = getFirestore(app);
 
         let currentLang = 'fr';
+        
+        // نظام الترجمة الشامل (بما فيها لوحة التحكم والرسائل المنبثقة)
         const translations = {
-            fr: { menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", registerBtn: "S'inscrire à l'événement", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite", clickToView: "Cliquez pour voir tous les services", noServices: "Aucun service pour le moment", errorMsg: "Une erreur s'est produite : ", successSave: "Enregistré avec succès", successDel: "Élément supprimé", sureDel: "Êtes-vous sûr de vouloir supprimer ?", chooseImg: "Veuillez choisir une image", enterName: "Veuillez entrer le nom", wrongPwd: "Mot de passe incorrect" },
-            ar: { menuEvent: "الحدث", menuServices: "خدماتنا", menuWorks: "أعمالنا", menuPartners: "شركاؤنا", menuContact: "اتصل بنا", registerBtn: "سجل في الحدث الآن", titleServices: "خدماتنا", titleWorks: "أعمالنا", titlePartners: "شركاؤنا", aboutUs: "من نحن", contactUs: "تواصل معنا", privacy: "سياسة الخصوصية", readMore: "اقرأ المزيد", clickToView: "اضغط هنا لرؤية جميع الخدمات", noServices: "لا توجد خدمات حالياً", errorMsg: "حدث خطأ: ", successSave: "تم الحفظ بنجاح", successDel: "تم الحذف بنجاح", sureDel: "هل أنت متأكد من الحذف؟", chooseImg: "يرجى اختيار صورة", enterName: "يرجى إدخال الاسم", wrongPwd: "كلمة المرور خاطئة" }
+            fr: { 
+                menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", registerBtn: "S'inscrire à l'événement", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite", clickToView: "Cliquez pour voir tous les services", noServices: "Aucun service pour le moment", errorMsg: "Une erreur s'est produite : ", successSave: "Enregistré avec succès", successDel: "Élément supprimé", sureDel: "Êtes-vous sûr de vouloir supprimer ?", chooseImg: "Veuillez choisir une image", enterName: "Veuillez entrer le nom", wrongPwd: "Mot de passe incorrect",
+                adminLogin: "Connexion Admin", enterBtn: "Entrer", navDash: "Tableau de bord", navEvent: "L'événement", navServices: "Services", navWorks: "Réalisations", navPartners: "Partenaires", navSettings: "Paramètres", navLogout: "Quitter", dashTitle: "Statistiques du site", statToday: "Visites (Aujourd'hui)", statMonth: "Visites (Ce Mois)", statReg: "Clics Inscription", btnNew: "Nouveau +", lblBgImg: "Image de fond (Optionnelle)", btnSave: "Enregistrer", archive: "Archive", lblSrvName: "Nom du service", lblImg: "Image", lblLogo: "Logo", lblContact: "Contact", lblSocial: "Réseaux Sociaux", lblMap: "Localisation (Map)", lblAbout: "À propos", btnUpdate: "Mettre à jour", btnLoading: "En cours..."
+            },
+            ar: { 
+                menuEvent: "الحدث", menuServices: "خدماتنا", menuWorks: "أعمالنا", menuPartners: "شركاؤنا", menuContact: "اتصل بنا", registerBtn: "سجل في الحدث الآن", titleServices: "خدماتنا", titleWorks: "أعمالنا", titlePartners: "شركاؤنا", aboutUs: "من نحن", contactUs: "تواصل معنا", privacy: "سياسة الخصوصية", readMore: "اقرأ المزيد", clickToView: "اضغط هنا لرؤية جميع الخدمات", noServices: "لا توجد خدمات حالياً", errorMsg: "حدث خطأ: ", successSave: "تم الحفظ بنجاح", successDel: "تم الحذف بنجاح", sureDel: "هل أنت متأكد من الحذف؟", chooseImg: "يرجى اختيار صورة", enterName: "يرجى إدخال الاسم", wrongPwd: "كلمة المرور خاطئة",
+                adminLogin: "تسجيل دخول الإدارة", enterBtn: "دخول", navDash: "لوحة القيادة", navEvent: "الحدث", navServices: "الخدمات", navWorks: "الأعمال", navPartners: "الشركاء", navSettings: "الإعدادات", navLogout: "خروج", dashTitle: "إحصائيات الموقع", statToday: "زيارات اليوم", statMonth: "زيارات هذا الشهر", statReg: "نقرات التسجيل", btnNew: "جديد +", lblBgImg: "صورة الخلفية (اختياري)", btnSave: "حفظ", archive: "الأرشيف", lblSrvName: "اسم الخدمة", lblImg: "الصورة", lblLogo: "الشعار", lblContact: "معلومات الاتصال", lblSocial: "التواصل الاجتماعي", lblMap: "الخريطة", lblAbout: "من نحن", btnUpdate: "تحديث", btnLoading: "جاري التحميل..."
+            }
         };
 
         window.toggleLanguage = function() {
@@ -385,6 +392,12 @@
             document.documentElement.lang = currentLang;
             document.getElementById('lang-toggle').innerText = currentLang === 'ar' ? 'Français' : 'عربي';
             document.querySelectorAll('[data-i18n]').forEach(el => { el.innerText = translations[currentLang][el.getAttribute('data-i18n')]; });
+            // تحديث الأزرار داخل لوحة التحكم إن كانت مفتوحة
+            document.querySelectorAll('.btn-save').forEach(btn => {
+                if(!btn.disabled) btn.innerText = translations[currentLang][btn.getAttribute('data-i18n')] || translations[currentLang].btnSave;
+            });
+            // تحديث خانة كلمة السر
+            document.getElementById('admin-pwd').placeholder = currentLang === 'ar' ? 'كلمة المرور' : 'Mot de passe';
             renderUI();
         };
 
@@ -404,6 +417,7 @@
             setTimeout(() => { toast.className = toast.className.replace("show", "").replace("error", ""); }, 4000);
         }
 
+        // دالة الـ Base64 لضغط الصور وحفظها في قاعدة البيانات مباشرة 
         function compressImageToBase64(file) {
             return new Promise((resolve) => {
                 if (!file) { resolve(""); return; }
@@ -476,7 +490,16 @@
                 document.getElementById('f-about').innerText = currentLang === 'ar' ? s.about_ar : s.about_fr;
                 document.getElementById('f-email').innerText = s.email; document.getElementById('f-phone').innerText = s.phone;
                 document.getElementById('f-fb').href = s.fb || '#'; document.getElementById('f-ig').href = s.ig || '#';
-                if(s.map) document.getElementById('f-map').innerHTML = s.map;
+                
+                // التعرف الذكي على الخريطة (رابط عادي أو Iframe)
+                if(s.map) {
+                    let mapData = s.map.trim();
+                    if(mapData.startsWith("http") && !mapData.includes("<iframe")) {
+                        document.getElementById('f-map').innerHTML = `<iframe src="${mapData}" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>`;
+                    } else {
+                        document.getElementById('f-map').innerHTML = mapData;
+                    }
+                } else { document.getElementById('f-map').innerHTML = ''; }
             }
 
             document.getElementById('works-grid').innerHTML = (siteData.works || []).map((w, i) => `<div class="card" onclick="openBlog(${i})"><img src="${w.img}"><h3>${currentLang === 'ar' ? w.title_ar : w.title_fr}</h3><p>${(currentLang === 'ar' ? w.desc_ar : w.desc_fr).substring(0, 60)}...</p><span style="color:var(--primary); font-weight:bold; margin-top:15px; display:inline-block;">${translations[currentLang].readMore}</span></div>`).join('');
@@ -542,7 +565,11 @@
             const btn = document.getElementById(id);
             if(!btn) return;
             btn.disabled = state; 
-            btn.innerText = state ? (currentLang === 'ar' ? "جاري التحميل..." : "En cours...") : (currentLang === 'ar' ? "حفظ" : "Enregistrer"); 
+            if(state) {
+                btn.innerText = translations[currentLang].btnLoading;
+            } else {
+                btn.innerText = btn.hasAttribute('data-edit-mode') ? translations[currentLang].btnUpdate : translations[currentLang].btnSave;
+            }
         }
 
         window.saveBanner = async function() {
@@ -616,27 +643,27 @@
         }
 
         window.editItem = function(type, id) {
-            let btnText = currentLang === 'ar' ? "تحديث" : "Mettre à jour";
+            let btnText = translations[currentLang].btnUpdate;
             if(type === 'banner') {
                 const b = siteData.banners.find(x => x.id === id); document.getElementById('ad-b-id').value = b.id;
                 document.getElementById('ad-b-title-fr').value = b.title_fr; document.getElementById('ad-b-title-ar').value = b.title_ar; document.getElementById('ad-b-loc-fr').value = b.loc_fr; document.getElementById('ad-b-loc-ar').value = b.loc_ar; document.getElementById('ad-b-date').value = b.date; document.getElementById('ad-b-link').value = b.link;
-                document.getElementById('btn-save-banner').innerText = btnText; window.location.hash = "#ad-b-title-fr";
+                const btn = document.getElementById('btn-save-banner'); btn.innerText = btnText; btn.setAttribute('data-edit-mode', 'true'); window.location.hash = "#ad-b-title-fr";
             } else if(type === 'service') {
                 const s = siteData.services.find(x => x.id === id); document.getElementById('ad-s-id').value = s.id;
                 document.getElementById('ad-s-title-fr').value = s.title_fr; document.getElementById('ad-s-title-ar').value = s.title_ar;
-                document.getElementById('btn-save-service').innerText = btnText; window.location.hash = "#ad-s-title-fr";
+                const btn = document.getElementById('btn-save-service'); btn.innerText = btnText; btn.setAttribute('data-edit-mode', 'true'); window.location.hash = "#ad-s-title-fr";
             } else if (type === 'work') {
                 const w = siteData.works.find(x => x.id === id); document.getElementById('ad-w-id').value = w.id;
                 document.getElementById('ad-w-title-fr').value = w.title_fr; document.getElementById('ad-w-title-ar').value = w.title_ar; document.getElementById('ad-w-desc-fr').value = w.desc_fr; document.getElementById('ad-w-desc-ar').value = w.desc_ar;
-                document.getElementById('btn-save-work').innerText = btnText; window.location.hash = "#ad-w-title-fr";
+                const btn = document.getElementById('btn-save-work'); btn.innerText = btnText; btn.setAttribute('data-edit-mode', 'true'); window.location.hash = "#ad-w-title-fr";
             }
         }
 
         window.resetForm = function(type) {
-            let btnText = currentLang === 'ar' ? "إضافة" : "Ajouter";
-            if(type === 'banner') { document.getElementById('ad-b-id').value=''; document.getElementById('ad-b-img').value=''; document.getElementById('ad-b-title-fr').value=''; document.getElementById('ad-b-title-ar').value=''; document.getElementById('ad-b-loc-fr').value=''; document.getElementById('ad-b-loc-ar').value=''; document.getElementById('ad-b-date').value=''; document.getElementById('ad-b-link').value=''; document.getElementById('btn-save-banner').innerText=btnText; }
-            if(type === 'service') { document.getElementById('ad-s-id').value=''; document.getElementById('ad-s-title-fr').value=''; document.getElementById('ad-s-title-ar').value=''; document.getElementById('btn-save-service').innerText=btnText; }
-            if(type === 'work') { document.getElementById('ad-w-id').value=''; document.getElementById('ad-w-img').value=''; document.getElementById('ad-w-title-fr').value=''; document.getElementById('ad-w-title-ar').value=''; document.getElementById('ad-w-desc-fr').value=''; document.getElementById('ad-w-desc-ar').value=''; document.getElementById('btn-save-work').innerText=btnText; }
+            let btnText = translations[currentLang].btnSave;
+            if(type === 'banner') { document.getElementById('ad-b-id').value=''; document.getElementById('ad-b-img').value=''; document.getElementById('ad-b-title-fr').value=''; document.getElementById('ad-b-title-ar').value=''; document.getElementById('ad-b-loc-fr').value=''; document.getElementById('ad-b-loc-ar').value=''; document.getElementById('ad-b-date').value=''; document.getElementById('ad-b-link').value=''; const btn = document.getElementById('btn-save-banner'); btn.innerText=btnText; btn.removeAttribute('data-edit-mode'); }
+            if(type === 'service') { document.getElementById('ad-s-id').value=''; document.getElementById('ad-s-title-fr').value=''; document.getElementById('ad-s-title-ar').value=''; const btn = document.getElementById('btn-save-service'); btn.innerText=btnText; btn.removeAttribute('data-edit-mode');}
+            if(type === 'work') { document.getElementById('ad-w-id').value=''; document.getElementById('ad-w-img').value=''; document.getElementById('ad-w-title-fr').value=''; document.getElementById('ad-w-title-ar').value=''; document.getElementById('ad-w-desc-fr').value=''; document.getElementById('ad-w-desc-ar').value=''; const btn = document.getElementById('btn-save-work'); btn.innerText=btnText; btn.removeAttribute('data-edit-mode');}
         }
 
         window.deleteItem = async function(col, id) {
