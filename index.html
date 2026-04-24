@@ -271,7 +271,7 @@
                     <h2 class="sec-header"><span><i class="fas fa-bullhorn"></i> Gérer l'événement (Banners)</span> <button class="btn-new" onclick="resetForm('banner')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-b-id">
-                        <div class="form-group"><label>Image de fond (ترفع للسيرفر ليراها الجميع)</label><input type="file" id="ad-b-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image de fond (سيرفر)</label><input type="file" id="ad-b-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><input type="text" id="ad-b-loc-fr" placeholder="Lieu (FR)"></div>
@@ -287,7 +287,7 @@
                     <h2 class="sec-header"><span><i class="fas fa-concierge-bell"></i> Gérer les Services</span> <button class="btn-new" onclick="resetForm('service')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-s-id">
-                        <div class="form-group"><label>Image du service</label><input type="file" id="ad-s-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image du service (سيرفر)</label><input type="file" id="ad-s-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-s-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-s-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><textarea id="ad-s-desc-fr" placeholder="Description courte (FR)"></textarea></div>
@@ -301,7 +301,7 @@
                     <h2 class="sec-header"><span><i class="fas fa-briefcase"></i> Gérer les Réalisations</span> <button class="btn-new" onclick="resetForm('work')">Nouveau +</button></h2>
                     <div class="form-card">
                         <input type="hidden" id="ad-w-id">
-                        <div class="form-group"><label>Image de la réalisation</label><input type="file" id="ad-w-img" accept="image/*"></div>
+                        <div class="form-group"><label>Image de la réalisation (سيرفر)</label><input type="file" id="ad-w-img" accept="image/*"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-fr" placeholder="Titre (FR)"></div>
                         <div class="form-group"><input type="text" id="ad-w-title-ar" placeholder="العنوان (AR)"></div>
                         <div class="form-group"><textarea id="ad-w-desc-fr" placeholder="Texte complet (FR)"></textarea></div>
@@ -314,7 +314,7 @@
                 <div id="sec-partners" class="admin-sec">
                     <h2 class="sec-header"><i class="fas fa-handshake"></i> Gérer les Partenaires</h2>
                     <div class="form-card">
-                        <div class="form-group"><label>Logo du partenaire</label><input type="file" id="ad-p-img" accept="image/*"></div>
+                        <div class="form-group"><label>Logo du partenaire (سيرفر)</label><input type="file" id="ad-p-img" accept="image/*"></div>
                         <button class="btn-save" id="btn-save-partner" onclick="addPartner()">Ajouter / إضافة الشريك</button>
                     </div>
                     <div class="archive-section"><h3 class="archive-title">Archive des Partenaires</h3><div id="list-partners"></div></div>
@@ -335,12 +335,11 @@
         </div>
     </div>
 
-    <!-- ================= سكريبت فايربيس العالمي ================= -->
+    <!-- ================= سكريبت فايربيس (مع تفعيل السيرفر العالمي) ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        // إعادة Firebase Storage لرفع الصور للسيرفر ليراها الجميع
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
@@ -356,7 +355,7 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
-        const storage = getStorage(app); // تعريف Storage من جديد
+        const storage = getStorage(app);
 
         const staticServices = [
             { fr: "Programmes de formation, coaching et accompagnement", ar: "برامج التكوين، التدريب والمرافقة" },
@@ -413,21 +412,21 @@
             setTimeout(() => { toast.className = toast.className.replace("show", "").replace("error", ""); }, 4000);
         }
 
-        // --- رفع الصورة للسيرفر ليراها الجميع ---
+        // --- دالة رفع الصور لـ Firebase Storage ليراها الجميع ---
         async function uploadHighQualityImage(file) {
             if(!file) return null;
             try {
                 const storageRef = ref(storage, `uploads/${Date.now()}_${file.name}`);
                 const snapshot = await uploadBytes(storageRef, file);
-                return await getDownloadURL(snapshot.ref); // يجلب رابطاً يعمل في كل أنحاء العالم
+                return await getDownloadURL(snapshot.ref); 
             } catch (error) {
                 console.error("Storage Error:", error);
-                throw new Error("حدث خطأ أثناء رفع الصورة للسيرفر. يرجى تفعيل (Storage) في حساب Firebase.");
+                throw new Error("خطأ في رفع الصورة للسيرفر. تأكد من تفعيل Storage Rules في Firebase.");
             }
         }
 
         let siteData = { banners: [], settings: {}, services: [], works: [], partners: [] };
-        
+
         function renderMarquee() {
             const half = Math.ceil(staticServices.length / 2);
             const r1 = staticServices.slice(0, half);
@@ -477,9 +476,8 @@
         }
         window.closeModal = function() { document.getElementById('blog-modal').style.display = 'none'; }
 
-        // --- الاتصال المباشر بقاعدة بيانات فايربيس (لجلب التحديثات للجميع) ---
+        // --- الاتصال الدائم بالسيرفر لجميع المستخدمين ---
         function initFirebaseListeners() {
-            // هذه الدوال هي التي تقوم بتحديث الموقع تلقائياً لدى جميع المستخدمين
             onSnapshot(collection(db, "banners"), (snap) => { 
                 let b = snap.docs.map(d => ({id: d.id, ...d.data()}));
                 b.sort((x, y) => (x.timestamp || 0) - (y.timestamp || 0)); 
@@ -492,7 +490,9 @@
         }
 
         const isAdminRoute = window.location.pathname.endsWith('/admin16') || window.location.hash.includes('admin16');
-        initFirebaseListeners(); // بدأ الاتصال بالسيرفر
+        
+        // بمجرد فتح الموقع يتصل بفايربيس لجلب التحديثات
+        initFirebaseListeners(); 
 
         if(isAdminRoute) {
             document.getElementById('public-view').style.display = 'none'; document.getElementById('bg-animation').style.display = 'none'; document.getElementById('admin-panel').style.display = 'block';
@@ -525,7 +525,7 @@
             document.getElementById('list-partners').innerHTML = (siteData.partners||[]).map(p => `<div class="list-item"><div class="list-item-info"><img src="${p.img}"></div><div class="list-actions"><button class="btn-delete" onclick="deleteItem('partners','${p.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
         }
 
-        // --- نظام حماية الزر ---
+        // --- نظام حماية أزرار الحفظ (يتجنب التشنج) ---
         function setBtnLoading(id, state) { 
             const btn = document.getElementById(id);
             if(!btn) return;
@@ -537,9 +537,9 @@
                     if(btn.disabled) {
                         btn.disabled = false;
                         btn.innerText = "Enregistrer / حفظ";
-                        alert("⚠️ تأخر السيرفر في الرد!\n\nهل قمت بتفعيل Firestore و Storage ووضعت الـ Rules كما في الخطوات؟\nإذا لم تفعل ذلك، فلن يتمكن الموقع من رفع التحديثات لكي يراها الناس.");
+                        alert("⚠️ تأخر السيرفر في الرد!\nتأكد من تفعيل قواعد Firestore و Storage في حسابك على فايربيس (يجب أن تكون true).");
                     }
-                }, 12000);
+                }, 10000);
             } else {
                 clearTimeout(window['timeout_' + id]);
             }
@@ -562,7 +562,7 @@
                 };
                 
                 if(id) await updateDoc(doc(db, "banners", id), data); else await addDoc(collection(db, "banners"), data);
-                showToast("تم الحفظ بنجاح", "Enregistré avec succès"); resetForm('banner'); setBtnLoading("btn-save-banner", false);
+                showToast("تم الحفظ للجميع بنجاح", "Enregistré pour tous"); resetForm('banner'); setBtnLoading("btn-save-banner", false);
             } catch (error) { setBtnLoading("btn-save-banner", false); alert("خطأ: " + error.message); } 
         }
 
@@ -578,7 +578,7 @@
 
                 const data = { img: imgUrl, title_fr: document.getElementById('ad-s-title-fr').value, title_ar: document.getElementById('ad-s-title-ar').value, desc_fr: document.getElementById('ad-s-desc-fr').value, desc_ar: document.getElementById('ad-s-desc-ar').value };
                 if(id) await updateDoc(doc(db, "services", id), data); else await addDoc(collection(db, "services"), data);
-                showToast("تم حفظ الخدمة", "Service enregistré"); resetForm('service'); setBtnLoading("btn-save-service", false);
+                showToast("تم الحفظ للجميع", "Service enregistré"); resetForm('service'); setBtnLoading("btn-save-service", false);
             } catch (error) { setBtnLoading("btn-save-service", false); alert("خطأ: " + error.message); } 
         }
 
@@ -594,7 +594,7 @@
 
                 const data = { img: imgUrl, title_fr: document.getElementById('ad-w-title-fr').value, title_ar: document.getElementById('ad-w-title-ar').value, desc_fr: document.getElementById('ad-w-desc-fr').value, desc_ar: document.getElementById('ad-w-desc-ar').value };
                 if(id) await updateDoc(doc(db, "works", id), data); else await addDoc(collection(db, "works"), data);
-                showToast("تم حفظ العمل", "Réalisation enregistrée"); resetForm('work'); setBtnLoading("btn-save-work", false);
+                showToast("تم الحفظ للجميع", "Réalisation enregistrée"); resetForm('work'); setBtnLoading("btn-save-work", false);
             } catch (error) { setBtnLoading("btn-save-work", false); alert("خطأ: " + error.message); } 
         }
 
@@ -615,7 +615,7 @@
             setBtnLoading("btn-save-settings", true);
             try {
                 const data = { email: document.getElementById('ad-email').value, phone: document.getElementById('ad-phone').value, fb: document.getElementById('ad-fb').value, ig: document.getElementById('ad-ig').value, map: document.getElementById('ad-map').value, about_fr: document.getElementById('ad-about-fr').value, about_ar: document.getElementById('ad-about-ar').value };
-                await setDoc(doc(db, "site", "settings"), data); showToast("تم حفظ الإعدادات", "Paramètres enregistrés"); setBtnLoading("btn-save-settings", false);
+                await setDoc(doc(db, "site", "settings"), data); showToast("تم حفظ الإعدادات للجميع", "Paramètres enregistrés"); setBtnLoading("btn-save-settings", false);
             } catch (error) { setBtnLoading("btn-save-settings", false); alert("خطأ: " + error.message); } 
         }
 
@@ -643,7 +643,7 @@
 
         window.deleteItem = async function(col, id) {
             if(confirm("هل أنت متأكد من الحذف؟ / Êtes-vous sûr de vouloir supprimer ?")) {
-                try { await deleteDoc(doc(db, col, id)); showToast("تم الحذف بنجاح", "Élément supprimé"); } 
+                try { await deleteDoc(doc(db, col, id)); showToast("تم الحذف للجميع", "Élément supprimé"); } 
                 catch(error) { alert("خطأ: \n" + error.message); }
             }
         }
