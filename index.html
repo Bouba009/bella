@@ -1,777 +1,2495 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bella Skills</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* --- المتغيرات والتصميم العام --- */
-        :root { --primary: #5A2D82; --primary-light: #7a42ab; --white: #ffffff; --bg: #f4f6f9; --text: #333; --success: #2ecc71; --danger: #e74c3c; --dark: #2c3e50;}
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', 'Cairo', sans-serif; background-color: var(--bg); color: var(--text); overflow-x: hidden; }
-        html[dir="rtl"] body { font-family: 'Cairo', sans-serif; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* --- شاشة التحميل (Preloader) --- */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: var(--white);
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-        }
-        .preloader-text {
-            color: var(--primary);
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            animation: pulseText 1s infinite alternate;
-            font-weight: bold;
-        }
-        .preloader-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulseText { 0% { transform: scale(0.9); opacity: 0.7; } 100% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 10px rgba(90, 45, 130, 0.3); } }
+<title>Bella Skills HUB | Consulting • Coaching • Training</title>
 
-        #bg-animation { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; overflow: hidden; }
-        .floating-icon { position: absolute; color: var(--primary); opacity: 0.1; animation: floatUp linear infinite; }
-        @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); } 100% { transform: translateY(-20vh) rotate(360deg); } }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo-container img { max-height: 55px; width: auto; transition: 0.3s; }
-        .nav-controls { display: flex; gap: 15px; align-items: center; }
-        .lang-btn { background: var(--primary); color: var(--white); border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .menu-btn { font-size: 24px; color: var(--primary); cursor: pointer; }
+<style>
+/* =========================================================
+   ROOT & BASE
+========================================================= */
+:root{
+    --purple:#7525B5;
+    --purple-dark:#42105F;
+    --purple-light:#B97AE8;
+    --purple-glow:#C04DFF;
+    --purple-soft:#F1E7F8;
 
-        #sidebar { position: fixed; top: 0; right: -300px; width: 250px; height: 100vh; background: var(--white); box-shadow: -2px 0 10px rgba(0,0,0,0.1); transition: 0.3s; z-index: 1000; padding: 20px; }
-        html[dir="rtl"] #sidebar { right: auto; left: -300px; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
-        #sidebar.active { right: 0; }
-        html[dir="rtl"] #sidebar.active { left: 0; right: auto; }
-        .close-btn { text-align: right; font-size: 24px; cursor: pointer; color: var(--primary); }
-        html[dir="rtl"] .close-btn { text-align: left; }
-        #sidebar a { display: block; padding: 15px 0; color: var(--text); text-decoration: none; border-bottom: 1px solid #eee; font-weight: bold;}
+    --white:#FFFFFF;
+    --bg:#F6F5F8;
+    --gray:#E9E7ED;
+    --text:#29222F;
+    --muted:#77717D;
 
-        /* --- البانر --- */
-        .banner { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: var(--white); padding: 60px 20px; text-align: center; margin: 20px 5%; border-radius: 15px; box-shadow: 0 10px 20px rgba(90, 45, 130, 0.2); position: relative; overflow: hidden; min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;}
-        .banner-bg { position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; z-index: 0; }
-        .banner-content { position: relative; z-index: 1; }
-        .banner h1 { margin-bottom: 15px; font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);}
-        .banner-details { margin-bottom: 30px; font-size: 1.1em; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);}
-        .banner-details span { margin: 0 10px; }
-        .register-btn { background: var(--white); color: var(--primary); text-decoration: none; padding: 15px 35px; border-radius: 30px; font-weight: bold; display: inline-block; animation: pulse 1.5s infinite; transition: 0.3s; font-size: 1.1em; }
-        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255,255,255,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
+    --shadow:0 20px 50px rgba(70,20,100,.10);
+    --shadow-hover:0 25px 60px rgba(117,37,181,.18);
+}
 
-        /* --- شريط الخدمات المتحرك --- */
-        .services-section { padding: 40px 0; text-align: center; cursor: pointer; transition: 0.3s; }
-        .services-section:hover { background-color: rgba(90, 45, 130, 0.03); }
-        .services-hint { color: var(--primary); font-size: 0.9em; margin-bottom: 10px; opacity: 0.7; animation: bounce 2s infinite; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-        
-        .full-width-marquee { width: 100vw; position: relative; left: 50%; transform: translateX(-50%); overflow: hidden; padding: 10px 0 20px 0; background: transparent; }
-        .marquee-track { display: flex; gap: 20px; width: max-content; margin-bottom: 15px; pointer-events: none;}
-        .marquee-item { background: var(--primary); color: var(--white); padding: 12px 25px; border-radius: 30px; font-weight: bold; white-space: nowrap; box-shadow: 0 4px 10px rgba(90, 45, 130, 0.2); font-size: 1.05em; border: 2px solid rgba(255,255,255,0.2);}
-        
-        @keyframes scrollLTR { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        @keyframes scrollLTR_rev { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-        @keyframes scrollRTL { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
-        @keyframes scrollRTL_rev { 0% { transform: translateX(50%); } 100% { transform: translateX(0); } }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        html[dir="ltr"] .marquee-track.row1 { animation: scrollLTR 40s linear infinite; }
-        html[dir="ltr"] .marquee-track.row2 { animation: scrollLTR_rev 45s linear infinite; }
-        html[dir="rtl"] .marquee-track.row1 { animation: scrollRTL 40s linear infinite; }
-        html[dir="rtl"] .marquee-track.row2 { animation: scrollRTL_rev 45s linear infinite; }
+html{
+    scroll-behavior:smooth;
+}
 
-        /* --- الأقسام --- */
-        section { padding: 40px 5%; }
-        .section-title { text-align: center; color: var(--primary); margin-bottom: 40px; font-size: 2em; position: relative; }
-        .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: var(--primary); border-radius: 5px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .card { background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; text-align: center; padding-bottom: 20px; cursor: pointer; }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(90, 45, 130, 0.15); }
-        .card img { width: 100%; height: 220px; object-fit: cover; }
-        .card h3 { margin: 20px 0 10px; color: var(--primary); font-size: 1.3em; }
-        .card p { padding: 0 20px; color: #666; font-size: 0.95em; line-height: 1.6; }
+body{
+    font-family:"DM Sans",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+}
 
-        .partners-container { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
-        .partners-container img { height: 70px; transition: all 0.3s ease; opacity: 0.9; }
-        .partners-container img:hover { opacity: 1; transform: scale(1.1); }
+a{
+    color:inherit;
+    text-decoration:none;
+}
 
-        /* --- الفوتر والخريطة --- */
-        footer { background: var(--white); padding: 50px 5% 20px; margin-top: 40px; border-top: 4px solid var(--primary); }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 30px; }
-        
-        .map-container iframe { width: 100% !important; height: 200px !important; border: none !important; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        
-        .social-links a { color: var(--white); background: var(--primary); width: 40px; height: 40px; display: inline-flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 20px; margin-right: 10px; text-decoration: none; transition: 0.3s; }
-        .copy { text-align: center; font-size: 0.9em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
-        
-        .read-more-btn { color: var(--primary); font-weight: bold; cursor: pointer; display: inline-block; margin-top: 5px; transition: 0.3s; }
-        .read-more-btn:hover { color: var(--primary-light); text-decoration: underline; }
+button,
+input,
+textarea,
+select{
+    font-family:inherit;
+}
 
-        .fab-whatsapp { position: fixed; bottom: 30px; left: 30px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 35px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); z-index: 1000; text-decoration: none; transition: 0.3s; }
-        html[dir="rtl"] .fab-whatsapp { left: auto; right: 30px; }
+img{
+    display:block;
+    max-width:100%;
+}
 
-        /* --- المودال --- */
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .modal-content { background: white; padding: 30px; border-radius: 15px; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative; }
-        .modal-close { position: absolute; top: 10px; right: 10px; font-size: 24px; cursor: pointer; color: var(--primary); background: #eee; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; border-radius: 50%; }
-        html[dir="rtl"] .modal-close { right: auto; left: 10px; }
-        
-        #blog-modal .modal-content img { width: 100%; border-radius: 10px; margin-bottom: 15px; max-height: 400px; object-fit: cover; }
-        
-        .services-list { list-style: none; padding: 0; margin-top: 20px; }
-        .services-list li { background: var(--bg); padding: 15px 20px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid var(--primary); font-weight: bold; color: var(--dark); display: flex; align-items: center; gap: 15px;}
-        html[dir="rtl"] .services-list li { border-left: none; border-right: 4px solid var(--primary); }
-        .services-list li i { color: var(--success); }
+.container{
+    width:min(1180px,calc(100% - 36px));
+    margin:auto;
+}
 
-        #toast { visibility: hidden; min-width: 250px; background-color: var(--success); color: #fff; text-align: center; border-radius: 10px; padding: 16px; position: fixed; z-index: 3000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 16px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-        #toast.error { background-color: var(--danger); }
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+section{
+    overflow:hidden;
+}
 
-        /* --- واجهة الإدارة --- */
-        #admin-panel { display: none; height: 100vh; overflow: hidden; background: var(--bg); }
-        .admin-login { max-width: 400px; margin: 15vh auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
-        .admin-login input { width: 100%; padding: 15px; margin: 20px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 1em; }
-        .admin-login button { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; font-weight: bold; }
-        
-        .admin-layout { display: flex; height: 100vh; }
-        .admin-nav { width: 250px; background: var(--dark); color: white; display: flex; flex-direction: column; overflow-y: auto;}
-        .admin-nav-header { padding: 20px; text-align: center; background: var(--primary); font-size: 1.5em; font-weight: bold; letter-spacing: 1px;}
-        .admin-nav button { background: transparent; border: none; color: #ccc; text-align: left; padding: 15px 20px; font-size: 1.1em; cursor: pointer; transition: 0.3s; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 10px;}
-        html[dir="rtl"] .admin-nav button { text-align: right; }
-        .admin-nav button:hover, .admin-nav button.active { background: var(--primary); color: white; padding-left: 25px; }
-        html[dir="rtl"] .admin-nav button:hover, html[dir="rtl"] .admin-nav button.active { padding-left: 20px; padding-right: 25px; }
-        .admin-nav .logout-btn { margin-top: auto; background: var(--danger); }
+/* =========================================================
+   HEADER & NAVBAR
+========================================================= */
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    transition:.35s;
+}
 
-        .admin-main { flex: 1; padding: 30px; overflow-y: auto; }
-        .admin-sec { display: none; animation: fadeIn 0.3s; }
-        .admin-sec.active { display: block; }
-        @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+header.scrolled{
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(15px);
+    box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
 
-        .sec-header { margin-bottom: 30px; color: var(--primary); border-bottom: 2px solid var(--primary-light); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;}
-        
-        .dashboard-stats { display: flex; gap: 20px; flex-wrap: wrap; }
-        .stat-box { flex: 1; min-width: 200px; padding: 30px 20px; color: white; border-radius: 15px; text-align: center; font-size: 1.1em; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .stat-box span { display: block; font-size: 3em; margin-top: 10px; }
-        .stat-box.c1 { background: linear-gradient(135deg, #1A2980, #26D0CE); } 
-        .stat-box.c2 { background: linear-gradient(135deg, #FF512F, #DD2476); } 
-        .stat-box.c3 { background: linear-gradient(135deg, #11998e, #38ef7d); } 
+.nav{
+    height:90px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
 
-        .form-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; color: #555; font-weight: bold; font-size: 0.9em; }
-        .form-card input[type="text"], .form-card textarea, .form-card input[type="file"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; transition: 0.3s; }
-        .form-card input[type="text"]:focus, .form-card textarea:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 5px rgba(90,45,130,0.2); }
-        .form-card textarea { min-height: 100px; resize: vertical; }
-        
-        .btn-save { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1em; width: 100%; transition: 0.3s;}
-        .btn-save:hover { background: var(--primary-light); }
-        .btn-save:disabled { background: #999; cursor: not-allowed; }
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
 
-        .archive-section { margin-top: 40px; }
-        .archive-title { font-size: 1.2em; color: var(--dark); margin-bottom: 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
-        html[dir="rtl"] .archive-title { border-left: none; border-right: 4px solid var(--primary); padding-left: 0; padding-right: 10px; }
-        
-        .list-item { display: flex; justify-content: space-between; align-items: center; background: white; border: 1px solid #eee; padding: 12px 15px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .list-item img { width: 80px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 15px; border: 1px solid #ddd; }
-        html[dir="rtl"] .list-item img { margin-right: 0; margin-left: 15px; }
-        .list-item-info { flex: 1; display: flex; align-items: center; font-weight: bold; color: #444; }
-        .list-actions button { padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; margin-left: 5px; color: white; transition: 0.2s;}
-        .btn-edit { background: #f39c12; } .btn-edit:hover { background: #e67e22; }
-        .btn-delete { background: var(--danger); } .btn-delete:hover { background: #c0392b; }
-    </style>
+.logo-img{
+    width:52px;
+    height:52px;
+    border-radius:12px;
+    object-fit:cover;
+    box-shadow:0 4px 15px rgba(117,37,181,.2);
+}
+
+.logo-name{
+    font-family:"Playfair Display",serif;
+    font-size:23px;
+    font-weight:700;
+    line-height:1;
+    color:var(--purple-dark);
+}
+
+.logo-name small{
+    display:block;
+    font-family:"DM Sans",sans-serif;
+    font-size:8px;
+    letter-spacing:3px;
+    color:var(--purple);
+    margin-top:5px;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    list-style:none;
+}
+
+.nav-links a{
+    font-size:13px;
+    font-weight:600;
+    transition:.25s;
+}
+
+.nav-links a:hover{
+    color:var(--purple);
+}
+
+/* Language Switcher */
+.lang-switcher{
+    display:flex;
+    align-items:center;
+    background:rgba(117,37,181,.08);
+    border:1px solid rgba(117,37,181,.2);
+    border-radius:30px;
+    padding:3px;
+}
+
+.lang-btn{
+    border:none;
+    background:none;
+    padding:6px 12px;
+    font-size:12px;
+    font-weight:700;
+    color:var(--purple-dark);
+    cursor:pointer;
+    border-radius:20px;
+    transition:.25s;
+}
+
+.lang-btn.active{
+    background:var(--purple);
+    color:white;
+    box-shadow:0 2px 10px rgba(117,37,181,.3);
+}
+
+.nav-contact{
+    color:white!important;
+    background:var(--purple);
+    padding:11px 22px;
+    border-radius:6px;
+    transition:.3s;
+}
+
+.nav-contact:hover{
+    background:var(--purple-dark);
+    transform:translateY(-2px);
+}
+
+.menu{
+    display:none;
+    border:0;
+    background:none;
+    color:var(--purple);
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* =========================================================
+   HERO SLIDER
+========================================================= */
+.hero-slider{
+    height:100vh;
+    min-height:680px;
+    position:relative;
+    overflow:hidden;
+    background:#24152D;
+}
+
+.slides{
+    width:100%;
+    height:100%;
+    position:relative;
+}
+
+.slide{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity 1s ease,visibility 1s ease;
+}
+
+.slide.active{
+    opacity:1;
+    visibility:visible;
+    z-index:2;
+}
+
+.slide img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform:scale(1.08);
+    transition:transform 6s ease;
+}
+
+.slide.active img{
+    transform:scale(1);
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        90deg,
+        rgba(28,13,37,.94) 0%,
+        rgba(48,18,63,.82) 40%,
+        rgba(58,22,75,.45) 75%,
+        rgba(30,10,40,.4) 100%
+    );
+}
+
+.slide-content{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    z-index:5;
+    padding-top:70px;
+    color:white;
+}
+
+.slide-tag{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#DDBBF4;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:3px;
+    margin-bottom:22px;
+}
+
+.slide-tag:before{
+    content:"";
+    width:38px;
+    height:2px;
+    background:#C45AFF;
+    box-shadow:0 0 12px #B84DFF;
+}
+
+.slide h1{
+    max-width:850px;
+    color:white;
+    font-family:"Playfair Display",serif;
+    font-size:clamp(44px,6.5vw,84px);
+    line-height:1.05;
+    letter-spacing:-2px;
+    margin-bottom:25px;
+}
+
+.slide h1 span{
+    color:#C36AF0;
+    text-shadow:0 0 30px rgba(184,77,255,.25);
+}
+
+.slide p{
+    max-width:600px;
+    color:rgba(255,255,255,.8);
+    font-size:16px;
+    line-height:1.8;
+    margin-bottom:32px;
+}
+
+.slide-buttons{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.slider-btn{
+    min-width:160px;
+    padding:14px 24px;
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    border:1px solid rgba(255,255,255,.6);
+    color:white;
+    font-size:12px;
+    font-weight:800;
+    border-radius:4px;
+    transition:.3s;
+}
+
+.slider-btn:hover{
+    background:white;
+    color:#64218F;
+    border-color:white;
+    transform:translateY(-3px);
+}
+
+.slider-btn.primary{
+    background:#7525B5;
+    border-color:#7525B5;
+    box-shadow:0 10px 30px rgba(117,37,181,.4);
+}
+
+.slider-btn.primary:hover{
+    background:#9635D2;
+    color:white;
+    box-shadow:0 0 30px rgba(184,77,255,.45);
+}
+
+.slider-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:20;
+    width:52px;
+    height:52px;
+    border:1px solid rgba(255,255,255,.35);
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(8px);
+    color:white;
+    cursor:pointer;
+    font-size:20px;
+    border-radius:50%;
+    transition:.3s;
+}
+
+.slider-arrow:hover{
+    background:#7525B5;
+    border-color:#7525B5;
+    box-shadow:0 0 25px rgba(184,77,255,.45);
+}
+
+.slider-arrow.prev{ left:28px; }
+.slider-arrow.next{ right:28px; }
+
+.slider-navigation{
+    position:absolute;
+    left:50%;
+    bottom:38px;
+    transform:translateX(-50%);
+    z-index:30;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.slider-dot{
+    width:55px;
+    height:38px;
+    border:1px solid rgba(255,255,255,.3);
+    background:rgba(255,255,255,.08);
+    color:rgba(255,255,255,.65);
+    cursor:pointer;
+    transition:.3s;
+    backdrop-filter:blur(8px);
+    border-radius:4px;
+}
+
+.slider-dot span{
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.slider-dot.active{
+    background:#7525B5;
+    border-color:#7525B5;
+    color:white;
+    box-shadow:0 0 20px rgba(184,77,255,.3);
+}
+
+.slider-progress{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:3px;
+    background:rgba(255,255,255,.12);
+    z-index:30;
+}
+
+#progressBar{
+    width:0;
+    height:100%;
+    background:#C04DFF;
+    box-shadow:0 0 12px #C04DFF;
+}
+
+/* =========================================================
+   GLOBAL HEADINGS & LABELS
+========================================================= */
+.label{
+    color:var(--purple);
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:18px;
+}
+
+.label:before{
+    content:"";
+    display:inline-block;
+    width:30px;
+    height:2px;
+    background:var(--purple);
+    margin-right:10px;
+    vertical-align:middle;
+}
+
+h1, h2, h3{
+    font-family:"Playfair Display",serif;
+    line-height:1.15;
+}
+
+h2{
+    font-size:clamp(34px,4.5vw,52px);
+    color:#241C29;
+    margin-bottom:22px;
+}
+
+/* =========================================================
+   INTRO SECTION
+========================================================= */
+.intro{
+    background:white;
+    padding:110px 0;
+}
+
+.intro-grid{
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    gap:70px;
+    align-items:center;
+}
+
+.intro-image-wrap{
+    position:relative;
+}
+
+.intro-main-img{
+    width:100%;
+    height:420px;
+    object-fit:cover;
+    border-radius:24px 0 24px 0;
+    box-shadow:var(--shadow);
+}
+
+.intro-badge{
+    position:absolute;
+    bottom:-25px;
+    right:-20px;
+    background:white;
+    padding:16px 20px;
+    border-radius:16px;
+    box-shadow:0 15px 40px rgba(70,20,100,.15);
+    display:flex;
+    align-items:center;
+    gap:14px;
+    border-left:4px solid var(--purple);
+}
+
+.intro-badge img{
+    width:48px;
+    height:48px;
+    border-radius:8px;
+    object-fit:cover;
+}
+
+.intro-badge div strong{
+    display:block;
+    color:var(--purple-dark);
+    font-size:14px;
+    line-height:1.2;
+}
+
+.intro-badge div span{
+    font-size:11px;
+    color:var(--muted);
+}
+
+.text{
+    color:var(--muted);
+    font-size:15px;
+    margin-bottom:17px;
+}
+
+.quote{
+    border-left:3px solid var(--purple);
+    padding-left:20px;
+    margin-top:27px;
+    font-family:"Playfair Display",serif;
+    color:var(--purple-dark);
+    font-size:19px;
+    font-style:italic;
+}
+
+/* =========================================================
+   SERVICES (WITH WORKSPACE & TRAINING IMAGES)
+========================================================= */
+.services{
+    padding:110px 0;
+    background:#F3F1F5;
+}
+
+.heading{
+    max-width:700px;
+    margin-bottom:55px;
+}
+
+.heading p{
+    color:var(--muted);
+}
+
+.services-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+.service{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    transition:.35s ease;
+    box-shadow:0 8px 25px rgba(0,0,0,.03);
+}
+
+.service:hover{
+    transform:translateY(-8px);
+    box-shadow:var(--shadow-hover);
+}
+
+.service-img{
+    height:220px;
+    position:relative;
+    overflow:hidden;
+}
+
+.service-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:transform .6s ease;
+}
+
+.service:hover .service-img img{
+    transform:scale(1.08);
+}
+
+.service-tag{
+    position:absolute;
+    bottom:14px;
+    left:14px;
+    background:rgba(28,13,37,.85);
+    backdrop-filter:blur(8px);
+    color:white;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1.5px;
+    padding:5px 12px;
+    border-radius:4px;
+    border-left:3px solid var(--purple-glow);
+}
+
+.service-content{
+    padding:26px;
+}
+
+.service h3{
+    font-size:22px;
+    color:#332737;
+    margin-bottom:10px;
+}
+
+.service p{
+    color:var(--muted);
+    font-size:13.5px;
+    margin-bottom:20px;
+    min-height:48px;
+}
+
+.more{
+    color:var(--purple);
+    font-size:13px;
+    font-weight:700;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    transition:.25s;
+}
+
+.more:hover{
+    color:var(--purple-dark);
+    gap:10px;
+}
+
+/* =========================================================
+   HUB ECOSYSTEM
+========================================================= */
+.hub{
+    padding:110px 0;
+    background:white;
+}
+
+.hub-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+}
+
+.hub-item{
+    display:grid;
+    grid-template-columns:65px 1fr;
+    gap:22px;
+    padding:35px;
+    background:#FBFAFC;
+    border:1px solid rgba(117,37,181,.1);
+    border-radius:12px;
+    transition:.3s;
+}
+
+.hub-item:hover{
+    background:var(--purple-soft);
+    transform:translateY(-4px);
+}
+
+.hub-number{
+    width:55px;
+    height:55px;
+    background:var(--purple);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:13px;
+    font-weight:800;
+    border-radius:8px;
+}
+
+.hub-item h3{
+    font-size:22px;
+    color:var(--purple-dark);
+    margin-bottom:9px;
+}
+
+.hub-item p{
+    color:var(--muted);
+    font-size:13.5px;
+}
+
+.hub-item ul{
+    list-style:none;
+    margin-top:15px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+}
+
+.hub-item li{
+    color:#625A68;
+    font-size:12px;
+}
+
+.hub-item li:before{
+    content:"•";
+    color:var(--purple);
+    margin-right:6px;
+    font-weight:bold;
+}
+
+/* =========================================================
+   DOMAINS
+========================================================= */
+.dark{
+    padding:110px 0;
+    color:white;
+    background:
+    radial-gradient(circle at 85% 10%,rgba(185,122,232,.3),transparent 25%),
+    linear-gradient(135deg,#481064,#7625B5);
+}
+
+.dark h2{ color:white; }
+.dark .label{ color:#DDBBF4; }
+.dark .label:before{ background:#DDBBF4; }
+
+.dark-intro{
+    color:rgba(255,255,255,.75);
+    max-width:650px;
+    margin-bottom:55px;
+}
+
+.domain-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.domain{
+    padding:32px 28px;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.06);
+    border-radius:10px;
+    transition:.3s;
+}
+
+.domain:hover{
+    background:rgba(255,255,255,.12);
+    transform:translateY(-5px);
+}
+
+.domain-number{
+    font-family:"Playfair Display",serif;
+    color:#DAB8F3;
+    font-size:36px;
+}
+
+.domain h3{
+    color:white;
+    font-size:22px;
+    margin:8px 0;
+}
+
+.domain p{
+    color:rgba(255,255,255,.7);
+    font-size:13px;
+}
+
+/* =========================================================
+   PROCESS
+========================================================= */
+.process{
+    padding:110px 0;
+    background:#F5F4F6;
+}
+
+.process-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+}
+
+.step{
+    border-top:2px solid var(--purple-light);
+    padding-top:22px;
+}
+
+.step-number{
+    color:var(--purple);
+    font-family:"Playfair Display",serif;
+    font-size:40px;
+}
+
+.step h3{
+    font-size:21px;
+    margin:8px 0;
+}
+
+.step p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* =========================================================
+   ABOUT
+========================================================= */
+.about{
+    padding:110px 0;
+    background:white;
+}
+
+.about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    align-items:center;
+}
+
+.about-image{
+    height:500px;
+}
+
+.about-image img{
+    height:100%;
+    width:100%;
+    object-fit:cover;
+    border-radius:150px 0 20px 0;
+    box-shadow:var(--shadow);
+}
+
+.features{
+    list-style:none;
+    margin-top:25px;
+}
+
+.features li{
+    padding:12px 0;
+    border-bottom:1px solid rgba(117,37,181,.1);
+    font-size:14px;
+}
+
+.features li:before{
+    content:"✓";
+    color:var(--purple);
+    font-weight:900;
+    margin-right:12px;
+}
+
+/* =========================================================
+   CTA
+========================================================= */
+.cta{
+    padding:100px 20px;
+    text-align:center;
+    background:
+    radial-gradient(circle,rgba(185,122,232,.25),transparent 45%),
+    var(--purple-soft);
+}
+
+.cta-content{
+    max-width:760px;
+    margin:auto;
+}
+
+.cta p{
+    color:var(--muted);
+    max-width:600px;
+    margin:0 auto 30px;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:14px 28px;
+    border:1px solid var(--purple);
+    font-size:13px;
+    font-weight:700;
+    border-radius:6px;
+    transition:.3s;
+}
+
+.btn-primary{
+    background:var(--purple);
+    color:white;
+    box-shadow:0 10px 25px rgba(117,37,181,.25);
+}
+
+.btn-primary:hover{
+    background:var(--purple-dark);
+    transform:translateY(-2px);
+}
+
+/* =========================================================
+   CONTACT & FORM
+========================================================= */
+.contact{
+    padding:110px 0;
+    background:#F6F5F7;
+}
+
+.contact-grid{
+    display:grid;
+    grid-template-columns:.85fr 1.15fr;
+    gap:60px;
+}
+
+.contact-info p{
+    color:var(--muted);
+    max-width:470px;
+    margin-bottom:30px;
+}
+
+.contact-item{
+    margin-bottom:20px;
+}
+
+.contact-item small{
+    display:block;
+    color:var(--purple);
+    font-size:10px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+}
+
+.contact-item strong{
+    font-size:15px;
+}
+
+.phone{
+    color:var(--purple);
+}
+
+.contact-buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:25px;
+}
+
+.contact-button{
+    padding:11px 20px;
+    border:1px solid var(--purple);
+    color:var(--purple);
+    font-size:12px;
+    font-weight:700;
+    border-radius:6px;
+    transition:.3s;
+}
+
+.contact-button:hover{
+    background:var(--purple);
+    color:white;
+}
+
+.form{
+    background:white;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:var(--shadow);
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.group{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    font-size:11px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:13px;
+    border:1px solid #DDD9E1;
+    background:#FAFAFB;
+    border-radius:6px;
+    outline:none;
+    color:var(--text);
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:var(--purple);
+    background:white;
+}
+
+textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+.success{
+    display:none;
+    margin-top:15px;
+    padding:14px;
+    border-radius:6px;
+    background:var(--purple-soft);
+    color:var(--purple-dark);
+    font-size:13px;
+    font-weight:600;
+}
+
+/* =========================================================
+   MAP
+========================================================= */
+.map{
+    margin-top:60px;
+    background:white;
+    padding:12px;
+    border-radius:12px;
+    box-shadow:var(--shadow);
+}
+
+.map-title{
+    padding:18px 18px 5px;
+    font-family:"Playfair Display",serif;
+    color:var(--purple-dark);
+    font-size:25px;
+}
+
+.map-text{
+    padding:0 18px 18px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.map iframe{
+    width:100%;
+    height:380px;
+    border:0;
+    border-radius:8px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+footer{
+    background:#24152D;
+    color:white;
+    padding:65px 0 25px;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:50px;
+    padding-bottom:45px;
+}
+
+footer .logo-name{
+    color:white;
+}
+
+footer p{
+    max-width:370px;
+    color:rgba(255,255,255,.6);
+    font-size:13px;
+    margin-top:18px;
+}
+
+footer h4{
+    color:#C99BEA;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:17px;
+}
+
+footer ul{
+    list-style:none;
+}
+
+footer li{
+    color:rgba(255,255,255,.6);
+    font-size:12.5px;
+    margin-bottom:8px;
+}
+
+.footer-phone{
+    color:#D19CF1!important;
+    font-weight:700;
+}
+
+.copyright{
+    border-top:1px solid rgba(255,255,255,.1);
+    padding-top:20px;
+    display:flex;
+    justify-content:space-between;
+    color:rgba(255,255,255,.45);
+    font-size:11px;
+}
+
+/* =========================================================
+   TOP BUTTON & REVEAL
+========================================================= */
+.top{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    width:45px;
+    height:45px;
+    border:0;
+    border-radius:50%;
+    background:var(--purple);
+    color:white;
+    font-size:20px;
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+    z-index:900;
+    cursor:pointer;
+    box-shadow:0 5px 20px rgba(117,37,181,.4);
+}
+
+.top.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.reveal{
+    opacity:0;
+    transform:translateY(30px);
+    transition:.8s ease;
+}
+
+.reveal.active{
+    opacity:1;
+    transform:none;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media(max-width:980px){
+    .nav-links{
+        position:fixed;
+        right:-100%;
+        top:90px;
+        width:280px;
+        height:calc(100vh - 90px);
+        background:white;
+        flex-direction:column;
+        align-items:flex-start;
+        padding:35px;
+        transition:.3s;
+        box-shadow:-10px 0 30px rgba(0,0,0,.08);
+    }
+
+    .nav-links.open{
+        right:0;
+    }
+
+    .menu{
+        display:block;
+    }
+
+    .intro-grid,
+    .about-grid,
+    .contact-grid{
+        grid-template-columns:1fr;
+    }
+
+    .services-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .domain-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .process-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .about-image{
+        height:450px;
+    }
+}
+
+@media(max-width:620px){
+    .container{
+        width:calc(100% - 28px);
+    }
+
+    .nav{
+        height:76px;
+    }
+
+    .nav-links{
+        top:76px;
+        height:calc(100vh - 76px);
+    }
+
+    .logo-name{
+        font-size:18px;
+    }
+
+    .logo-img{
+        width:42px;
+        height:42px;
+    }
+
+    .hero-slider{
+        min-height:650px;
+        height:100svh;
+    }
+
+    .slide h1{
+        font-size:42px;
+    }
+
+    .slide p{
+        font-size:14px;
+    }
+
+    .slider-arrow{
+        width:42px;
+        height:42px;
+        font-size:16px;
+        top:auto;
+        bottom:92px;
+        transform:none;
+    }
+
+    .slider-arrow.prev{ left:18px; }
+    .slider-arrow.next{ right:18px; }
+
+    .services-grid,
+    .hub-grid,
+    .domain-grid,
+    .process-grid,
+    .form-row,
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hub-item{
+        grid-template-columns:1fr;
+    }
+
+    .hub-item ul{
+        grid-template-columns:1fr;
+    }
+
+    .about-image{
+        height:340px;
+    }
+
+    .form{
+        padding:25px;
+    }
+
+    .map iframe{
+        height:300px;
+    }
+
+    .copyright{
+        flex-direction:column;
+        gap:8px;
+    }
+
+    section:not(.hero-slider){
+        padding-top:75px!important;
+        padding-bottom:75px!important;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <!-- شاشة التحميل -->
-    <div id="preloader">
-        <h1 class="preloader-text">Bella Skills</h1>
-        <div class="preloader-spinner"></div>
+<!-- =========================================================
+     HEADER
+========================================================= -->
+<header id="header">
+<div class="container nav">
+
+<a href="#home" class="logo">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimZMGp5BR7hQp2daYfz6ii_IJ4wWEWk347tsUnOn42aD1hNGww9MAb17n3m9Qiwxc4-iyCYhjuPI-kQHJKLCZ2YrplFnSh5YGWTlpZ90DxQUjtwszIJXTtWRJdhz56qv3eh3QLGehQCUcZibgMvmg0UyXd0ewj3C-PY0xg_WTvoqTMcNFRRWsJ2fnTOYY/s320/1000013350.png" alt="Bella Skills HUB Logo" class="logo-img">
+    <div class="logo-name">
+        Bella Skills
+        <small>HUB</small>
+    </div>
+</a>
+
+<div class="nav-right">
+    <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="en">EN</button>
     </div>
 
-    <div id="bg-animation"></div>
-    <div id="toast"></div>
+    <button class="menu" id="menu" aria-label="Menu">☰</button>
 
-    <!-- الواجهة العامة -->
-    <div id="public-view">
-        <header>
-            <div class="logo-container">
-                <a href="#"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZvc2VX08-mtAOEnVZNA2xH8QGRGz2GbqIuMTKDh0suB-bjVIAogCm7ji820GlbHAkWWKsOg2yn3EAH7nMM_w_lvT3OH4H-UgYzsTiur_l3CzK2fcw2n_jTX1Z-t25DaLbwrY0jnDE13Zo3lrh8ZkXF5ybieZJOdpBQ4Xkr_zbn8LFS3zQDf5Bft28Zr4/s1254/1000013350.png" alt="Bella Skills"></a>
-            </div>
-            <div class="nav-controls">
-                <button class="lang-btn" onclick="toggleLanguage()" id="lang-toggle">عربي</button>
-                <i class="fas fa-bars menu-btn" onclick="toggleSidebar()"></i>
-            </div>
-        </header>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#home" data-i18n="nav_home">Accueil</a></li>
+        <li><a href="#coaching" data-i18n="nav_coaching">Coaching</a></li>
+        <li><a href="#services" data-i18n="nav_services">Services</a></li>
+        <li><a href="#hub" data-i18n="nav_hub">Bella Skills HUB</a></li>
+        <li><a href="#about" data-i18n="nav_about">À propos</a></li>
+        <li><a href="#contact" class="nav-contact" data-i18n="nav_contact">Contact</a></li>
+    </ul>
+</div>
 
-        <div id="sidebar">
-            <div class="close-btn" onclick="toggleSidebar()"><i class="fas fa-times"></i></div>
-            <br>
-            <a href="#banner" onclick="toggleSidebar()" data-i18n="menuEvent">L'événement</a>
-            <a href="#services" onclick="toggleSidebar()" data-i18n="menuServices">Nos Services</a>
-            <a href="#works" onclick="toggleSidebar()" data-i18n="menuWorks">Nos Réalisations</a>
-            <a href="#partners" onclick="toggleSidebar()" data-i18n="menuPartners">Nos Partenaires</a>
-            <a href="#footer" onclick="toggleSidebar()" data-i18n="menuContact">Contact</a>
-        </div>
+</div>
+</header>
 
-        <div class="banner" id="banner" style="display:none;">
-            <img id="b-bg" class="banner-bg" src="" style="display:none;" alt="">
-            <div class="banner-content">
-                <h1 id="b-title">...</h1>
-                <p class="banner-details"><i class="fas fa-map-marker-alt"></i> <span id="b-location">...</span> | <i class="fas fa-calendar-alt"></i> <span id="b-date">...</span></p>
-                <!-- الزر أصبح ديناميكياً يأخذ النص من قاعدة البيانات -->
-                <a href="#" id="b-link" class="register-btn" target="_blank" onclick="trackRegistration()">...</a>
-            </div>
-        </div>
 
-        <!-- قسم الخدمات -->
-        <div class="services-section" id="services" onclick="openServicesModal()">
-            <h2 class="section-title" data-i18n="titleServices">Nos Services</h2>
-            <p class="services-hint"><span data-i18n="clickToView">Cliquez pour voir tous les services</span> <i class="fas fa-hand-pointer"></i></p>
-            <div class="full-width-marquee">
-                <div class="marquee-track row1" id="mq-row1"></div>
-                <div class="marquee-track row2" id="mq-row2"></div>
-            </div>
-        </div>
+<!-- =========================================================
+     HERO SLIDER
+========================================================= -->
+<section class="hero-slider" id="home">
+<div class="slides">
 
-        <section id="works">
-            <h2 class="section-title" data-i18n="titleWorks">Nos Réalisations</h2>
-            <div class="grid" id="works-grid"></div>
-        </section>
-
-        <section id="partners">
-            <h2 class="section-title" data-i18n="titlePartners">Nos Partenaires</h2>
-            <div class="partners-container" id="partners-grid"></div>
-        </section>
-
-        <footer id="footer">
-            <div class="footer-grid">
-                <div>
-                    <h3 data-i18n="aboutUs" style="color:var(--primary); margin-bottom:15px;">Qui sommes-nous</h3>
-                    <p id="f-about" style="font-size: 0.95em; color:#555; line-height: 1.8;"></p>
-                </div>
-                <div>
-                    <h3 data-i18n="contactUs" style="color:var(--primary); margin-bottom:15px;">Contactez-nous</h3>
-                    <p><i class="fas fa-envelope" style="color:var(--primary); margin: 0 5px;"></i> <span id="f-email"></span></p>
-                    <p><i class="fas fa-phone" style="color:var(--primary); margin: 0 5px;"></i> <span id="f-phone"></span></p>
-                    <div class="social-links" style="margin-top:15px;">
-                        <a href="#" id="f-fb" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" id="f-ig" target="_blank"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="map-container" id="f-map"></div>
-            </div>
-            <p class="copy">© 2026 Bella Skills. <a href="#" id="f-privacy" data-i18n="privacy">Politique de confidentialité</a></p>
-        </footer>
-        <a href="https://wa.me/213559066605" class="fab-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    </div>
-
-    <!-- مودال عرض جميع الخدمات -->
-    <div id="all-services-modal" class="modal">
-        <div class="modal-content">
-            <i class="fas fa-times modal-close" onclick="closeServicesModal()"></i>
-            <h2 style="color:var(--primary); text-align:center; margin-bottom:20px; border-bottom: 2px solid #eee; padding-bottom:15px;" data-i18n="titleServices">Nos Services</h2>
-            <ul class="services-list" id="services-full-list"></ul>
+<!-- SLIDE 1 -->
+<div class="slide active">
+    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1800&q=90" alt="Bella Skills Hub Workspace">
+    <div class="overlay"></div>
+    <div class="slide-content container">
+        <div class="slide-tag">BELLA SKILLS HUB</div>
+        <h1 data-i18n="slide1_title">Développez vos <span>compétences.</span></h1>
+        <p data-i18n="slide1_desc">Coaching, formation et accompagnement pour révéler votre potentiel professionnel.</p>
+        <div class="slide-buttons">
+            <a href="#services" class="slider-btn primary" data-i18n="btn_discover_services">Découvrir nos services</a>
+            <a href="#contact" class="slider-btn" data-i18n="btn_contact_us">Nous contacter</a>
         </div>
     </div>
+</div>
 
-    <!-- مودال الأعمال -->
-    <div id="blog-modal" class="modal">
-        <div class="modal-content">
-            <i class="fas fa-times modal-close" onclick="closeBlogModal()"></i>
-            <img id="m-img" src="" alt="">
-            <h2 id="m-title" style="color:var(--primary); margin-bottom:15px;"></h2>
-            <p id="m-desc" style="line-height: 1.8; color: #444; white-space: pre-wrap;"></p>
+<!-- SLIDE 2 -->
+<div class="slide">
+    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1800&q=90" alt="Formation & Workshop">
+    <div class="overlay"></div>
+    <div class="slide-content container">
+        <div class="slide-tag" data-i18n="slide2_tag">FORMATION & WORKSPACE</div>
+        <h1 data-i18n="slide2_title">Apprendre. <span>Évoluer.</span><br>Performer.</h1>
+        <p data-i18n="slide2_desc">Des programmes pratiques et des espaces immersifs pour développer vos compétences.</p>
+        <div class="slide-buttons">
+            <a href="#services" class="slider-btn primary" data-i18n="btn_our_trainings">Nos formations</a>
+            <a href="#contact" class="slider-btn" data-i18n="btn_request_prog">Demander un programme</a>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide">
+    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1800&q=90" alt="Coaching et leadership">
+    <div class="overlay"></div>
+    <div class="slide-content container">
+        <div class="slide-tag" data-i18n="slide3_tag">COACHING PROFESSIONNEL</div>
+        <h1 data-i18n="slide3_title">Révélez votre <span>potentiel.</span></h1>
+        <p data-i18n="slide3_desc">Un accompagnement personnalisé pour transformer vos objectifs en résultats.</p>
+        <div class="slide-buttons">
+            <a href="#coaching" class="slider-btn primary" data-i18n="btn_discover_coaching">Découvrir le coaching</a>
+            <a href="#contact" class="slider-btn" data-i18n="btn_get_in_touch">Prendre contact</a>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide">
+    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1800&q=90" alt="Modern Workspace & Consulting">
+    <div class="overlay"></div>
+    <div class="slide-content container">
+        <div class="slide-tag" data-i18n="slide4_tag">CONSULTING & BUSINESS</div>
+        <h1 data-i18n="slide4_title">Des idées. <span>Des stratégies.</span><br>Des résultats.</h1>
+        <p data-i18n="slide4_desc">Conseil, expertise et développement commercial pour accompagner vos projets.</p>
+        <div class="slide-buttons">
+            <a href="#services" class="slider-btn primary" data-i18n="btn_our_expertise">Nos expertises</a>
+            <a href="#contact" class="slider-btn" data-i18n="btn_talk_project">Parlons de votre projet</a>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<!-- ARROWS -->
+<button class="slider-arrow prev" id="prevSlide" aria-label="Slide précédent">&#10094;</button>
+<button class="slider-arrow next" id="nextSlide" aria-label="Slide suivant">&#10095;</button>
+
+<!-- DOTS -->
+<div class="slider-navigation">
+    <button class="slider-dot active" data-slide="0"><span>01</span></button>
+    <button class="slider-dot" data-slide="1"><span>02</span></button>
+    <button class="slider-dot" data-slide="2"><span>03</span></button>
+    <button class="slider-dot" data-slide="3"><span>04</span></button>
+</div>
+
+<!-- PROGRESS -->
+<div class="slider-progress"><div id="progressBar"></div></div>
+</section>
+
+
+<!-- =========================================================
+     INTRO
+========================================================= -->
+<section class="intro" id="coaching">
+<div class="container intro-grid">
+
+<div class="intro-image-wrap reveal">
+    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1000&q=85" alt="Formation & Workspace Bella Skills" class="intro-main-img">
+    <div class="intro-badge">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimZMGp5BR7hQp2daYfz6ii_IJ4wWEWk347tsUnOn42aD1hNGww9MAb17n3m9Qiwxc4-iyCYhjuPI-kQHJKLCZ2YrplFnSh5YGWTlpZ90DxQUjtwszIJXTtWRJdhz56qv3eh3QLGehQCUcZibgMvmg0UyXd0ewj3C-PY0xg_WTvoqTMcNFRRWsJ2fnTOYY/s320/1000013350.png" alt="Logo">
+        <div>
+            <strong>Bella Skills HUB</strong>
+            <span data-i18n="badge_text">Excellence & Accompagnement</span>
+        </div>
+    </div>
+</div>
+
+<div class="reveal">
+    <div class="label" data-i18n="intro_label">Notre mission</div>
+    <h2 data-i18n="intro_title">Un hub pour apprendre, évoluer et performer.</h2>
+    <p class="text" data-i18n="intro_text1">
+        Bella Skills HUB accompagne les personnes, les professionnels et les organisations dans le développement de leurs compétences et de leurs performances.
+    </p>
+    <p class="text" data-i18n="intro_text2">
+        Notre approche combine coaching de haut niveau, programmes de formation certifiants, consulting stratégique et mise à disposition d'environnements propices à l'innovation.
+    </p>
+    <div class="quote" data-i18n="intro_quote">
+        « Votre potentiel devient une force lorsque vous décidez de le développer. »
+    </div>
+</div>
+
+</div>
+</section>
+
+
+<!-- =========================================================
+     SERVICES (WITH WORKSPACE & TRAINING IMAGES)
+========================================================= -->
+<section class="services" id="services">
+<div class="container">
+
+<div class="heading reveal">
+    <div class="label" data-i18n="services_label">Nos services</div>
+    <h2 data-i18n="services_title">Des solutions concrètes pour vos ambitions.</h2>
+    <p data-i18n="services_subtitle">Une offre multidisciplinaire destinée aux particuliers, professionnels et entreprises.</p>
+</div>
+
+<div class="services-grid">
+
+<!-- SERVICE 1: COACHING -->
+<div class="service reveal">
+    <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=80" alt="Coaching Professionnel">
+        <span class="service-tag" data-i18n="tag_coaching">COACHING</span>
+    </div>
+    <div class="service-content">
+        <h3 data-i18n="srv1_title">Coaching professionnel</h3>
+        <p data-i18n="srv1_desc">Développement du leadership, confiance en soi, communication stratégique et gestion de carrière.</p>
+        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+    </div>
+</div>
+
+<!-- SERVICE 2: FORMATION -->
+<div class="service reveal">
+    <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=700&q=80" alt="Formation & Workshop">
+        <span class="service-tag" data-i18n="tag_formation">FORMATION</span>
+    </div>
+    <div class="service-content">
+        <h3 data-i18n="srv2_title">Programmes de formation</h3>
+        <p data-i18n="srv2_desc">Formations pratiques, masterclasses et ateliers interactifs pour équipes et professionnels.</p>
+        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+    </div>
+</div>
+
+<!-- SERVICE 3: WORKSPACE & EVENTS -->
+<div class="service reveal">
+    <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=700&q=80" alt="Workspace & Coworking">
+        <span class="service-tag" data-i18n="tag_workspace">WORKSPACE</span>
+    </div>
+    <div class="service-content">
+        <h3 data-i18n="srv3_title">Espaces & Workspace</h3>
+        <p data-i18n="srv3_desc">Espaces de travail collaboratifs, salles de formation équipées et cadre professionnel moderne.</p>
+        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+    </div>
+</div>
+
+<!-- SERVICE 4: CONSEIL -->
+<div class="service reveal">
+    <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=700&q=80" alt="Conseil & Stratégie">
+        <span class="service-tag" data-i18n="tag_consulting">CONSEIL</span>
+    </div>
+    <div class="service-content">
+        <h3 data-i18n="srv4_title">Conseil & Expertise</h3>
+        <p data-i18n="srv4_desc">Études de marché, restructuration, audits et accompagnement stratégique sur-mesure.</p>
+        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+    </div>
+</div>
+
+<!-- SERVICE 5: EVENTS & SEMINARS -->
+<div class="service reveal">
+    <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=700&q=80" alt="Événements professionnels">
+        <span class="service-tag" data-i18n="tag_events">EVENTS</span>
+    </div>
+    <div class="service-content">
+        <h3 data-i18n="srv5_title">Événements professionnels</h3>
+        <p data-i18n="srv5_desc">Organisation de séminaires, conférences scientifiques, salons et rencontres de networking.</p>
+        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+    </div>
+</div>
+
+<!-- SERVICE 6: BUSINESS & SOURCING -->
+<div class="service reveal">
+    <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=700&q=80" alt="Négoce & Sourcing">
+        <span class="service-tag" data-i18n="tag_business">BUSINESS</span>
+    </div>
+    <div class="service-content">
+        <h3 data-i18n="srv6_title">Négoce & Sourcing</h3>
+        <p data-i18n="srv6_desc">Intermédiation commerciale, recherche de fournisseurs fiables et développement international.</p>
+        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+    </div>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- =========================================================
+     BELLA SKILLS HUB
+========================================================= -->
+<section class="hub" id="hub">
+<div class="container">
+
+<div class="heading reveal">
+    <div class="label" data-i18n="hub_label">Bella Skills HUB</div>
+    <h2 data-i18n="hub_title">Un écosystème global autour de vos projets.</h2>
+    <p data-i18n="hub_subtitle">Nos expertises couvrent plusieurs domaines afin de proposer un accompagnement complet et performant.</p>
+</div>
+
+<div class="hub-grid">
+
+<div class="hub-item reveal">
+    <div class="hub-number">01</div>
+    <div>
+        <h3 data-i18n="hub1_title">Formation, Coaching & Accompagnement</h3>
+        <p data-i18n="hub1_desc">Des parcours adaptés aux besoins individuels et organisationnels.</p>
+        <ul>
+            <li data-i18n="hub1_i1">Développement personnel</li>
+            <li data-i18n="hub1_i2">Soft Skills</li>
+            <li data-i18n="hub1_i3">Neurosport</li>
+            <li data-i18n="hub1_i4">Marketing Digital</li>
+            <li data-i18n="hub1_i5">Techniques administratives</li>
+            <li data-i18n="hub1_i6">Arts & Industries</li>
+        </ul>
+    </div>
+</div>
+
+<div class="hub-item reveal">
+    <div class="hub-number">02</div>
+    <div>
+        <h3 data-i18n="hub2_title">Conseil, Études & Expertise Stratégique</h3>
+        <p data-i18n="hub2_desc">Une approche stratégique pour accompagner les entreprises et leurs projets.</p>
+        <ul>
+            <li data-i18n="hub2_i1">Développement commercial</li>
+            <li data-i18n="hub2_i2">Management & RH</li>
+            <li data-i18n="hub2_i3">Commerce international</li>
+            <li data-i18n="hub2_i4">Chimie industrielle</li>
+            <li data-i18n="hub2_i5">Investissement</li>
+            <li data-i18n="hub2_i6">Gestion de projets</li>
+        </ul>
+    </div>
+</div>
+
+<div class="hub-item reveal">
+    <div class="hub-number">03</div>
+    <div>
+        <h3 data-i18n="hub3_title">Événements Professionnels & Scientifiques</h3>
+        <p data-i18n="hub3_desc">Conception, logistique et organisation d'événements professionnels.</p>
+        <ul>
+            <li data-i18n="hub3_i1">Séminaires & Workshops</li>
+            <li data-i18n="hub3_i2">Conférences</li>
+            <li data-i18n="hub3_i3">Journées scientifiques</li>
+            <li data-i18n="hub3_i4">Expositions</li>
+            <li data-i18n="hub3_i5">Salons & Foires</li>
+            <li data-i18n="hub3_i6">Networking B2B</li>
+        </ul>
+    </div>
+</div>
+
+<div class="hub-item reveal">
+    <div class="hub-number">04</div>
+    <div>
+        <h3 data-i18n="hub4_title">Négoce, Sourcing & Agent Commercial</h3>
+        <p data-i18n="hub4_desc">Accompagnement commercial et recherche de fournisseurs ou partenaires de confiance.</p>
+        <ul>
+            <li data-i18n="hub4_i1">Produits & Ingrédients</li>
+            <li data-i18n="hub4_i2">Équipements spécialisés</li>
+            <li data-i18n="hub4_i3">Laboratoires</li>
+            <li data-i18n="hub4_i4">Chaînes de production</li>
+            <li data-i18n="hub4_i5">Grande consommation</li>
+            <li data-i18n="hub4_i6">Mise en relation B2B</li>
+        </ul>
+    </div>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- =========================================================
+     DOMAINES
+========================================================= -->
+<section class="dark">
+<div class="container">
+
+<div class="label" data-i18n="domains_label">Nos domaines d'intervention</div>
+<h2 data-i18n="domains_title">Des compétences au service de plusieurs univers.</h2>
+<p class="dark-intro" data-i18n="domains_desc">Bella Skills HUB intervient auprès de différents profils et secteurs afin de créer des solutions adaptées à chaque environnement.</p>
+
+<div class="domain-grid">
+
+<div class="domain reveal">
+    <div class="domain-number">01</div>
+    <h3 data-i18n="dom1_title">Entreprises</h3>
+    <p data-i18n="dom1_desc">Management, développement commercial, performance et accompagnement des équipes.</p>
+</div>
+
+<div class="domain reveal">
+    <div class="domain-number">02</div>
+    <h3 data-i18n="dom2_title">Professionnels</h3>
+    <p data-i18n="dom2_desc">Carrière, leadership, communication, compétences et évolution professionnelle continue.</p>
+</div>
+
+<div class="domain reveal">
+    <div class="domain-number">03</div>
+    <h3 data-i18n="dom3_title">Entrepreneurs</h3>
+    <p data-i18n="dom3_desc">Stratégie d'implantation, structuration, développement commercial et mentorat.</p>
+</div>
+
+<div class="domain reveal">
+    <div class="domain-number">04</div>
+    <h3 data-i18n="dom4_title">Institutions</h3>
+    <p data-i18n="dom4_desc">Programmes de formation sur-mesure, organisation d'événements et études de cadrage.</p>
+</div>
+
+<div class="domain reveal">
+    <div class="domain-number">05</div>
+    <h3 data-i18n="dom5_title">Secteur Scientifique</h3>
+    <p data-i18n="dom5_desc">Conférences, journées d'études scientifiques, expertise et symposiums spécialisés.</p>
+</div>
+
+<div class="domain reveal">
+    <div class="domain-number">06</div>
+    <h3 data-i18n="dom6_title">Particuliers</h3>
+    <p data-i18n="dom6_desc">Coaching individuel, renforcement de la confiance en soi, orientation et reconversion.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- =========================================================
+     PROCESS
+========================================================= -->
+<section class="process">
+<div class="container">
+
+<div class="heading reveal">
+    <div class="label" data-i18n="process_label">Notre approche</div>
+    <h2 data-i18n="process_title">De l'idée à l'action.</h2>
+    <p data-i18n="process_subtitle">Une méthode éprouvée pour transformer vos besoins en résultats durables et mesurables.</p>
+</div>
+
+<div class="process-grid">
+
+<div class="step reveal">
+    <div class="step-number">01</div>
+    <h3 data-i18n="step1_title">Écouter</h3>
+    <p data-i18n="step1_desc">Comprendre votre contexte, vos enjeux spécifiques et vos objectifs précis.</p>
+</div>
+
+<div class="step reveal">
+    <div class="step-number">02</div>
+    <h3 data-i18n="step2_title">Analyser</h3>
+    <p data-i18n="step2_desc">Identifier les compétences clés, les axes d'amélioration et les opportunités.</p>
+</div>
+
+<div class="step reveal">
+    <div class="step-number">03</div>
+    <h3 data-i18n="step3_title">Construire</h3>
+    <p data-i18n="step3_desc">Élaborer un programme ou une stratégie personnalisée et opérationnelle.</p>
+</div>
+
+<div class="step reveal">
+    <div class="step-number">04</div>
+    <h3 data-i18n="step4_title">Accompagner</h3>
+    <p data-i18n="step4_desc">Passer à l'action avec un suivi régulier pour garantir l'atteinte des résultats.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- =========================================================
+     ABOUT
+========================================================= -->
+<section class="about" id="about">
+<div class="container about-grid">
+
+<div class="about-image reveal">
+    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85" alt="Équipe & Formation Bella Skills">
+</div>
+
+<div class="reveal">
+    <div class="label" data-i18n="about_label">Pourquoi Bella Skills HUB ?</div>
+    <h2 data-i18n="about_title">L'humain au cœur de la performance.</h2>
+    <p class="text" data-i18n="about_text">
+        Nous sommes convaincus que la réussite de chaque organisation repose d'abord sur l'épanouissement, la montée en compétences et la capacité de ses collaborateurs à innover ensemble.
+    </p>
+
+    <ul class="features">
+        <li data-i18n="feat1">Accompagnement hautement personnalisé</li>
+        <li data-i18n="feat2">Approche humaine, moderne et rigoureuse</li>
+        <li data-i18n="feat3">Espaces de travail et de formation propices à l'échange</li>
+        <li data-i18n="feat4">Réseau d'experts pluridisciplinaires</li>
+        <li data-i18n="feat5">Culture orientée vers les résultats concrets</li>
+        <li data-i18n="feat6">Proximité et suivi post-formation</li>
+    </ul>
+</div>
+
+</div>
+</section>
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+<section class="cta">
+<div class="cta-content reveal">
+    <div class="label" data-i18n="cta_label">Votre prochaine étape</div>
+    <h2 data-i18n="cta_title">Un projet ? Une formation ? Construisons-la ensemble.</h2>
+    <p data-i18n="cta_desc">Formation certifiante, coaching, location d'espaces, sourcing ou conseil stratégique : parlons de votre besoin dès aujourd'hui.</p>
+    <a href="#contact" class="btn btn-primary" data-i18n="btn_contact_us">Nous contacter</a>
+</div>
+</section>
+
+
+<!-- =========================================================
+     CONTACT
+========================================================= -->
+<section class="contact" id="contact">
+<div class="container contact-grid">
+
+<div class="contact-info reveal">
+    <div class="label" data-i18n="contact_label">Contact</div>
+    <h2 data-i18n="contact_title">Parlons de votre projet.</h2>
+    <p data-i18n="contact_desc">
+        Vous souhaitez réserver un espace, organiser une formation, développer vos équipes ou discuter d'un partenariat ? Notre équipe est à votre écoute.
+    </p>
+
+    <div class="contact-item">
+        <small data-i18n="info_phone">Téléphone</small>
+        <strong><a class="phone" href="tel:+213559066605">+213 559 066 605</a></strong>
+    </div>
+
+    <div class="contact-item">
+        <small>WhatsApp</small>
+        <strong><a class="phone" href="https://wa.me/213559066605" target="_blank">+213 559 066 605</a></strong>
+    </div>
+
+    <div class="contact-item">
+        <small data-i18n="info_location">Localisation</small>
+        <strong data-i18n="location_val">Mohammadia — Alger, Algérie</strong>
+    </div>
+
+    <div class="contact-buttons">
+        <a href="tel:+213559066605" class="contact-button" data-i18n="btn_call">☎ Appeler</a>
+        <a href="https://wa.me/213559066605" target="_blank" class="contact-button">WhatsApp</a>
+    </div>
+</div>
+
+<!-- FORM -->
+<form class="form reveal" id="form">
+    <div class="form-row">
+        <div class="group">
+            <label data-i18n="form_name">Nom complet</label>
+            <input type="text" required placeholder="Votre nom" data-i18n-placeholder="placeholder_name">
+        </div>
+        <div class="group">
+            <label data-i18n="form_email">Email</label>
+            <input type="email" required placeholder="votre@email.com" data-i18n-placeholder="placeholder_email">
         </div>
     </div>
 
-    <!-- واجهة الإدارة -->
-    <div id="admin-panel">
-        <div id="login-section" class="admin-login">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZvc2VX08-mtAOEnVZNA2xH8QGRGz2GbqIuMTKDh0suB-bjVIAogCm7ji820GlbHAkWWKsOg2yn3EAH7nMM_w_lvT3OH4H-UgYzsTiur_l3CzK2fcw2n_jTX1Z-t25DaLbwrY0jnDE13Zo3lrh8ZkXF5ybieZJOdpBQ4Xkr_zbn8LFS3zQDf5Bft28Zr4/s320/1000013350.png" style="max-height:60px; margin-bottom:20px;">
-            <h2 style="color:var(--primary); margin-bottom: 20px;" data-i18n="adminLogin">Connexion Admin</h2>
-            <input type="password" id="admin-pwd" placeholder="Mot de passe">
-            <button onclick="checkAdmin()" data-i18n="enterBtn">Entrer</button>
-        </div>
-
-        <div id="dashboard-layout" class="admin-layout" style="display:none;">
-            <div class="admin-nav">
-                <div class="admin-nav-header">Bella Skills CMS</div>
-                <button class="nav-btn active" onclick="switchAdminTab('dash')"><i class="fas fa-chart-line"></i> <span data-i18n="navDash">Dashboard</span></button>
-                <button class="nav-btn" onclick="switchAdminTab('banner')"><i class="fas fa-bullhorn"></i> <span data-i18n="navEvent">L'événement</span></button>
-                <button class="nav-btn" onclick="switchAdminTab('services')"><i class="fas fa-concierge-bell"></i> <span data-i18n="navServices">Services</span></button>
-                <button class="nav-btn" onclick="switchAdminTab('works')"><i class="fas fa-briefcase"></i> <span data-i18n="navWorks">Réalisations</span></button>
-                <button class="nav-btn" onclick="switchAdminTab('partners')"><i class="fas fa-handshake"></i> <span data-i18n="navPartners">Partenaires</span></button>
-                <button class="nav-btn" onclick="switchAdminTab('settings')"><i class="fas fa-cogs"></i> <span data-i18n="navSettings">Paramètres</span></button>
-                <button class="logout-btn" onclick="window.location.reload()"><i class="fas fa-sign-out-alt"></i> <span data-i18n="navLogout">Quitter</span></button>
-            </div>
-
-            <div class="admin-main">
-                <div id="sec-dash" class="admin-sec active">
-                    <h2 class="sec-header" data-i18n="dashTitle">Statistiques du site</h2>
-                    <div class="dashboard-stats">
-                        <div class="stat-box c1"><span data-i18n="statToday">Visites (Aujourd'hui)</span> <span id="stat-day">0</span></div>
-                        <div class="stat-box c2"><span data-i18n="statMonth">Visites (Ce Mois)</span> <span id="stat-month">0</span></div>
-                        <div class="stat-box c3"><span data-i18n="statReg">Clics Inscription</span> <span id="stat-reg">0</span></div>
-                    </div>
-                </div>
-
-                <div id="sec-banner" class="admin-sec">
-                    <h2 class="sec-header"><span><i class="fas fa-bullhorn"></i> <span data-i18n="navEvent">L'événement</span></span> <button class="btn-new" onclick="resetForm('banner')" data-i18n="btnNew">Nouveau +</button></h2>
-                    <div class="form-card">
-                        <input type="hidden" id="ad-b-id">
-                        <div class="form-group"><label data-i18n="lblBgImg">Image de fond (Optionnelle)</label><input type="file" id="ad-b-img" accept="image/*"></div>
-                        <div class="form-group"><input type="text" id="ad-b-title-fr" placeholder="Titre (FR)"></div>
-                        <div class="form-group"><input type="text" id="ad-b-title-ar" placeholder="Titre (AR)"></div>
-                        <div class="form-group"><input type="text" id="ad-b-loc-fr" placeholder="Lieu (FR)"></div>
-                        <div class="form-group"><input type="text" id="ad-b-loc-ar" placeholder="Lieu (AR)"></div>
-                        <div class="form-group"><input type="text" id="ad-b-date" placeholder="Date (FR / AR)"></div>
-                        <div class="form-group"><input type="text" id="ad-b-link" placeholder="Lien (URL)"></div>
-                        
-                        <!-- إضافة حقول نص الزر هنا -->
-                        <div class="form-group" style="margin-top:20px;"><label data-i18n="lblBtnText">Texte du bouton / نص الزر</label></div>
-                        <div class="form-group"><input type="text" id="ad-b-btn-fr" placeholder="Texte du bouton (FR) - ex: S'inscrire à l'événement"></div>
-                        <div class="form-group"><input type="text" id="ad-b-btn-ar" placeholder="نص الزر (AR) - مثال: التسجيل في الحدث"></div>
-                        
-                        <button class="btn-save" id="btn-save-banner" onclick="saveBanner()" data-i18n="btnSave">Ajouter</button>
-                    </div>
-                    <div class="archive-section"><h3 class="archive-title" data-i18n="archive">Archive</h3><div id="list-banners"></div></div>
-                </div>
-
-                <div id="sec-services" class="admin-sec">
-                    <h2 class="sec-header"><span><i class="fas fa-concierge-bell"></i> <span data-i18n="navServices">Services</span></span> <button class="btn-new" onclick="resetForm('service')" data-i18n="btnNew">Nouveau +</button></h2>
-                    <div class="form-card">
-                        <input type="hidden" id="ad-s-id">
-                        <div class="form-group"><label data-i18n="lblSrvName">Nom du service</label></div>
-                        <div class="form-group"><input type="text" id="ad-s-title-fr" placeholder="Titre (FR)"></div>
-                        <div class="form-group"><input type="text" id="ad-s-title-ar" placeholder="Titre (AR)"></div>
-                        <button class="btn-save" id="btn-save-service" onclick="saveService()" data-i18n="btnSave">Ajouter</button>
-                    </div>
-                    <div class="archive-section"><h3 class="archive-title" data-i18n="archive">Archive</h3><div id="list-services"></div></div>
-                </div>
-
-                <div id="sec-works" class="admin-sec">
-                    <h2 class="sec-header"><span><i class="fas fa-briefcase"></i> <span data-i18n="navWorks">Réalisations</span></span> <button class="btn-new" onclick="resetForm('work')" data-i18n="btnNew">Nouveau +</button></h2>
-                    <div class="form-card">
-                        <input type="hidden" id="ad-w-id">
-                        <div class="form-group"><label data-i18n="lblImg">Image</label><input type="file" id="ad-w-img" accept="image/*"></div>
-                        <div class="form-group"><input type="text" id="ad-w-title-fr" placeholder="Titre (FR)"></div>
-                        <div class="form-group"><input type="text" id="ad-w-title-ar" placeholder="Titre (AR)"></div>
-                        <div class="form-group"><textarea id="ad-w-desc-fr" placeholder="Texte complet (FR)"></textarea></div>
-                        <div class="form-group"><textarea id="ad-w-desc-ar" placeholder="Texte complet (AR)"></textarea></div>
-                        <button class="btn-save" id="btn-save-work" onclick="saveWork()" data-i18n="btnSave">Ajouter</button>
-                    </div>
-                    <div class="archive-section"><h3 class="archive-title" data-i18n="archive">Archive</h3><div id="list-works"></div></div>
-                </div>
-
-                <div id="sec-partners" class="admin-sec">
-                    <h2 class="sec-header"><i class="fas fa-handshake"></i> <span data-i18n="navPartners">Partenaires</span></h2>
-                    <div class="form-card">
-                        <div class="form-group"><label data-i18n="lblLogo">Logo</label><input type="file" id="ad-p-img" accept="image/*"></div>
-                        <button class="btn-save" id="btn-save-partner" onclick="addPartner()" data-i18n="btnSave">Ajouter</button>
-                    </div>
-                    <div class="archive-section"><h3 class="archive-title" data-i18n="archive">Archive</h3><div id="list-partners"></div></div>
-                </div>
-
-                <div id="sec-settings" class="admin-sec">
-                    <h2 class="sec-header"><i class="fas fa-cogs"></i> <span data-i18n="navSettings">Paramètres</span></h2>
-                    <div class="form-card">
-                        <div class="form-group"><label data-i18n="lblContact">Contact</label><input type="text" id="ad-email" placeholder="Email"><input type="text" id="ad-phone" placeholder="Téléphone / Phone" style="margin-top:10px;"></div>
-                        <div class="form-group"><label data-i18n="lblSocial">Réseaux Sociaux</label><input type="text" id="ad-fb" placeholder="Facebook (URL)"><input type="text" id="ad-ig" placeholder="Instagram (URL)" style="margin-top:10px;"></div>
-                        <div class="form-group">
-                            <label data-i18n="lblMap">Localisation (Code Iframe)</label>
-                            <textarea id="ad-map" placeholder='<iframe src="https://www.google.com/maps/embed?pb=..."></iframe>'></textarea>
-                        </div>
-                        <div class="form-group"><label data-i18n="lblAbout">À propos</label><textarea id="ad-about-fr" placeholder="Texte (FR)"></textarea><textarea id="ad-about-ar" placeholder="Texte (AR)" style="margin-top:10px;"></textarea></div>
-                        <button class="btn-save" id="btn-save-settings" onclick="saveSettings()" data-i18n="btnSave">Enregistrer</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+    <div class="group">
+        <label data-i18n="form_phone">Téléphone</label>
+        <input type="tel" placeholder="+213 559 066 605">
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <div class="group">
+        <label data-i18n="form_service">Service recherché</label>
+        <select required id="serviceSelect">
+            <option value="" data-i18n="opt_select">Sélectionner un service</option>
+            <option value="coaching" data-i18n="opt_coaching">Coaching professionnel</option>
+            <option value="formation" data-i18n="opt_formation">Programmes de formation</option>
+            <option value="workspace" data-i18n="opt_workspace">Espaces & Workspace</option>
+            <option value="softskills" data-i18n="opt_softskills">Soft Skills & Leadership</option>
+            <option value="marketing" data-i18n="opt_marketing">Marketing Digital</option>
+            <option value="consulting" data-i18n="opt_consulting">Conseil & Expertise Stratégique</option>
+            <option value="events" data-i18n="opt_events">Événements & Séminaires</option>
+            <option value="sourcing" data-i18n="opt_sourcing">Négoce & Sourcing</option>
+        </select>
+    </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyA1xTHV828178vImPGLFQhr1DS4k9ME28s",
-            authDomain: "bellaskills-8edbb.firebaseapp.com",
-            projectId: "bellaskills-8edbb",
-            storageBucket: "bellaskills-8edbb.firebasestorage.app",
-            messagingSenderId: "730699617338",
-            appId: "1:730699617338:web:2bacbc4078984770e31103",
-            measurementId: "G-E8RP1L6KWJ"
-        };
+    <div class="group">
+        <label data-i18n="form_msg">Votre message</label>
+        <textarea required placeholder="Parlez-nous de votre projet..." data-i18n-placeholder="placeholder_msg"></textarea>
+    </div>
 
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const db = getFirestore(app);
+    <button type="submit" class="btn btn-primary" data-i18n="form_submit">Envoyer ma demande</button>
+    <div class="success" id="success" data-i18n="form_success">Merci ! Votre demande a bien été enregistrée. Nous vous contacterons très prochainement.</div>
+</form>
 
-        let currentLang = 'fr';
+</div>
 
-        // إخفاء شاشة التحميل بعد ثانية واحدة (1000 ملي ثانية)
-        setTimeout(() => {
-            const preloader = document.getElementById('preloader');
-            if (preloader) {
-                preloader.style.opacity = '0';
-                preloader.style.visibility = 'hidden';
-                setTimeout(() => { preloader.style.display = 'none'; }, 400); // إزالته تماماً بعد التلاشي
-            }
-        }, 1000);
-        
-        const translations = {
-            fr: { 
-                menuEvent: "L'événement", menuServices: "Nos Services", menuWorks: "Nos Réalisations", menuPartners: "Nos Partenaires", menuContact: "Contact", titleServices: "Nos Services", titleWorks: "Nos Réalisations", titlePartners: "Nos Partenaires", aboutUs: "Qui sommes-nous", contactUs: "Contactez-nous", privacy: "Politique de confidentialité", readMore: "Lire la suite", readLess: "Réduire", clickToView: "Cliquez pour voir tous les services", noServices: "Aucun service pour le moment", errorMsg: "Une erreur s'est produite : ", successSave: "Enregistré avec succès", successDel: "Élément supprimé", sureDel: "Êtes-vous sûr de vouloir supprimer ?", chooseImg: "Veuillez choisir une image", enterName: "Veuillez entrer le nom", wrongPwd: "Mot de passe incorrect",
-                adminLogin: "Connexion Admin", enterBtn: "Entrer", navDash: "Tableau de bord", navEvent: "L'événement", navServices: "Services", navWorks: "Réalisations", navPartners: "Partenaires", navSettings: "Paramètres", navLogout: "Quitter", dashTitle: "Statistiques du site", statToday: "Visites (Aujourd'hui)", statMonth: "Visites (Ce Mois)", statReg: "Clics Inscription", btnNew: "Nouveau +", lblBgImg: "Image de fond (Optionnelle)", btnSave: "Enregistrer", archive: "Archive", lblSrvName: "Nom du service", lblImg: "Image", lblLogo: "Logo", lblContact: "Contact", lblSocial: "Réseaux Sociaux", lblMap: "Localisation (Code Iframe de Google Maps)", lblAbout: "À propos", lblBtnText: "Texte du bouton", btnUpdate: "Mettre à jour", btnLoading: "En cours..."
-            },
-            ar: { 
-                menuEvent: "الحدث", menuServices: "خدماتنا", menuWorks: "أعمالنا", menuPartners: "شركاؤنا", menuContact: "اتصل بنا", titleServices: "خدماتنا", titleWorks: "أعمالنا", titlePartners: "شركاؤنا", aboutUs: "من نحن", contactUs: "تواصل معنا", privacy: "سياسة الخصوصية", readMore: "اقرأ المزيد", readLess: "إخفاء النص", clickToView: "اضغط هنا لرؤية جميع الخدمات", noServices: "لا توجد خدمات حالياً", errorMsg: "حدث خطأ: ", successSave: "تم الحفظ بنجاح", successDel: "تم الحذف بنجاح", sureDel: "هل أنت متأكد من الحذف؟", chooseImg: "يرجى اختيار صورة", enterName: "يرجى إدخال الاسم", wrongPwd: "كلمة المرور خاطئة",
-                adminLogin: "تسجيل دخول الإدارة", enterBtn: "دخول", navDash: "لوحة القيادة", navEvent: "الحدث", navServices: "الخدمات", navWorks: "الأعمال", navPartners: "الشركاء", navSettings: "الإعدادات", navLogout: "خروج", dashTitle: "إحصائيات الموقع", statToday: "زيارات اليوم", statMonth: "زيارات هذا الشهر", statReg: "نقرات التسجيل", btnNew: "جديد +", lblBgImg: "صورة الخلفية (اختياري)", btnSave: "حفظ", archive: "الأرشيف", lblSrvName: "اسم الخدمة", lblImg: "الصورة", lblLogo: "الشعار", lblContact: "معلومات الاتصال", lblSocial: "التواصل الاجتماعي", lblMap: "خريطة جوجل (الصق كود Iframe)", lblAbout: "من نحن", lblBtnText: "نص الزر", btnUpdate: "تحديث", btnLoading: "جاري التحميل..."
-            }
-        };
+<!-- MAP -->
+<div class="container">
+    <div class="map reveal">
+        <div class="map-title" data-i18n="map_title">Nous trouver</div>
+        <div class="map-text" data-i18n="map_address">📍 Mohammadia, Alger — Algérie</div>
+        <iframe src="https://www.google.com/maps?q=Mohammadia%2C%20Algiers%2C%20Algeria&output=embed" loading="lazy" allowfullscreen></iframe>
+    </div>
+</div>
+</section>
 
-        window.toggleLanguage = function() {
-            currentLang = currentLang === 'fr' ? 'ar' : 'fr';
-            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            document.documentElement.lang = currentLang;
-            document.getElementById('lang-toggle').innerText = currentLang === 'ar' ? 'Français' : 'عربي';
-            document.querySelectorAll('[data-i18n]').forEach(el => { el.innerText = translations[currentLang][el.getAttribute('data-i18n')]; });
-            
-            document.querySelectorAll('.btn-save').forEach(btn => {
-                if(!btn.disabled) btn.innerText = translations[currentLang][btn.getAttribute('data-i18n')] || translations[currentLang].btnSave;
-            });
-            document.getElementById('admin-pwd').placeholder = currentLang === 'ar' ? 'كلمة المرور' : 'Mot de passe';
-            renderUI();
-        };
 
-        window.toggleSidebar = function() { document.getElementById('sidebar').classList.toggle('active'); };
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+<footer>
+<div class="container">
+<div class="footer-grid">
 
-        const bgContainer = document.getElementById('bg-animation');
-        const icons = ['fa-pen', 'fa-book', 'fa-folder', 'fa-chart-pie', 'fa-pencil-alt', 'fa-clipboard'];
-        for(let i=0; i<15; i++) {
-            let el = document.createElement('i'); el.className = `fas ${icons[Math.floor(Math.random() * icons.length)]} floating-icon`;
-            el.style.left = `${Math.random() * 100}vw`; el.style.fontSize = `${Math.random() * 20 + 15}px`; el.style.animationDuration = `${Math.random() * 10 + 15}s`; bgContainer.appendChild(el);
+<div>
+    <a href="#home" class="logo">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimZMGp5BR7hQp2daYfz6ii_IJ4wWEWk347tsUnOn42aD1hNGww9MAb17n3m9Qiwxc4-iyCYhjuPI-kQHJKLCZ2YrplFnSh5YGWTlpZ90DxQUjtwszIJXTtWRJdhz56qv3eh3QLGehQCUcZibgMvmg0UyXd0ewj3C-PY0xg_WTvoqTMcNFRRWsJ2fnTOYY/s320/1000013350.png" alt="Bella Skills Logo" class="logo-img">
+        <div class="logo-name">
+            Bella Skills
+            <small>HUB</small>
+        </div>
+    </a>
+    <p data-i18n="footer_desc">
+        Consulting • Coaching • Training • Workspace<br><br>
+        Développer les compétences. Révéler les potentiels. Créer un impact durable.
+    </p>
+</div>
+
+<div>
+    <h4 data-i18n="footer_nav">Navigation</h4>
+    <ul>
+        <li><a href="#home" data-i18n="nav_home">Accueil</a></li>
+        <li><a href="#services" data-i18n="nav_services">Services</a></li>
+        <li><a href="#hub" data-i18n="nav_hub">Bella Skills HUB</a></li>
+        <li><a href="#about" data-i18n="nav_about">À propos</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+    </ul>
+</div>
+
+<div>
+    <h4 data-i18n="footer_contact">Contact</h4>
+    <ul>
+        <li><a class="footer-phone" href="tel:+213559066605">+213 559 066 605</a></li>
+        <li data-i18n="location_val">Mohammadia — Alger</li>
+        <li data-i18n="country_val">Algérie</li>
+        <li><a href="https://wa.me/213559066605" target="_blank">WhatsApp Direct</a></li>
+    </ul>
+</div>
+
+</div>
+
+<div class="copyright">
+    <span>© <span id="year"></span> Bella Skills HUB. All Rights Reserved.</span>
+    <span data-i18n="footer_tagline">Consulting • Coaching • Training</span>
+</div>
+
+</div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button class="top" id="top" aria-label="Retour en haut">↑</button>
+
+
+<!-- =========================================================
+     SCRIPTS & MULTILANGUAGE ENGINE
+========================================================= -->
+<script>
+/* =========================================================
+   TRANSLATIONS DICTIONARY (FR / EN)
+========================================================= */
+const translations = {
+    fr: {
+        nav_home: "Accueil",
+        nav_coaching: "Coaching",
+        nav_services: "Services",
+        nav_hub: "Bella Skills HUB",
+        nav_about: "À propos",
+        nav_contact: "Contact",
+
+        slide1_title: "Développez vos <span>compétences.</span>",
+        slide1_desc: "Coaching, formation et accompagnement pour révéler votre potentiel professionnel.",
+        slide2_tag: "FORMATION & WORKSPACE",
+        slide2_title: "Apprendre. <span>Évoluer.</span><br>Performer.",
+        slide2_desc: "Des programmes pratiques et des espaces immersifs pour développer vos compétences.",
+        slide3_tag: "COACHING PROFESSIONNEL",
+        slide3_title: "Révélez votre <span>potentiel.</span>",
+        slide3_desc: "Un accompagnement personnalisé pour transformer vos objectifs en résultats.",
+        slide4_tag: "CONSULTING & BUSINESS",
+        slide4_title: "Des idées. <span>Des stratégies.</span><br>Des résultats.",
+        slide4_desc: "Conseil, expertise et développement commercial pour accompagner vos projets.",
+
+        btn_discover_services: "Découvrir nos services",
+        btn_contact_us: "Nous contacter",
+        btn_our_trainings: "Nos formations",
+        btn_request_prog: "Demander un programme",
+        btn_discover_coaching: "Découvrir le coaching",
+        btn_get_in_touch: "Prendre contact",
+        btn_our_expertise: "Nos expertises",
+        btn_talk_project: "Parlons de votre projet",
+        btn_discover_arrow: "Découvrir →",
+        btn_call: "☎ Appeler",
+
+        badge_text: "Excellence & Accompagnement",
+        intro_label: "Notre mission",
+        intro_title: "Un hub pour apprendre, évoluer et performer.",
+        intro_text1: "Bella Skills HUB accompagne les personnes, les professionnels et les organisations dans le développement de leurs compétences et de leurs performances.",
+        intro_text2: "Notre approche combine coaching de haut niveau, programmes de formation certifiants, consulting stratégique et mise à disposition d'environnements propices à l'innovation.",
+        intro_quote: "« Votre potentiel devient une force lorsque vous décidez de le développer. »",
+
+        services_label: "Nos services",
+        services_title: "Des solutions concrètes pour vos ambitions.",
+        services_subtitle: "Une offre multidisciplinaire destinée aux particuliers, professionnels et entreprises.",
+
+        tag_coaching: "COACHING",
+        srv1_title: "Coaching professionnel",
+        srv1_desc: "Développement du leadership, confiance en soi, communication stratégique et gestion de carrière.",
+
+        tag_formation: "FORMATION",
+        srv2_title: "Programmes de formation",
+        srv2_desc: "Formations pratiques, masterclasses et ateliers interactifs pour équipes et professionnels.",
+
+        tag_workspace: "WORKSPACE",
+        srv3_title: "Espaces & Workspace",
+        srv3_desc: "Espaces de travail collaboratifs, salles de formation équipées et cadre professionnel moderne.",
+
+        tag_consulting: "CONSEIL",
+        srv4_title: "Conseil & Expertise",
+        srv4_desc: "Études de marché, restructuration, audits et accompagnement stratégique sur-mesure.",
+
+        tag_events: "EVENTS",
+        srv5_title: "Événements professionnels",
+        srv5_desc: "Organisation de séminaires, conférences scientifiques, salons et rencontres de networking.",
+
+        tag_business: "BUSINESS",
+        srv6_title: "Négoce & Sourcing",
+        srv6_desc: "Intermédiation commerciale, recherche de fournisseurs fiables et développement international.",
+
+        hub_label: "Bella Skills HUB",
+        hub_title: "Un écosystème global autour de vos projets.",
+        hub_subtitle: "Nos expertises couvrent plusieurs domaines afin de proposer un accompagnement complet et performant.",
+
+        hub1_title: "Formation, Coaching & Accompagnement",
+        hub1_desc: "Des parcours adaptés aux besoins individuels et organisationnels.",
+        hub1_i1: "Développement personnel",
+        hub1_i2: "Soft Skills",
+        hub1_i3: "Neurosport",
+        hub1_i4: "Marketing Digital",
+        hub1_i5: "Techniques administratives",
+        hub1_i6: "Arts & Industries",
+
+        hub2_title: "Conseil, Études & Expertise Stratégique",
+        hub2_desc: "Une approche stratégique pour accompagner les entreprises et leurs projets.",
+        hub2_i1: "Développement commercial",
+        hub2_i2: "Management & RH",
+        hub2_i3: "Commerce international",
+        hub2_i4: "Chimie industrielle",
+        hub2_i5: "Investissement",
+        hub2_i6: "Gestion de projets",
+
+        hub3_title: "Événements Professionnels & Scientifiques",
+        hub3_desc: "Conception, logistique et organisation d'événements professionnels.",
+        hub3_i1: "Séminaires & Workshops",
+        hub3_i2: "Conférences",
+        hub3_i3: "Journées scientifiques",
+        hub3_i4: "Expositions",
+        hub3_i5: "Salons & Foires",
+        hub3_i6: "Networking B2B",
+
+        hub4_title: "Négoce, Sourcing & Agent Commercial",
+        hub4_desc: "Accompagnement commercial et recherche de fournisseurs ou partenaires de confiance.",
+        hub4_i1: "Produits & Ingrédients",
+        hub4_i2: "Équipements spécialisés",
+        hub4_i3: "Laboratoires",
+        hub4_i4: "Chaînes de production",
+        hub4_i5: "Grande consommation",
+        hub4_i6: "Mise en relation B2B",
+
+        domains_label: "Nos domaines d'intervention",
+        domains_title: "Des compétences au service de plusieurs univers.",
+        domains_desc: "Bella Skills HUB intervient auprès de différents profils et secteurs afin de créer des solutions adaptées à chaque environnement.",
+        dom1_title: "Entreprises",
+        dom1_desc: "Management, développement commercial, performance et accompagnement des équipes.",
+        dom2_title: "Professionnels",
+        dom2_desc: "Carrière, leadership, communication, compétences et évolution professionnelle continue.",
+        dom3_title: "Entrepreneurs",
+        dom3_desc: "Stratégie d'implantation, structuration, développement commercial et mentorat.",
+        dom4_title: "Institutions",
+        dom4_desc: "Programmes de formation sur-mesure, organisation d'événements et études de cadrage.",
+        dom5_title: "Secteur Scientifique",
+        dom5_desc: "Conférences, journées d'études scientifiques, expertise et symposiums spécialisés.",
+        dom6_title: "Particuliers",
+        dom6_desc: "Coaching individuel, renforcement de la confiance en soi, orientation et reconversion.",
+
+        process_label: "Notre approche",
+        process_title: "De l'idée à l'action.",
+        process_subtitle: "Une méthode éprouvée pour transformer vos besoins en résultats durables et mesurables.",
+        step1_title: "Écouter",
+        step1_desc: "Comprendre votre contexte, vos enjeux spécifiques et vos objectifs précis.",
+        step2_title: "Analyser",
+        step2_desc: "Identifier les compétences clés, les axes d'amélioration et les opportunités.",
+        step3_title: "Construire",
+        step3_desc: "Élaborer un programme ou une stratégie personnalisée et opérationnelle.",
+        step4_title: "Accompagner",
+        step4_desc: "Passer à l'action avec un suivi régulier pour garantir l'atteinte des résultats.",
+
+        about_label: "Pourquoi Bella Skills HUB ?",
+        about_title: "L'humain au cœur de la performance.",
+        about_text: "Nous sommes convaincus que la réussite de chaque organisation repose d'abord sur l'épanouissement, la montée en compétences et la capacité de ses collaborateurs à innover ensemble.",
+        feat1: "Accompagnement hautement personnalisé",
+        feat2: "Approche humaine, moderne et rigoureuse",
+        feat3: "Espaces de travail et de formation propices à l'échange",
+        feat4: "Réseau d'experts pluridisciplinaires",
+        feat5: "Culture orientée vers les résultats concrets",
+        feat6: "Proximité et suivi post-formation",
+
+        cta_label: "Votre prochaine étape",
+        cta_title: "Un projet ? Une formation ? Construisons-la ensemble.",
+        cta_desc: "Formation certifiante, coaching, location d'espaces, sourcing ou conseil stratégique : parlons de votre besoin dès aujourd'hui.",
+
+        contact_label: "Contact",
+        contact_title: "Parlons de votre projet.",
+        contact_desc: "Vous souhaitez réserver un espace, organiser une formation, développer vos équipes ou discuter d'un partenariat ? Notre équipe est à votre écoute.",
+        info_phone: "Téléphone",
+        info_location: "Localisation",
+        location_val: "Mohammadia — Alger, Algérie",
+        country_val: "Algérie",
+
+        form_name: "Nom complet",
+        placeholder_name: "Votre nom",
+        form_email: "Email",
+        placeholder_email: "votre@email.com",
+        form_phone: "Téléphone",
+        form_service: "Service recherché",
+        opt_select: "Sélectionner un service",
+        opt_coaching: "Coaching professionnel",
+        opt_formation: "Programmes de formation",
+        opt_workspace: "Espaces & Workspace",
+        opt_softskills: "Soft Skills & Leadership",
+        opt_marketing: "Marketing Digital",
+        opt_consulting: "Conseil & Expertise Stratégique",
+        opt_events: "Événements & Séminaires",
+        opt_sourcing: "Négoce & Sourcing",
+        form_msg: "Votre message",
+        placeholder_msg: "Parlez-nous de votre projet...",
+        form_submit: "Envoyer ma demande",
+        form_success: "Merci ! Votre demande a bien été enregistrée. Nous vous contacterons très prochainement.",
+
+        map_title: "Nous trouver",
+        map_address: "📍 Mohammadia, Alger — Algérie",
+        footer_desc: "Consulting • Coaching • Training • Workspace<br><br>Développer les compétences. Révéler les potentiels. Créer un impact durable.",
+        footer_nav: "Navigation",
+        footer_contact: "Contact",
+        footer_tagline: "Consulting • Coaching • Training"
+    },
+    en: {
+        nav_home: "Home",
+        nav_coaching: "Coaching",
+        nav_services: "Services",
+        nav_hub: "Bella Skills HUB",
+        nav_about: "About Us",
+        nav_contact: "Contact",
+
+        slide1_title: "Boost Your <span>Skills.</span>",
+        slide1_desc: "Coaching, training and tailored support to unlock your professional potential.",
+        slide2_tag: "TRAINING & WORKSPACE",
+        slide2_title: "Learn. <span>Evolve.</span><br>Perform.",
+        slide2_desc: "Hands-on programs and inspiring workspaces to grow your competencies.",
+        slide3_tag: "EXECUTIVE COACHING",
+        slide3_title: "Unlock Your <span>Potential.</span>",
+        slide3_desc: "Personalized coaching and leadership programs to turn goals into real achievements.",
+        slide4_tag: "CONSULTING & BUSINESS",
+        slide4_title: "Ideas. <span>Strategies.</span><br>Results.",
+        slide4_desc: "Advisory, market expertise and business development to scale your vision.",
+
+        btn_discover_services: "Explore Services",
+        btn_contact_us: "Contact Us",
+        btn_our_trainings: "Our Trainings",
+        btn_request_prog: "Request a Program",
+        btn_discover_coaching: "Discover Coaching",
+        btn_get_in_touch: "Get in Touch",
+        btn_our_expertise: "Our Expertise",
+        btn_talk_project: "Let's Talk",
+        btn_discover_arrow: "Discover →",
+        btn_call: "☎ Call Us",
+
+        badge_text: "Excellence & Empowerment",
+        intro_label: "Our Mission",
+        intro_title: "A premier hub to learn, evolve and excel.",
+        intro_text1: "Bella Skills HUB empowers individuals, professionals and organizations to foster talent and maximize performance.",
+        intro_text2: "Our methodology combines executive coaching, certified training programs, business consulting and innovative workspace environments.",
+        intro_quote: "“Your potential turns into strength the moment you decide to develop it.”",
+
+        services_label: "Our Services",
+        services_title: "Concrete solutions built for your ambitions.",
+        services_subtitle: "A multidisciplinary offering tailored for individuals, executives and enterprises.",
+
+        tag_coaching: "COACHING",
+        srv1_title: "Executive Coaching",
+        srv1_desc: "Leadership development, self-confidence, strategic communication and career acceleration.",
+
+        tag_formation: "TRAINING",
+        srv2_title: "Training Programs",
+        srv2_desc: "Interactive workshops, masterclasses and practical skills development for teams.",
+
+        tag_workspace: "WORKSPACE",
+        srv3_title: "Spaces & Workspace",
+        srv3_desc: "Collaborative coworking spaces, fully equipped training rooms and modern business facilities.",
+
+        tag_consulting: "CONSULTING",
+        srv4_title: "Consulting & Advisory",
+        srv4_desc: "Market research, organizational restructuring, business audits and strategic guidance.",
+
+        tag_events: "EVENTS",
+        srv5_title: "Corporate Events",
+        srv5_desc: "Organization of seminars, scientific symposiums, expos and premium networking meetups.",
+
+        tag_business: "BUSINESS",
+        srv6_title: "Trade & Sourcing",
+        srv6_desc: "Commercial brokerage, reliable international supplier sourcing and B2B representation.",
+
+        hub_label: "Bella Skills HUB",
+        hub_title: "A comprehensive ecosystem around your projects.",
+        hub_subtitle: "Our expertise spans multiple industries to deliver high-impact, integrated support.",
+
+        hub1_title: "Training, Coaching & Mentorship",
+        hub1_desc: "Programs crafted for individual career growth and corporate excellence.",
+        hub1_i1: "Personal Development",
+        hub1_i2: "Soft Skills & Leadership",
+        hub1_i3: "Neurosport",
+        hub1_i4: "Digital Marketing",
+        hub1_i5: "Administrative Skills",
+        hub1_i6: "Arts & Industries",
+
+        hub2_title: "Consulting, Studies & Strategy",
+        hub2_desc: "Strategic advisory to elevate business performance and investments.",
+        hub2_i1: "Business Development",
+        hub2_i2: "Management & HR",
+        hub2_i3: "International Trade",
+        hub2_i4: "Industrial Chemistry",
+        hub2_i5: "Investment Advisory",
+        hub2_i6: "Project Management",
+
+        hub3_title: "Corporate & Scientific Events",
+        hub3_desc: "Complete planning and execution of top-tier events.",
+        hub3_i1: "Seminars & Workshops",
+        hub3_i2: "Conferences",
+        hub3_i3: "Scientific Days",
+        hub3_i4: "Exhibitions",
+        hub3_i5: "Trade Fairs",
+        hub3_i6: "B2B Networking",
+
+        hub4_title: "Trading, Sourcing & Agency",
+        hub4_desc: "Business facilitation and verified partner/supplier matching.",
+        hub4_i1: "Products & Ingredients",
+        hub4_i2: "Specialized Equipment",
+        hub4_i3: "Laboratory Gear",
+        hub4_i4: "Production Lines",
+        hub4_i5: "FMCG Consumer Goods",
+        hub4_i6: "B2B Matchmaking",
+
+        domains_label: "Our Intervention Sectors",
+        domains_title: "Expertise serving diverse industries.",
+        domains_desc: "Bella Skills HUB operates across diverse environments to engineer custom solutions that drive results.",
+        dom1_title: "Corporations",
+        dom1_desc: "Management, sales expansion, team performance and transformation programs.",
+        dom2_title: "Professionals",
+        dom2_desc: "Career enhancement, leadership skills, communication and executive growth.",
+        dom3_title: "Entrepreneurs",
+        dom3_desc: "Go-to-market strategies, business structuring, scaling and mentorship.",
+        dom4_title: "Institutions",
+        dom4_desc: "Custom public training programs, event organization and sectorial studies.",
+        dom5_title: "Scientific Sector",
+        dom5_desc: "Conferences, scientific study days, specialized forums and technical audits.",
+        dom6_title: "Individuals",
+        dom6_desc: "Personal coaching, self-confidence boosting, career transitions and skill building.",
+
+        process_label: "Our Process",
+        process_title: "From Idea to Execution.",
+        process_subtitle: "A proven methodology to turn your objectives into measurable and sustainable success.",
+        step1_title: "Listen",
+        step1_desc: "Understanding your exact context, challenges, goals and organizational dynamics.",
+        step2_title: "Analyze",
+        step2_desc: "Identifying key talent gaps, growth opportunities and strategic priorities.",
+        step3_title: "Build",
+        step3_desc: "Designing a customized, operational and highly targeted action plan.",
+        step4_title: "Empower",
+        step4_desc: "Executing with hands-on mentoring and regular follow-ups to guarantee results.",
+
+        about_label: "Why Choose Bella Skills HUB?",
+        about_title: "People at the heart of performance.",
+        about_text: "We believe that the sustainable success of any organization begins with empowered people who have the confidence, skills and space to innovate collectively.",
+        feat1: "Highly customized support programs",
+        feat2: "Human-centric, modern and rigorous methodology",
+        feat3: "Modern workspaces designed for collaboration & focus",
+        feat4: "Multidisciplinary network of seasoned experts",
+        feat5: "Strong results-oriented mindset",
+        feat6: "Continuous follow-up and close mentorship",
+
+        cta_label: "Your Next Milestone",
+        cta_title: "Have a project or training goal? Let's build it together.",
+        cta_desc: "Certified training, coaching, workspace rentals, sourcing or consulting: let's connect and discuss your needs today.",
+
+        contact_label: "Contact",
+        contact_title: "Let's discuss your project.",
+        contact_desc: "Looking to book a workspace, organize a training program, or explore partnership opportunities? We are here to assist.",
+        info_phone: "Phone",
+        info_location: "Location",
+        location_val: "Mohammadia — Algiers, Algeria",
+        country_val: "Algeria",
+
+        form_name: "Full Name",
+        placeholder_name: "Your Name",
+        form_email: "Email Address",
+        placeholder_email: "your@email.com",
+        form_phone: "Phone Number",
+        form_service: "Desired Service",
+        opt_select: "Select a service",
+        opt_coaching: "Executive Coaching",
+        opt_formation: "Training Programs",
+        opt_workspace: "Spaces & Workspace",
+        opt_softskills: "Soft Skills & Leadership",
+        opt_marketing: "Digital Marketing",
+        opt_consulting: "Consulting & Strategy",
+        opt_events: "Corporate Events & Seminars",
+        opt_sourcing: "Trade & Sourcing",
+        form_msg: "Your Message",
+        placeholder_msg: "Tell us about your project...",
+        form_submit: "Submit Request",
+        form_success: "Thank you! Your request has been received. We will contact you shortly.",
+
+        map_title: "Our Location",
+        map_address: "📍 Mohammadia, Algiers — Algeria",
+        footer_desc: "Consulting • Coaching • Training • Workspace<br><br>Developing skills. Unlocking potential. Creating lasting impact.",
+        footer_nav: "Navigation",
+        footer_contact: "Contact",
+        footer_tagline: "Consulting • Coaching • Training"
+    }
+};
+
+/* Apply Language */
+let currentLang = localStorage.getItem("bs_lang") || "fr";
+
+function setLanguage(lang){
+    currentLang = lang;
+    localStorage.setItem("bs_lang", lang);
+    document.documentElement.lang = lang;
+
+    // Update buttons
+    document.querySelectorAll(".lang-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.lang === lang);
+    });
+
+    // Update text nodes
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if(translations[lang][key]){
+            el.innerHTML = translations[lang][key];
         }
+    });
 
-        function showToast(key, isError = false) {
-            const toast = document.getElementById("toast"); 
-            toast.innerText = translations[currentLang][key] || key; 
-            toast.className = isError ? "show error" : "show";
-            setTimeout(() => { toast.className = toast.className.replace("show", "").replace("error", ""); }, 4000);
+    // Update placeholders
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        if(translations[lang][key]){
+            el.setAttribute("placeholder", translations[lang][key]);
         }
+    });
+}
 
-        function compressImageToBase64(file) {
-            return new Promise((resolve) => {
-                if (!file) { resolve(""); return; }
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width; let height = img.height;
-                        const MAX_WIDTH = 800; 
-                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                        canvas.width = width; canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.6)); 
-                    };
-                    img.onerror = () => { resolve(""); }; 
-                    img.src = event.target.result;
-                };
-                reader.onerror = () => { resolve(""); };
-                reader.readAsDataURL(file);
-            });
+document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        setLanguage(btn.dataset.lang);
+    });
+});
+
+// Initialize Language on load
+setLanguage(currentLang);
+
+
+/* =========================================================
+   HEADER SCROLL
+========================================================= */
+const header = document.getElementById("header");
+window.addEventListener("scroll", () => {
+    if(window.scrollY > 40){
+        header.classList.add("scrolled");
+    }else{
+        header.classList.remove("scrolled");
+    }
+});
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+const menu = document.getElementById("menu");
+const nav = document.getElementById("navLinks");
+
+menu.addEventListener("click", () => {
+    nav.classList.toggle("open");
+    menu.textContent = nav.classList.contains("open") ? "✕" : "☰";
+});
+
+document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+        nav.classList.remove("open");
+        menu.textContent = "☰";
+    });
+});
+
+
+/* =========================================================
+   HERO SLIDER
+========================================================= */
+const slides = document.querySelectorAll(".slide");
+const dots = document.querySelectorAll(".slider-dot");
+const nextButton = document.getElementById("nextSlide");
+const prevButton = document.getElementById("prevSlide");
+const progressBar = document.getElementById("progressBar");
+
+let currentSlide = 0;
+let slideTimer;
+let progressTimer;
+const slideDuration = 5000;
+
+function showSlide(index){
+    if(index >= slides.length) index = 0;
+    if(index < 0) index = slides.length - 1;
+
+    currentSlide = index;
+
+    slides.forEach((slide,i) => {
+        slide.classList.toggle("active", i === currentSlide);
+    });
+
+    dots.forEach((dot,i) => {
+        dot.classList.toggle("active", i === currentSlide);
+    });
+
+    startProgress();
+}
+
+function nextSlide(){ showSlide(currentSlide + 1); }
+function previousSlide(){ showSlide(currentSlide - 1); }
+
+function resetTimer(){
+    clearInterval(slideTimer);
+    slideTimer = setInterval(nextSlide, slideDuration);
+}
+
+function startProgress(){
+    clearInterval(progressTimer);
+    progressBar.style.transition = "none";
+    progressBar.style.width = "0%";
+    requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>{
+            progressBar.style.transition = `width ${slideDuration}ms linear`;
+            progressBar.style.width = "100%";
+        });
+    });
+}
+
+nextButton.addEventListener("click",()=>{ nextSlide(); resetTimer(); });
+prevButton.addEventListener("click",()=>{ previousSlide(); resetTimer(); });
+
+dots.forEach(dot => {
+    dot.addEventListener("click",()=>{
+        const index = parseInt(dot.dataset.slide);
+        showSlide(index);
+        resetTimer();
+    });
+});
+
+const heroSlider = document.querySelector(".hero-slider");
+heroSlider.addEventListener("mouseenter",()=>{ clearInterval(slideTimer); });
+heroSlider.addEventListener("mouseleave",()=>{ resetTimer(); });
+
+let touchStartX = 0;
+let touchEndX = 0;
+heroSlider.addEventListener("touchstart",(e)=>{ touchStartX = e.changedTouches[0].screenX; }, {passive:true});
+heroSlider.addEventListener("touchend",(e)=>{
+    touchEndX = e.changedTouches[0].screenX;
+    if(Math.abs(touchEndX - touchStartX) > 50){
+        if(touchEndX < touchStartX) nextSlide();
+        else previousSlide();
+        resetTimer();
+    }
+}, {passive:true});
+
+showSlide(0);
+resetTimer();
+
+
+/* =========================================================
+   SCROLL REVEAL ANIMATION
+========================================================= */
+const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add("active");
         }
+    });
+}, { threshold:.12 });
 
-        let siteData = { banners: [], settings: {}, services: [], works: [], partners: [] };
+document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 
-        function renderMarqueeAndModal() {
-            let srvs = siteData.services || [];
-            const modalList = document.getElementById('services-full-list');
-            
-            if(srvs.length === 0) {
-                modalList.innerHTML = `<li><i class="fas fa-info-circle"></i> ${translations[currentLang].noServices}</li>`;
-                document.getElementById('mq-row1').innerHTML = ''; document.getElementById('mq-row2').innerHTML = '';
-                return;
-            }
 
-            modalList.innerHTML = srvs.map(s => `<li><i class="fas fa-check-circle"></i> ${currentLang === 'ar' ? (s.title_ar||s.title_fr) : (s.title_fr||s.title_ar)}</li>`).join('');
+/* =========================================================
+   CONTACT FORM
+========================================================= */
+const form = document.getElementById("form");
+const success = document.getElementById("success");
 
-            const half = Math.ceil(srvs.length / 2);
-            const r1 = srvs.slice(0, half);
-            const r2 = srvs.slice(half);
-            const genHtml = (arr) => arr.map(item => `<div class="marquee-item">${currentLang === 'ar' ? (item.title_ar||item.title_fr) : (item.title_fr||item.title_ar)}</div>`).join('');
-            
-            document.getElementById('mq-row1').innerHTML = genHtml(r1) + genHtml(r1) + genHtml(r1);
-            document.getElementById('mq-row2').innerHTML = genHtml(r2) + genHtml(r2) + genHtml(r2);
-        }
+form.addEventListener("submit",(e)=>{
+    e.preventDefault();
+    success.style.display = "block";
+    form.reset();
+    setTimeout(()=>{ success.style.display = "none"; }, 6000);
+});
 
-        window.openServicesModal = function() { document.getElementById('all-services-modal').style.display = 'flex'; }
-        window.closeServicesModal = function() { document.getElementById('all-services-modal').style.display = 'none'; }
 
-        window.toggleAboutText = function() {
-            const contentSpan = document.getElementById('about-text-content');
-            const btn = document.getElementById('about-toggle-btn');
-            if(contentSpan.getAttribute('data-state') === 'short') {
-                contentSpan.innerText = decodeURIComponent(contentSpan.getAttribute('data-full')) + ' ';
-                contentSpan.setAttribute('data-state', 'full');
-                btn.innerText = translations[currentLang].readLess;
-            } else {
-                contentSpan.innerText = decodeURIComponent(contentSpan.getAttribute('data-short'));
-                contentSpan.setAttribute('data-state', 'short');
-                btn.innerText = translations[currentLang].readMore;
-            }
-        }
+/* =========================================================
+   BACK TO TOP & YEAR
+========================================================= */
+const topButton = document.getElementById("top");
+window.addEventListener("scroll",()=>{
+    if(window.scrollY > 500){
+        topButton.classList.add("show");
+    }else{
+        topButton.classList.remove("show");
+    }
+});
 
-        function renderUI() {
-            renderMarqueeAndModal();
+topButton.addEventListener("click",()=>{
+    window.scrollTo({ top:0, behavior:"smooth" });
+});
 
-            const banners = siteData.banners || [];
-            if(banners.length > 0) {
-                const b = banners[banners.length - 1]; 
-                if(b.title_fr || b.title_ar) {
-                    document.getElementById('banner').style.display = 'flex';
-                    document.getElementById('b-title').innerText = currentLang === 'ar' ? (b.title_ar||'') : (b.title_fr||'');
-                    document.getElementById('b-location').innerText = currentLang === 'ar' ? (b.loc_ar||'') : (b.loc_fr||'');
-                    document.getElementById('b-date').innerText = b.date || ''; document.getElementById('b-link').href = b.link || '#';
-                    
-                    // تحديد نص الزر برمجياً حسب الإدخال أو النص الافتراضي
-                    let defaultBtnText = currentLang === 'ar' ? "التسجيل" : "S'inscrire";
-                    document.getElementById('b-link').innerText = currentLang === 'ar' ? (b.btn_ar || defaultBtnText) : (b.btn_fr || defaultBtnText);
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 
-                    if(b.img) { document.getElementById('b-bg').src = b.img; document.getElementById('b-bg').style.display = 'block'; }
-                }
-            } else {
-                document.getElementById('banner').style.display = 'none';
-            }
-
-            const s = siteData.settings || {};
-            if(s.email || s.about_fr) {
-                let fullText = currentLang === 'ar' ? (s.about_ar || '') : (s.about_fr || '');
-                const aboutContainer = document.getElementById('f-about');
-                if (fullText.length > 120) {
-                    let shortText = fullText.substring(0, 120) + '... ';
-                    aboutContainer.innerHTML = `<span id="about-text-content" data-full="${encodeURIComponent(fullText)}" data-short="${encodeURIComponent(shortText)}" data-state="short">${shortText}</span>
-                                                <span id="about-toggle-btn" class="read-more-btn" onclick="toggleAboutText()">${translations[currentLang].readMore}</span>`;
-                } else { aboutContainer.innerText = fullText; }
-
-                document.getElementById('f-email').innerText = s.email || ''; document.getElementById('f-phone').innerText = s.phone || '';
-                document.getElementById('f-fb').href = s.fb || '#'; document.getElementById('f-ig').href = s.ig || '#';
-                
-                if(s.map) {
-                    let mapData = s.map.trim();
-                    if(mapData.includes('<iframe')) { document.getElementById('f-map').innerHTML = mapData; } 
-                    else if (mapData.startsWith("http")) { document.getElementById('f-map').innerHTML = `<iframe src="${mapData}" allowfullscreen="" loading="lazy"></iframe>`; }
-                } else { document.getElementById('f-map').innerHTML = ''; }
-            }
-
-            document.getElementById('works-grid').innerHTML = (siteData.works || []).map((w, i) => `<div class="card" onclick="openBlog(${i})"><img src="${w.img}"><h3>${currentLang === 'ar' ? (w.title_ar||w.title_fr) : (w.title_fr||w.title_ar)}</h3><p>${(currentLang === 'ar' ? (w.desc_ar||'') : (w.desc_fr||'')).substring(0, 60)}...</p><span style="color:var(--primary); font-weight:bold; margin-top:15px; display:inline-block;">${translations[currentLang].readMore}</span></div>`).join('');
-            document.getElementById('partners-grid').innerHTML = (siteData.partners || []).map(p => `<img src="${p.img}">`).join('');
-            
-            if(isAdminRoute && document.getElementById('dashboard-layout').style.display === 'flex') { fillAdminInputs(); }
-        }
-
-        window.openBlog = function(i) {
-            const w = siteData.works[i]; document.getElementById('m-img').src = w.img;
-            document.getElementById('m-title').innerText = currentLang === 'ar' ? (w.title_ar||w.title_fr) : (w.title_fr||w.title_ar);
-            document.getElementById('m-desc').innerText = currentLang === 'ar' ? (w.desc_ar||w.desc_fr) : (w.desc_fr||w.desc_ar);
-            document.getElementById('blog-modal').style.display = 'flex';
-        }
-        window.closeBlogModal = function() { document.getElementById('blog-modal').style.display = 'none'; }
-
-        function initFirebaseListeners() {
-            onSnapshot(collection(db, "banners"), (snap) => { 
-                let b = snap.docs.map(d => ({id: d.id, ...d.data()})); b.sort((x, y) => (x.timestamp || 0) - (y.timestamp || 0)); 
-                siteData.banners = b; renderUI(); 
-            });
-            onSnapshot(doc(db, "site", "settings"), (doc) => { if(doc.exists()) siteData.settings = doc.data(); else siteData.settings = {}; renderUI(); });
-            onSnapshot(collection(db, "services"), (snap) => { siteData.services = snap.docs.map(d => ({id: d.id, ...d.data()})); renderUI(); });
-            onSnapshot(collection(db, "works"), (snap) => { siteData.works = snap.docs.map(d => ({id: d.id, ...d.data()})); renderUI(); });
-            onSnapshot(collection(db, "partners"), (snap) => { siteData.partners = snap.docs.map(d => ({id: d.id, ...d.data()})); renderUI(); });
-        }
-
-        const isAdminRoute = window.location.pathname.endsWith('/admin16') || window.location.hash.includes('admin16');
-        initFirebaseListeners(); 
-
-        const todayStr = new Date().toISOString().split('T')[0];
-        const monthStr = todayStr.substring(0,7);
-
-        if(!isAdminRoute) {
-            if(localStorage.getItem('visited_' + todayStr) !== 'true') {
-                localStorage.setItem('visited_' + todayStr, 'true');
-                setDoc(doc(db, "stats", "day_" + todayStr), { count: increment(1) }, { merge: true }).catch(e=>{});
-                setDoc(doc(db, "stats", "month_" + monthStr), { count: increment(1) }, { merge: true }).catch(e=>{});
-            }
-        } else {
-            document.getElementById('public-view').style.display = 'none'; document.getElementById('bg-animation').style.display = 'none'; document.getElementById('admin-panel').style.display = 'block';
-        }
-
-        window.trackRegistration = function() { setDoc(doc(db, "stats", "registrations"), { count: increment(1) }, { merge: true }).catch(e=>{}); }
-
-        window.switchAdminTab = function(tabId) {
-            document.querySelectorAll('.admin-sec').forEach(el => el.classList.remove('active'));
-            document.getElementById('sec-' + tabId).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-        }
-
-        window.checkAdmin = async function() {
-            if(btoa(document.getElementById('admin-pwd').value) === "YmVsbGEyMDI2") { 
-                document.getElementById('login-section').style.display = 'none'; 
-                document.getElementById('dashboard-layout').style.display = 'flex'; 
-                fillAdminInputs();
-                onSnapshot(doc(db, "stats", "day_" + todayStr), (doc) => { document.getElementById('stat-day').innerText = doc.exists() ? doc.data().count : 0; });
-                onSnapshot(doc(db, "stats", "month_" + monthStr), (doc) => { document.getElementById('stat-month').innerText = doc.exists() ? doc.data().count : 0; });
-                onSnapshot(doc(db, "stats", "registrations"), (doc) => { document.getElementById('stat-reg').innerText = doc.exists() ? doc.data().count : 0; });
-            } else { showToast("wrongPwd", true); }
-        }
-
-        function fillAdminInputs() {
-            const s = siteData.settings || {};
-            document.getElementById('ad-email').value = s.email || ''; document.getElementById('ad-phone').value = s.phone || '';
-            document.getElementById('ad-fb').value = s.fb || ''; document.getElementById('ad-ig').value = s.ig || '';
-            document.getElementById('ad-map').value = s.map || ''; document.getElementById('ad-about-fr').value = s.about_fr || ''; document.getElementById('ad-about-ar').value = s.about_ar || '';
-            
-            document.getElementById('list-banners').innerHTML = (siteData.banners||[]).map(b => `<div class="list-item"><div class="list-item-info"><img src="${b.img||''}">${b.title_fr||''}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('banner','${b.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('banners','${b.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
-            document.getElementById('list-services').innerHTML = (siteData.services||[]).map(s => `<div class="list-item"><div class="list-item-info"><i class="fas fa-check" style="margin: 0 10px; color:var(--primary);"></i> ${s.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('service','${s.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('services','${s.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
-            document.getElementById('list-works').innerHTML = (siteData.works||[]).map(w => `<div class="list-item"><div class="list-item-info"><img src="${w.img}">${w.title_fr}</div><div class="list-actions"><button class="btn-edit" onclick="editItem('work','${w.id}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteItem('works','${w.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
-            document.getElementById('list-partners').innerHTML = (siteData.partners||[]).map(p => `<div class="list-item"><div class="list-item-info"><img src="${p.img}"></div><div class="list-actions"><button class="btn-delete" onclick="deleteItem('partners','${p.id}')"><i class="fas fa-trash"></i></button></div></div>`).join('');
-        }
-
-        function setBtnLoading(id, state) { 
-            const btn = document.getElementById(id);
-            if(!btn) return;
-            btn.disabled = state; 
-            if(state) {
-                btn.innerText = translations[currentLang].btnLoading;
-            } else {
-                btn.innerText = btn.hasAttribute('data-edit-mode') ? translations[currentLang].btnUpdate : translations[currentLang].btnSave;
-            }
-        }
-
-        window.saveBanner = async function() {
-            setBtnLoading("btn-save-banner", true);
-            try {
-                const id = document.getElementById('ad-b-id').value;
-                const existing = id ? siteData.banners.find(x => x.id === id) : null;
-                let imgUrl = existing ? existing.img : "";
-                const file = document.getElementById('ad-b-img').files[0];
-                
-                if(file) { imgUrl = await compressImageToBase64(file); }
-                
-                const data = { 
-                    img: imgUrl || "", title_fr: document.getElementById('ad-b-title-fr').value || "", title_ar: document.getElementById('ad-b-title-ar').value || "", 
-                    loc_fr: document.getElementById('ad-b-loc-fr').value || "", loc_ar: document.getElementById('ad-b-loc-ar').value || "", 
-                    date: document.getElementById('ad-b-date').value || "", link: document.getElementById('ad-b-link').value || "",
-                    btn_fr: document.getElementById('ad-b-btn-fr').value || "", btn_ar: document.getElementById('ad-b-btn-ar').value || "",
-                    timestamp: (existing && existing.timestamp) ? existing.timestamp : Date.now() 
-                };
-                
-                if(id) await updateDoc(doc(db, "banners", id), data); else await addDoc(collection(db, "banners"), data);
-                showToast("successSave"); resetForm('banner');
-            } catch (error) { alert(translations[currentLang].errorMsg + error.message); } finally { setBtnLoading("btn-save-banner", false); } 
-        }
-
-        window.saveService = async function() {
-            setBtnLoading("btn-save-service", true);
-            try {
-                const id = document.getElementById('ad-s-id').value;
-                const data = { title_fr: document.getElementById('ad-s-title-fr').value, title_ar: document.getElementById('ad-s-title-ar').value };
-                if(!data.title_fr && !data.title_ar) { showToast("enterName", true); setBtnLoading("btn-save-service", false); return;}
-                if(id) await updateDoc(doc(db, "services", id), data); else await addDoc(collection(db, "services"), data);
-                showToast("successSave"); resetForm('service'); 
-            } catch (error) { alert(translations[currentLang].errorMsg + error.message); } finally { setBtnLoading("btn-save-service", false); } 
-        }
-
-        window.saveWork = async function() {
-            setBtnLoading("btn-save-work", true);
-            try {
-                const id = document.getElementById('ad-w-id').value;
-                const existing = id ? siteData.works.find(x => x.id === id) : null;
-                let imgUrl = existing ? existing.img : "";
-                const file = document.getElementById('ad-w-img').files[0];
-                
-                if(file) { imgUrl = await compressImageToBase64(file); }
-                if(!imgUrl && !id) { showToast("chooseImg", true); setBtnLoading("btn-save-work", false); return; }
-
-                const data = { img: imgUrl, title_fr: document.getElementById('ad-w-title-fr').value, title_ar: document.getElementById('ad-w-title-ar').value, desc_fr: document.getElementById('ad-w-desc-fr').value, desc_ar: document.getElementById('ad-w-desc-ar').value };
-                if(id) await updateDoc(doc(db, "works", id), data); else await addDoc(collection(db, "works"), data);
-                showToast("successSave"); resetForm('work'); 
-            } catch (error) { alert(translations[currentLang].errorMsg + error.message); } finally { setBtnLoading("btn-save-work", false); } 
-        }
-
-        window.addPartner = async function() {
-            setBtnLoading("btn-save-partner", true);
-            try {
-                const file = document.getElementById('ad-p-img').files[0];
-                if(file) {
-                    const imgUrl = await compressImageToBase64(file);
-                    await addDoc(collection(db, "partners"), { img: imgUrl });
-                    showToast("successSave"); document.getElementById('ad-p-img').value = '';
-                } else { showToast("chooseImg", true); }
-            } catch (error) { alert(translations[currentLang].errorMsg + error.message); } finally { setBtnLoading("btn-save-partner", false); } 
-        }
-
-        window.saveSettings = async function() {
-            setBtnLoading("btn-save-settings", true);
-            try {
-                const data = { email: document.getElementById('ad-email').value, phone: document.getElementById('ad-phone').value, fb: document.getElementById('ad-fb').value, ig: document.getElementById('ad-ig').value, map: document.getElementById('ad-map').value, about_fr: document.getElementById('ad-about-fr').value, about_ar: document.getElementById('ad-about-ar').value };
-                await setDoc(doc(db, "site", "settings"), data); showToast("successSave"); 
-            } catch (error) { alert(translations[currentLang].errorMsg + error.message); } finally { setBtnLoading("btn-save-settings", false); } 
-        }
-
-        window.editItem = function(type, id) {
-            let btnText = translations[currentLang].btnUpdate;
-            if(type === 'banner') {
-                const b = siteData.banners.find(x => x.id === id); document.getElementById('ad-b-id').value = b.id;
-                document.getElementById('ad-b-title-fr').value = b.title_fr; document.getElementById('ad-b-title-ar').value = b.title_ar; document.getElementById('ad-b-loc-fr').value = b.loc_fr; document.getElementById('ad-b-loc-ar').value = b.loc_ar; document.getElementById('ad-b-date').value = b.date; document.getElementById('ad-b-link').value = b.link;
-                document.getElementById('ad-b-btn-fr').value = b.btn_fr || ''; document.getElementById('ad-b-btn-ar').value = b.btn_ar || '';
-                const btn = document.getElementById('btn-save-banner'); btn.innerText = btnText; btn.setAttribute('data-edit-mode', 'true'); window.location.hash = "#ad-b-title-fr";
-            } else if(type === 'service') {
-                const s = siteData.services.find(x => x.id === id); document.getElementById('ad-s-id').value = s.id;
-                document.getElementById('ad-s-title-fr').value = s.title_fr; document.getElementById('ad-s-title-ar').value = s.title_ar;
-                const btn = document.getElementById('btn-save-service'); btn.innerText = btnText; btn.setAttribute('data-edit-mode', 'true'); window.location.hash = "#ad-s-title-fr";
-            } else if (type === 'work') {
-                const w = siteData.works.find(x => x.id === id); document.getElementById('ad-w-id').value = w.id;
-                document.getElementById('ad-w-title-fr').value = w.title_fr; document.getElementById('ad-w-title-ar').value = w.title_ar; document.getElementById('ad-w-desc-fr').value = w.desc_fr; document.getElementById('ad-w-desc-ar').value = w.desc_ar;
-                const btn = document.getElementById('btn-save-work'); btn.innerText = btnText; btn.setAttribute('data-edit-mode', 'true'); window.location.hash = "#ad-w-title-fr";
-            }
-        }
-
-        window.resetForm = function(type) {
-            let btnText = translations[currentLang].btnSave;
-            if(type === 'banner') { document.getElementById('ad-b-id').value=''; document.getElementById('ad-b-img').value=''; document.getElementById('ad-b-title-fr').value=''; document.getElementById('ad-b-title-ar').value=''; document.getElementById('ad-b-loc-fr').value=''; document.getElementById('ad-b-loc-ar').value=''; document.getElementById('ad-b-date').value=''; document.getElementById('ad-b-link').value=''; document.getElementById('ad-b-btn-fr').value=''; document.getElementById('ad-b-btn-ar').value=''; const btn = document.getElementById('btn-save-banner'); btn.innerText=btnText; btn.removeAttribute('data-edit-mode'); }
-            if(type === 'service') { document.getElementById('ad-s-id').value=''; document.getElementById('ad-s-title-fr').value=''; document.getElementById('ad-s-title-ar').value=''; const btn = document.getElementById('btn-save-service'); btn.innerText=btnText; btn.removeAttribute('data-edit-mode');}
-            if(type === 'work') { document.getElementById('ad-w-id').value=''; document.getElementById('ad-w-img').value=''; document.getElementById('ad-w-title-fr').value=''; document.getElementById('ad-w-title-ar').value=''; document.getElementById('ad-w-desc-fr').value=''; document.getElementById('ad-w-desc-ar').value=''; const btn = document.getElementById('btn-save-work'); btn.innerText=btnText; btn.removeAttribute('data-edit-mode');}
-        }
-
-        window.deleteItem = async function(col, id) {
-            if(confirm(translations[currentLang].sureDel)) {
-                try { await deleteDoc(doc(db, col, id)); showToast("successDel"); } 
-                catch(error) { alert(translations[currentLang].errorMsg + error.message); }
-            }
-        }
-    </script>
 </body>
 </html>
