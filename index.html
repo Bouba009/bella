@@ -31,7 +31,7 @@
     --shadow-hover:0 25px 60px rgba(117,37,181,.18);
 
     /* Glassmorphism */
-    --glass-bg: rgba(255, 255, 255, 0.92);
+    --glass-bg: rgba(255, 255, 255, 0.95);
     --glass-border: rgba(255, 255, 255, 0.75);
     --glass-shadow: 0 25px 60px rgba(66, 16, 95, 0.18);
 }
@@ -231,12 +231,11 @@ header.scrolled{
     order:99;
 }
 
-/* Mobile Far-Right Drawer */
+/* Mobile Far-Right Drawer (FIXED: Clear, Non-blurry, High Z-index) */
 .menu-backdrop{
     position:fixed;
     inset:0;
-    background:rgba(20,10,28,0.55);
-    backdrop-filter:blur(4px);
+    background:rgba(20, 10, 28, 0.45);
     z-index:9998;
     display:none;
 }
@@ -253,17 +252,27 @@ header.scrolled{
         width:290px;
         max-width:85vw;
         height:100vh;
-        background:rgba(255, 255, 255, 0.98);
-        backdrop-filter:blur(25px);
-        box-shadow:-10px 0 35px rgba(0,0,0,0.15);
+        background:#FFFFFF;
+        box-shadow:-10px 0 35px rgba(0,0,0,0.2);
         flex-direction:column;
         align-items:flex-start;
         padding:80px 30px 35px;
         transition:right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        z-index:9999;
+        z-index:99999;
     }
     .nav-links.open{
         right:0 !important;
+    }
+    .nav-links li{
+        width: 100%;
+        border-bottom: 1px solid #F0EEF3;
+        padding: 10px 0;
+    }
+    .nav-links a{
+        font-size: 15px;
+        color: #29222F;
+        display: block;
+        width: 100%;
     }
     .menu{
         display:flex;
@@ -279,7 +288,7 @@ header.scrolled{
     position:fixed;
     top:25px;
     right:25px;
-    z-index:99999;
+    z-index:999999;
     display:flex;
     flex-direction:column;
     gap:10px;
@@ -288,8 +297,8 @@ header.scrolled{
 
 .toast-box{
     pointer-events:auto;
-    background:rgba(255, 255, 255, 0.95);
-    backdrop-filter:blur(25px) saturate(180%);
+    background:rgba(255, 255, 255, 0.98);
+    backdrop-filter:blur(25px);
     border:1px solid rgba(255, 255, 255, 0.7);
     box-shadow:0 15px 40px rgba(66, 16, 95, 0.22);
     border-radius:14px;
@@ -589,7 +598,7 @@ h2{
 
 .intro-grid{
     display:grid;
-    grid-template-columns:1fr 1.2fr;
+    grid-template-columns:1fr 1fr;
     gap:70px;
     align-items:center;
 }
@@ -656,7 +665,7 @@ h2{
 }
 
 /* =========================================================
-   SERVICES SECTION (STATIC HTML TO PREVENT EMPTY BLANKS)
+   SERVICES SECTION
 ========================================================= */
 .services{
     padding:110px 0;
@@ -967,7 +976,7 @@ h2{
 }
 
 /* =========================================================
-   ONLINE COURSES: TOUCH SINGLE ROW SLIDER AT BOTTOM
+   ONLINE COURSES
 ========================================================= */
 .courses-touch-section{
     padding:100px 0;
@@ -1102,7 +1111,7 @@ h2{
 .track-arrow.right{ right:-16px; }
 
 /* =========================================================
-   CTA (ORIGINAL)
+   CTA
 ========================================================= */
 .cta{
     padding:100px 20px;
@@ -1359,7 +1368,7 @@ footer li{
 }
 
 /* =========================================================
-   TOP BUTTON & REVEAL (ORIGINAL)
+   TOP BUTTON & REVEAL
 ========================================================= */
 .top{
     position:fixed;
@@ -1397,7 +1406,7 @@ footer li{
 }
 
 /* =========================================================
-   GLASSMORPHIC MODALS & DROPZONE FILE UPLOAD
+   GLASSMORPHIC MODALS & PAYMENT METHOD TABS
 ========================================================= */
 .glass-overlay{
     position:fixed;
@@ -1418,12 +1427,10 @@ footer li{
 
 .glass-box{
     background:var(--glass-bg);
-    backdrop-filter:blur(30px) saturate(190%);
-    -webkit-backdrop-filter:blur(30px) saturate(190%);
     border:1px solid var(--glass-border);
     border-radius:24px;
     box-shadow:var(--glass-shadow);
-    width:min(560px, 100%);
+    width:min(580px, 100%);
     max-height:92vh;
     overflow-y:auto;
     padding:35px 28px;
@@ -1451,6 +1458,97 @@ footer li{
 .glass-close:hover{
     background:var(--purple);
     color:white;
+}
+
+/* Payment Method Tabs & Card Design */
+.pay-methods-tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:16px;
+}
+
+.pay-method-tab{
+    background:#FFFFFF;
+    border:2px solid #E4DFEC;
+    border-radius:14px;
+    padding:12px 14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+    transition:all .25s ease;
+}
+
+.pay-method-tab:hover{
+    border-color:var(--purple-light);
+    background:var(--purple-soft);
+}
+
+.pay-method-tab.active{
+    border-color:var(--purple);
+    background:#FAF6FD;
+    box-shadow:0 6px 18px rgba(117, 37, 181, 0.15);
+}
+
+.pay-method-icon{
+    width:48px;
+    height:48px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    background:#FFFFFF;
+    border:1px solid #ECE7F0;
+    overflow:hidden;
+    padding:3px;
+}
+
+.pay-method-icon img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+.pay-method-title{
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--purple-dark);
+    line-height:1.2;
+}
+
+.pay-method-sub{
+    font-size:11px;
+    color:var(--muted);
+}
+
+.pay-details-card{
+    background:white;
+    border:1px solid rgba(117,37,181,.2);
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:18px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.02);
+}
+
+.pay-details-card h4{
+    font-size:13.5px;
+    color:var(--purple-dark);
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.copy-badge{
+    background:#F6F4F9;
+    padding:3px 8px;
+    border-radius:6px;
+    font-weight:bold;
+    color:var(--purple-dark);
+    border:1px solid #E1DBE9;
+    display:inline-block;
 }
 
 .file-dropzone{
@@ -1518,7 +1616,7 @@ footer li{
 }
 
 /* =========================================================
-   LMS PORTAL (HEADER: ZERO OVERLAP, PROFESSIONAL ICONS)
+   LMS PORTAL
 ========================================================= */
 #studentPortal{
     position:fixed;
@@ -1580,7 +1678,6 @@ footer li{
     gap:10px;
 }
 
-/* Back Button to the LEFT of Notifications */
 .lms-close-btn{
     background:#F0EEF4;
     color:var(--purple-dark);
@@ -1639,8 +1736,6 @@ footer li{
     width:320px;
     max-width:90vw;
     background:var(--glass-bg);
-    backdrop-filter:blur(30px) saturate(190%);
-    -webkit-backdrop-filter:blur(30px) saturate(190%);
     border:1px solid var(--glass-border);
     border-radius:18px;
     box-shadow:var(--glass-shadow);
@@ -1812,7 +1907,7 @@ footer li{
 }
 
 /* =========================================================
-   RESPONSIVE DESIGN (UNIFIED & ORDERED)
+   RESPONSIVE DESIGN
 ========================================================= */
 @media(max-width:980px){
     .intro-grid,
@@ -1877,6 +1972,10 @@ footer li{
     .process-grid,
     .form-row,
     .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .pay-methods-tabs{
         grid-template-columns:1fr;
     }
 
@@ -2127,7 +2226,6 @@ footer li{
 
 <div class="services-grid" id="mainServicesGrid">
 
-<!-- SERVICE 1: COACHING -->
 <div class="service reveal">
     <div class="service-img">
         <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=80" alt="Coaching Professionnel">
@@ -2140,7 +2238,6 @@ footer li{
     </div>
 </div>
 
-<!-- SERVICE 2: FORMATION -->
 <div class="service reveal">
     <div class="service-img">
         <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=700&q=80" alt="Formation & Workshop">
@@ -2153,7 +2250,6 @@ footer li{
     </div>
 </div>
 
-<!-- SERVICE 3: WORKSPACE & EVENTS -->
 <div class="service reveal">
     <div class="service-img">
         <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=700&q=80" alt="Workspace & Coworking">
@@ -2166,7 +2262,6 @@ footer li{
     </div>
 </div>
 
-<!-- SERVICE 4: CONSEIL -->
 <div class="service reveal">
     <div class="service-img">
         <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=700&q=80" alt="Conseil & Stratégie">
@@ -2179,7 +2274,6 @@ footer li{
     </div>
 </div>
 
-<!-- SERVICE 5: EVENTS & SEMINARS -->
 <div class="service reveal">
     <div class="service-img">
         <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=700&q=80" alt="Événements professionnels">
@@ -2192,7 +2286,6 @@ footer li{
     </div>
 </div>
 
-<!-- SERVICE 6: BUSINESS & SOURCING -->
 <div class="service reveal">
     <div class="service-img">
         <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=700&q=80" alt="Négoce & Sourcing">
@@ -2700,7 +2793,7 @@ footer li{
 
 
 <!-- =========================================================
-     MODAL: PAYMENT & INTERACTIVE DROPZONE
+     MODAL: PAYMENT (SELECT CCP / BANK & DROPZONE)
 ========================================================= -->
 <div class="glass-overlay" id="paymentModal">
     <div class="glass-box">
@@ -2714,13 +2807,52 @@ footer li{
             <span id="payCoursePrice" style="font-weight:800;color:#27AE60;font-size:18px;">0 DZD</span>
         </div>
 
-        <div style="background:rgba(255,255,255,0.7);border:1px solid rgba(117,37,181,.2);border-radius:14px;padding:16px;margin-bottom:18px;">
-            <h4 style="font-size:13.5px;color:var(--purple-dark);margin-bottom:8px;">Coordonnées CCP & BaridiMob Bella Skills :</h4>
-            <div style="font-size:13px;line-height:2;color:#333;">
-                • <strong>Compte CCP :</strong> <span style="background:white;padding:3px 8px;border-radius:6px;font-weight:bold;color:var(--purple-dark);border:1px solid #ddd;">21345678</span>
-                &nbsp;<strong>Clé :</strong> <span style="background:white;padding:3px 8px;border-radius:6px;font-weight:bold;color:var(--purple-dark);border:1px solid #ddd;">99</span><br>
-                • <strong>Titulaire :</strong> Bella Skills HUB<br>
-                • <strong>BaridiMob RIP :</strong> <code>007 99999 0021345678 99</code>
+        <!-- PAYMENT METHOD SELECTOR (CCP vs BANK) -->
+        <label style="font-size:12px;font-weight:800;color:var(--purple-dark);margin-bottom:8px;">Choisissez la méthode de paiement :</label>
+        <div class="pay-methods-tabs">
+            <div class="pay-method-tab active" id="tabPayCcp" onclick="selectPaymentMethod('ccp')">
+                <div class="pay-method-icon">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/AlgeriePoste.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original" alt="Algérie Poste CCP BaridiMob">
+                </div>
+                <div>
+                    <div class="pay-method-title">CCP / BaridiMob</div>
+                    <div class="pay-method-sub">Algérie Poste</div>
+                </div>
+            </div>
+
+            <div class="pay-method-tab" id="tabPayBank" onclick="selectPaymentMethod('bank')">
+                <div class="pay-method-icon">
+                    <img src="https://mabanquedz229557228.wordpress.com/wp-content/uploads/2019/08/home-1.jpg" alt="Virement Bancaire">
+                </div>
+                <div>
+                    <div class="pay-method-title">Virement Bancaire</div>
+                    <div class="pay-method-sub">Compte Bancaire</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DYNAMIC ACCOUNT DETAILS -->
+        <div class="pay-details-card" id="ccpDetailsCard">
+            <h4>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                Coordonnées Algérie Poste (CCP & BaridiMob)
+            </h4>
+            <div style="font-size:13px;line-height:2.1;color:#333;">
+                • <strong>Titulaire :</strong> <span id="display_ccp_owner" class="copy-badge">Bella Skills HUB</span><br>
+                • <strong>Compte CCP :</strong> <span id="display_ccp_acc" class="copy-badge">21345678</span> &nbsp;<strong>Clé :</strong> <span id="display_ccp_key" class="copy-badge">99</span><br>
+                • <strong>BaridiMob RIP :</strong> <code id="display_ccp_rip" class="copy-badge" style="letter-spacing:0.5px;">007 99999 0021345678 99</code>
+            </div>
+        </div>
+
+        <div class="pay-details-card" id="bankDetailsCard" style="display:none;">
+            <h4>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/></svg>
+                Coordonnées Bancaires
+            </h4>
+            <div style="font-size:13px;line-height:2.1;color:#333;">
+                • <strong>Banque :</strong> <span id="display_bank_name" class="copy-badge">BNA / BEA / BDL</span><br>
+                • <strong>Titulaire :</strong> <span id="display_bank_owner" class="copy-badge">SARL Bella Skills</span><br>
+                • <strong>RIB / Numéro de compte :</strong> <code id="display_bank_rib" class="copy-badge" style="letter-spacing:0.5px;">001 00234 0000000000 12</code>
             </div>
         </div>
 
@@ -2813,11 +2945,11 @@ footer li{
                 </div>
 
                 <button class="lms-icon-btn" onclick="openProfileModal()" title="Modifier mon profil">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </button>
 
                 <button class="lms-icon-btn logout" onclick="logoutUser()" title="Se déconnecter">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                 </button>
             </div>
         </div>
@@ -2858,17 +2990,17 @@ footer li{
 
 
 <!-- =========================================================
-     ADMIN MODAL
+     ADMIN MODAL (WITH PAYMENT SETTINGS EDITOR)
 ========================================================= -->
 <div class="glass-overlay" id="adminModal">
-    <div class="glass-box" style="width:min(800px, 100%);">
+    <div class="glass-box" style="width:min(850px, 100%);">
         <button class="glass-close" onclick="closeAdminModal()">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
 
         <div id="adminLoginScreen">
             <h3 style="color:var(--purple-dark);font-size:22px;margin-bottom:6px;">Panneau d'Administration</h3>
-            <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Vérification des paiements étudiants.</p>
+            <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Vérification des paiements & gestion des comptes.</p>
             <div class="group">
                 <label>Mot de passe</label>
                 <input type="password" id="adminPassInput" placeholder="Code secret (Par défaut: admin123)">
@@ -2877,10 +3009,57 @@ footer li{
         </div>
 
         <div id="adminPanelScreen" style="display:none;">
-            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:14px;">
-                <h3 style="color:var(--purple-dark);font-size:18px;">Commandes & Validation</h3>
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:18px;">
+                <h3 style="color:var(--purple-dark);font-size:18px;">Gestion Administration</h3>
                 <button onclick="closeAdminModal()" style="background:#eee;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;">Quitter</button>
             </div>
+
+            <!-- PAYMENT ACCOUNTS CONFIGURATION (CCP & BANK) -->
+            <div style="background:#FAF8FC;border:1px solid #E4DFEC;border-radius:14px;padding:16px;margin-bottom:24px;">
+                <h4 style="color:var(--purple-dark);font-size:15px;margin-bottom:12px;">⚙️ Modifier les coordonnées de paiement (CCP & Banque)</h4>
+                
+                <form id="adminPaymentSettingsForm">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div class="group">
+                            <label>Titulaire CCP</label>
+                            <input type="text" id="adm_ccp_owner" required>
+                        </div>
+                        <div class="group">
+                            <label>Numéro CCP</label>
+                            <input type="text" id="adm_ccp_acc" required>
+                        </div>
+                        <div class="group">
+                            <label>Clé CCP</label>
+                            <input type="text" id="adm_ccp_key" required>
+                        </div>
+                        <div class="group">
+                            <label>RIP BaridiMob</label>
+                            <input type="text" id="adm_ccp_rip" required>
+                        </div>
+                    </div>
+
+                    <div style="border-top:1px dashed #DDD;margin:10px 0;padding-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div class="group">
+                            <label>Nom de la Banque</label>
+                            <input type="text" id="adm_bank_name" required>
+                        </div>
+                        <div class="group">
+                            <label>Titulaire Compte Bancaire</label>
+                            <input type="text" id="adm_bank_owner" required>
+                        </div>
+                        <div class="group" style="grid-column: span 2;">
+                            <label>RIB / Numéro de Compte Bancaire</label>
+                            <input type="text" id="adm_bank_rib" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="padding:10px 18px;font-size:12px;">
+                        Enregistrer les Coordonnées de Paiement
+                    </button>
+                </form>
+            </div>
+
+            <h4 style="color:var(--purple-dark);font-size:16px;margin-bottom:12px;">Commandes & Validation des Reçus :</h4>
             <div id="adminOrdersQueue" style="display:flex;flex-direction:column;gap:12px;"></div>
         </div>
     </div>
@@ -3325,9 +3504,22 @@ function closeMobileMenu(){
     backdrop.classList.remove("active");
 }
 
+// Nav link click event: smooth scroll & close mobile menu smoothly
 document.querySelectorAll(".nav-links a").forEach(link => {
-    link.addEventListener("click", () => {
-        closeMobileMenu();
+    link.addEventListener("click", (e) => {
+        const href = link.getAttribute("href");
+        if(href && href.startsWith("#")){
+            e.preventDefault();
+            closeMobileMenu();
+            const targetEl = document.querySelector(href);
+            if(targetEl){
+                setTimeout(() => {
+                    targetEl.scrollIntoView({ behavior: "smooth" });
+                }, 150);
+            }
+        } else {
+            closeMobileMenu();
+        }
     });
 });
 
@@ -3482,6 +3674,26 @@ function handleReceiptFileSelection(input){
         showToast("Fichier sélectionné avec succès", "info");
     }
 }
+
+// Payment method switcher
+window.selectPaymentMethod = function(method){
+    const tabCcp = document.getElementById("tabPayCcp");
+    const tabBank = document.getElementById("tabPayBank");
+    const ccpCard = document.getElementById("ccpDetailsCard");
+    const bankCard = document.getElementById("bankDetailsCard");
+
+    if(method === 'ccp'){
+        tabCcp.classList.add("active");
+        tabBank.classList.remove("active");
+        ccpCard.style.display = "block";
+        bankCard.style.display = "none";
+    } else {
+        tabBank.classList.add("active");
+        tabCcp.classList.remove("active");
+        bankCard.style.display = "block";
+        ccpCard.style.display = "none";
+    }
+};
 </script>
 
 <!-- =========================================================
@@ -3537,7 +3749,77 @@ function trackVisitorAnalytics(){
 }
 trackVisitorAnalytics();
 
-/* 2. Site Settings Sync */
+/* 2. Payment Accounts & Site Settings Sync from Firebase */
+const defaultPaymentInfo = {
+    ccpOwner: "Bella Skills HUB",
+    ccpAcc: "21345678",
+    ccpKey: "99",
+    ccpRip: "007 99999 0021345678 99",
+    bankName: "Banque Nationale d'Algérie (BNA)",
+    bankOwner: "SARL Bella Skills HUB",
+    bankRib: "001 00234 0000000000 12"
+};
+
+function applyPaymentAccounts(data){
+    const d = { ...defaultPaymentInfo, ...data };
+    
+    // User display
+    document.getElementById("display_ccp_owner").textContent = d.ccpOwner;
+    document.getElementById("display_ccp_acc").textContent = d.ccpAcc;
+    document.getElementById("display_ccp_key").textContent = d.ccpKey;
+    document.getElementById("display_ccp_rip").textContent = d.ccpRip;
+
+    document.getElementById("display_bank_name").textContent = d.bankName;
+    document.getElementById("display_bank_owner").textContent = d.bankOwner;
+    document.getElementById("display_bank_rib").textContent = d.bankRib;
+
+    // Admin inputs prefill
+    const admOwner = document.getElementById("adm_ccp_owner");
+    if(admOwner){
+        admOwner.value = d.ccpOwner;
+        document.getElementById("adm_ccp_acc").value = d.ccpAcc;
+        document.getElementById("adm_ccp_key").value = d.ccpKey;
+        document.getElementById("adm_ccp_rip").value = d.ccpRip;
+
+        document.getElementById("adm_bank_name").value = d.bankName;
+        document.getElementById("adm_bank_owner").value = d.bankOwner;
+        document.getElementById("adm_bank_rib").value = d.bankRib;
+    }
+}
+applyPaymentAccounts({});
+
+onValue(ref(db, "site_settings/payment_accounts"), (snap) => {
+    if(snap.exists()){
+        applyPaymentAccounts(snap.val());
+    }
+});
+
+// Admin save payment settings
+const adminPaymentForm = document.getElementById("adminPaymentSettingsForm");
+if(adminPaymentForm){
+    adminPaymentForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const payload = {
+            ccpOwner: document.getElementById("adm_ccp_owner").value.trim(),
+            ccpAcc: document.getElementById("adm_ccp_acc").value.trim(),
+            ccpKey: document.getElementById("adm_ccp_key").value.trim(),
+            ccpRip: document.getElementById("adm_ccp_rip").value.trim(),
+            bankName: document.getElementById("adm_bank_name").value.trim(),
+            bankOwner: document.getElementById("adm_bank_owner").value.trim(),
+            bankRib: document.getElementById("adm_bank_rib").value.trim(),
+            updatedAt: Date.now()
+        };
+
+        try {
+            await set(ref(db, "site_settings/payment_accounts"), payload);
+            showToast("Coordonnées de paiement mises à jour avec succès !", "success");
+        } catch(err){
+            showToast("Erreur lors de la sauvegarde : " + err.message, "error");
+        }
+    });
+}
+
+// Site general settings
 onValue(ref(db, "site_settings"), (snap) => {
     const settings = snap.val();
     if(settings){
@@ -3705,7 +3987,7 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
     try {
         await set(ref(db, `users/${userKey}`), userData);
     } catch(err) {
-        console.warn("Remarque Firebase:", err);
+        console.warn("Firebase note:", err);
     }
 
     btn.disabled = false;
@@ -3983,6 +4265,7 @@ window.openPaymentFlow = function(courseId){
     document.getElementById("payUserEmail").value = currentUser ? currentUser.email : "";
     document.getElementById("filePreviewWrap").style.display = "none";
     document.getElementById("paymentProofForm").reset();
+    selectPaymentMethod('ccp');
     document.getElementById("paymentModal").classList.add("active");
 };
 
@@ -4014,6 +4297,8 @@ document.getElementById("paymentProofForm").addEventListener("submit", (e) => {
         
         function finalizeOrder(finalDataUrl){
             const orderId = `${emailToKey(email)}_${selectedCourseToBuy.id}`;
+            const isBank = document.getElementById("tabPayBank").classList.contains("active");
+
             const orderData = {
                 orderId,
                 userId: emailToKey(email),
@@ -4023,6 +4308,7 @@ document.getElementById("paymentProofForm").addEventListener("submit", (e) => {
                 courseId: selectedCourseToBuy.id,
                 courseTitle: selectedCourseToBuy.title,
                 coursePrice: selectedCourseToBuy.price,
+                paymentMethod: isBank ? "Banque" : "CCP / BaridiMob",
                 proofImage: finalDataUrl,
                 status: "en_attente",
                 createdAt: Date.now()
@@ -4177,9 +4463,10 @@ function loadAdminOrdersQueue(){
                     <strong>${o.userName} (${o.userEmail})</strong>
                     <span>Statut: <b>${o.status === 'valide' ? 'Validé' : o.status === 'refuse' ? 'Refusé' : 'En attente'}</b></span>
                 </div>
-                <div>Formation: ${o.courseTitle} (${o.coursePrice})</div>
-                ${o.proofImage ? `<a href="${o.proofImage}" target="_blank" style="color:var(--purple);font-weight:bold;">Voir le reçu</a><br><br>` : ''}
-                <div style="display:flex;gap:8px;">
+                <div>Formation: <b>${o.courseTitle}</b> (${o.coursePrice})</div>
+                <div style="color:var(--purple);font-size:12px;margin:3px 0;">Mode choisi: <b>${o.paymentMethod || 'CCP / BaridiMob'}</b></div>
+                ${o.proofImage ? `<a href="${o.proofImage}" target="_blank" style="color:var(--purple);font-weight:bold;text-decoration:underline;">Voir le reçu</a><br><br>` : ''}
+                <div style="display:flex;gap:8px;margin-top:6px;">
                     <button onclick="adminSetStatus('${o.orderId}', 'valide')" style="background:#27AE60;color:white;border:none;padding:5px 12px;border-radius:4px;cursor:pointer;">Valider</button>
                     <button onclick="adminSetStatus('${o.orderId}', 'en_attente')" style="background:#F39C12;color:white;border:none;padding:5px 12px;border-radius:4px;cursor:pointer;">En attente</button>
                     <button onclick="adminSetStatus('${o.orderId}', 'refuse')" style="background:#C0392B;color:white;border:none;padding:5px 12px;border-radius:4px;cursor:pointer;">Refuser</button>
