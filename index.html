@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -12,7 +14,7 @@
 
 <style>
 /* =========================================================
-   ROOT & BASE (ORIGINAL PALETTE & GLASS VARIABLES)
+   ROOT & BASE
 ========================================================= */
 :root{
     --purple:#7525B5;
@@ -31,7 +33,7 @@
     --shadow-hover:0 25px 60px rgba(117,37,181,.18);
 
     /* Glassmorphism */
-    --glass-bg: rgba(255, 255, 255, 0.95);
+    --glass-bg: rgba(255, 255, 255, 0.96);
     --glass-border: rgba(255, 255, 255, 0.75);
     --glass-shadow: 0 25px 60px rgba(66, 16, 95, 0.18);
 }
@@ -45,6 +47,11 @@
 
 html{
     scroll-behavior:smooth;
+}
+
+section{
+    scroll-margin-top: 90px;
+    overflow:hidden;
 }
 
 body{
@@ -75,19 +82,15 @@ img{
     margin:auto;
 }
 
-section{
-    overflow:hidden;
-}
-
 /* =========================================================
-   HEADER & NAVBAR (NEAT, BALANCED & ORDERED)
+   HEADER & NAVBAR
 ========================================================= */
 header{
     position:fixed;
     top:0;
     left:0;
     width:100%;
-    z-index:1000;
+    z-index:99995;
     transition:.35s;
 }
 
@@ -108,6 +111,7 @@ header.scrolled{
     display:flex;
     align-items:center;
     gap:14px;
+    cursor:pointer;
 }
 
 .logo-img{
@@ -151,10 +155,32 @@ header.scrolled{
     font-size:13px;
     font-weight:600;
     transition:.25s;
+    cursor:pointer;
 }
 
 .nav-links a:hover{
     color:var(--purple);
+}
+
+/* STRICT WHITE TEXT FOR CONTACT BUTTON */
+.nav-contact,
+a.nav-contact,
+.nav-links a.nav-contact{
+    color:#FFFFFF !important;
+    background:var(--purple) !important;
+    padding:9px 20px;
+    border-radius:6px;
+    transition:.3s;
+    font-weight:700 !important;
+    display:inline-block;
+    text-align:center;
+}
+
+.nav-contact:hover,
+a.nav-contact:hover,
+.nav-links a.nav-contact:hover{
+    background:var(--purple-dark) !important;
+    color:#FFFFFF !important;
 }
 
 .nav-right{
@@ -192,7 +218,7 @@ header.scrolled{
 
 .header-auth-btn{
     background:var(--purple);
-    color:white;
+    color:#FFFFFF !important;
     border:none;
     padding:8px 18px;
     border-radius:20px;
@@ -208,19 +234,17 @@ header.scrolled{
     transform:translateY(-1px);
 }
 
-.nav-contact{
-    color:white!important;
-    background:var(--purple);
-    padding:9px 18px;
-    border-radius:6px;
-    transition:.3s;
+.header-auth-btn.is-logout{
+    background:#FFF0F0 !important;
+    color:#C0392B !important;
+    border:1px solid #FFCDCD !important;
 }
 
-.nav-contact:hover{
-    background:var(--purple-dark);
+.header-auth-btn.is-logout:hover{
+    background:#C0392B !important;
+    color:#FFFFFF !important;
 }
 
-/* Menu Toggle Button: STRICTLY FAR RIGHT */
 .menu{
     display:none;
     border:0;
@@ -231,49 +255,103 @@ header.scrolled{
     order:99;
 }
 
-/* Mobile Far-Right Drawer (FIXED: Clear, Non-blurry, High Z-index) */
+/* Backdrop */
 .menu-backdrop{
     position:fixed;
     inset:0;
-    background:rgba(20, 10, 28, 0.45);
-    z-index:9998;
+    background:rgba(15, 6, 22, 0.45);
+    z-index:99990;
     display:none;
+    transition:opacity .25s ease;
 }
 
 .menu-backdrop.active{
     display:block;
 }
 
+.drawer-close-btn{
+    display:none;
+}
+
+/* Mobile Drawer */
 @media(max-width:980px){
+    header{
+        z-index:99995;
+    }
+
     .nav-links{
         position:fixed;
         top:0;
-        right:-320px;
+        right:-330px;
         width:290px;
         max-width:85vw;
         height:100vh;
-        background:#FFFFFF;
-        box-shadow:-10px 0 35px rgba(0,0,0,0.2);
+        height:100dvh;
+        background:#FFFFFF !important;
+        box-shadow:-10px 0 35px rgba(0,0,0,0.25);
         flex-direction:column;
         align-items:flex-start;
-        padding:80px 30px 35px;
-        transition:right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        z-index:99999;
+        padding:75px 25px 35px;
+        transition:right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index:100000;
+        overflow-y:auto;
+        -webkit-overflow-scrolling:touch;
     }
+
     .nav-links.open{
         right:0 !important;
     }
+
     .nav-links li{
-        width: 100%;
-        border-bottom: 1px solid #F0EEF3;
-        padding: 10px 0;
+        width:100%;
+        border-bottom:1px solid #F1EDF5;
+        list-style:none;
     }
-    .nav-links a{
-        font-size: 15px;
-        color: #29222F;
-        display: block;
-        width: 100%;
+
+    .nav-links a:not(.nav-contact){
+        font-size:15px;
+        font-weight:700;
+        color:#29222F !important;
+        display:block;
+        padding:14px 4px;
+        width:100%;
+        cursor:pointer;
     }
+
+    .nav-links a:not(.nav-contact):hover,
+    .nav-links a:not(.nav-contact):active{
+        color:var(--purple) !important;
+    }
+
+    .nav-links a.nav-contact{
+        margin-top:15px;
+        width:100%;
+        color:#FFFFFF !important;
+    }
+
+    .drawer-close-btn{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        position:absolute;
+        top:20px;
+        right:20px;
+        width:38px;
+        height:38px;
+        border-radius:50%;
+        background:#F3EFF8;
+        border:none;
+        color:var(--purple-dark);
+        cursor:pointer;
+        z-index:10;
+        transition:.2s;
+    }
+
+    .drawer-close-btn:hover{
+        background:var(--purple);
+        color:#ffffff;
+    }
+
     .menu{
         display:flex;
         align-items:center;
@@ -288,7 +366,7 @@ header.scrolled{
     position:fixed;
     top:25px;
     right:25px;
-    z-index:999999;
+    z-index:9999999;
     display:flex;
     flex-direction:column;
     gap:10px;
@@ -455,6 +533,7 @@ header.scrolled{
     font-weight:800;
     border-radius:4px;
     transition:.3s;
+    cursor:pointer;
 }
 
 .slider-btn:hover{
@@ -589,7 +668,7 @@ h2{
 }
 
 /* =========================================================
-   INTRO SECTION (ORIGINAL)
+   INTRO SECTION
 ========================================================= */
 .intro{
     background:white;
@@ -757,6 +836,7 @@ h2{
     align-items:center;
     gap:6px;
     transition:.25s;
+    cursor:pointer;
 }
 
 .more:hover{
@@ -765,7 +845,7 @@ h2{
 }
 
 /* =========================================================
-   HUB ECOSYSTEM (ORIGINAL)
+   HUB ECOSYSTEM
 ========================================================= */
 .hub{
     padding:110px 0;
@@ -839,7 +919,7 @@ h2{
 }
 
 /* =========================================================
-   DOMAINS (ORIGINAL)
+   DOMAINS
 ========================================================= */
 .dark{
     padding:110px 0;
@@ -896,7 +976,7 @@ h2{
 }
 
 /* =========================================================
-   PROCESS (ORIGINAL)
+   PROCESS
 ========================================================= */
 .process{
     padding:110px 0;
@@ -931,7 +1011,7 @@ h2{
 }
 
 /* =========================================================
-   ABOUT (ORIGINAL)
+   ABOUT
 ========================================================= */
 .about{
     padding:110px 0;
@@ -976,7 +1056,7 @@ h2{
 }
 
 /* =========================================================
-   ONLINE COURSES
+   ONLINE COURSES (AT THE BOTTOM OF THE PAGE)
 ========================================================= */
 .courses-touch-section{
     padding:100px 0;
@@ -1142,6 +1222,7 @@ h2{
     font-weight:700;
     border-radius:6px;
     transition:.3s;
+    cursor:pointer;
 }
 
 .btn-primary{
@@ -1156,7 +1237,7 @@ h2{
 }
 
 /* =========================================================
-   CONTACT & FORM (ORIGINAL)
+   CONTACT & FORM
 ========================================================= */
 .contact{
     padding:110px 0;
@@ -1278,7 +1359,7 @@ textarea{
 }
 
 /* =========================================================
-   MAP (ORIGINAL)
+   MAP
 ========================================================= */
 .map{
     margin-top:60px;
@@ -1309,7 +1390,7 @@ textarea{
 }
 
 /* =========================================================
-   FOOTER (ORIGINAL)
+   FOOTER
 ========================================================= */
 footer{
     background:#24152D;
@@ -1411,10 +1492,10 @@ footer li{
 .glass-overlay{
     position:fixed;
     inset:0;
-    background:rgba(20, 10, 28, 0.75);
+    background:rgba(20, 10, 28, 0.78);
     backdrop-filter:blur(18px);
     -webkit-backdrop-filter:blur(18px);
-    z-index:5000;
+    z-index:1000005; /* Always on top */
     display:none;
     align-items:center;
     justify-content:center;
@@ -1502,7 +1583,7 @@ footer li{
     background:#FFFFFF;
     border:1px solid #ECE7F0;
     overflow:hidden;
-    padding:3px;
+    padding:4px;
 }
 
 .pay-method-icon img{
@@ -1590,7 +1671,6 @@ footer li{
     object-fit:cover;
 }
 
-/* Pulse Buy Button Animation */
 @keyframes pulseGlowAnim {
     0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(192, 77, 255, 0.7); }
     70% { transform: scale(1.03); box-shadow: 0 0 0 16px rgba(192, 77, 255, 0); }
@@ -1621,7 +1701,7 @@ footer li{
 #studentPortal{
     position:fixed;
     inset:0;
-    z-index:3500;
+    z-index:96000;
     background:#F5F3F8;
     display:none;
     flex-direction:column;
@@ -2035,20 +2115,20 @@ footer li{
 
 <body>
 
-<!-- CONTAINER FOR MODERN GLASSMORPHIC TOASTS -->
+<!-- TOASTS CONTAINER -->
 <div id="toastContainer" class="toast-container"></div>
 
-<!-- BACKDROP FOR MOBILE RIGHT-DRAWER MENU -->
+<!-- BACKDROP FOR MOBILE RIGHT-DRAWER -->
 <div class="menu-backdrop" id="menuBackdrop" onclick="closeMobileMenu()"></div>
 
 <!-- =========================================================
-     HEADER (MAIN SITE: LOGO ON LEFT, MENU STRICTLY FAR RIGHT)
+     HEADER
 ========================================================= -->
 <header id="header">
 <div class="container nav">
 
-<!-- Logo with Text -->
-<a href="#home" class="logo" title="Bella Skills HUB">
+<!-- Logo -->
+<a href="#home" class="logo" onclick="goToSection('home'); return false;" title="Bella Skills HUB">
     <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimZMGp5BR7hQp2daYfz6ii_IJ4wWEWk347tsUnOn42aD1hNGww9MAb17n3m9Qiwxc4-iyCYhjuPI-kQHJKLCZ2YrplFnSh5YGWTlpZ90DxQUjtwszIJXTtWRJdhz56qv3eh3QLGehQCUcZibgMvmg0UyXd0ewj3C-PY0xg_WTvoqTMcNFRRWsJ2fnTOYY/s320/1000013350.png" alt="Bella Skills HUB Logo" class="logo-img">
     <div class="logo-name">
         Bella Skills
@@ -2056,30 +2136,37 @@ footer li{
     </div>
 </a>
 
-<!-- Center Navigation Links on Desktop -->
+<!-- Navigation Links -->
 <ul class="nav-links" id="navLinks">
-    <li><a href="#home" data-i18n="nav_home">Accueil</a></li>
-    <li><a href="#coaching" data-i18n="nav_coaching">Coaching</a></li>
-    <li><a href="#services" data-i18n="nav_services">Services</a></li>
-    <li><a href="#courses" data-i18n="nav_courses">Formations en Ligne</a></li>
-    <li><a href="#hub" data-i18n="nav_hub">Bella Skills HUB</a></li>
-    <li><a href="#about" data-i18n="nav_about">À propos</a></li>
-    <li><a href="#contact" class="nav-contact" data-i18n="nav_contact">Contact</a></li>
+    <button type="button" class="drawer-close-btn" onclick="closeMobileMenu()" aria-label="Fermer le menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    </button>
+    <li><a href="#home" onclick="goToSection('home'); return false;" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="#coaching" onclick="goToSection('coaching'); return false;" data-i18n="nav_coaching">Coaching</a></li>
+    <li><a href="#services" onclick="goToSection('services'); return false;" data-i18n="nav_services">Services</a></li>
+    <li><a href="#courses" onclick="goToSection('courses'); return false;" data-i18n="nav_courses">Formations en Ligne</a></li>
+    <li><a href="#hub" onclick="goToSection('hub'); return false;" data-i18n="nav_hub">Bella Skills HUB</a></li>
+    <li><a href="#about" onclick="goToSection('about'); return false;" data-i18n="nav_about">À propos</a></li>
+    <li><a href="#contact" class="nav-contact" onclick="goToSection('contact'); return false;" data-i18n="nav_contact">Contact</a></li>
 </ul>
 
-<!-- Right controls: Switcher, Auth button, and Menu button on the FAR RIGHT -->
+<!-- Right controls -->
 <div class="nav-right">
     <div class="lang-switcher">
         <button class="lang-btn active" data-lang="fr">FR</button>
         <button class="lang-btn" data-lang="en">EN</button>
     </div>
 
+    <!-- MAIN AUTH BUTTON (Shows Connexion when logged out, and Déconnexion ONLY when logged in) -->
     <button id="mainSiteAuthBtn" class="header-auth-btn" onclick="handleMainSiteAuthClick()">
         Connexion
     </button>
 
-    <!-- Burger Menu: On the FAR RIGHT -->
-    <button class="menu" id="menu" aria-label="Menu">
+    <!-- Burger Menu -->
+    <button class="menu" id="menu" aria-label="Menu" onclick="openMobileMenu()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -2107,8 +2194,8 @@ footer li{
         <h1 data-i18n="slide1_title">Développez vos <span>compétences.</span></h1>
         <p data-i18n="slide1_desc">Coaching, formation et accompagnement pour révéler votre potentiel professionnel.</p>
         <div class="slide-buttons">
-            <a href="#courses" class="slider-btn primary">Nos Formations en Ligne</a>
-            <a href="#services" class="slider-btn" data-i18n="btn_discover_services">Découvrir nos services</a>
+            <a href="#courses" onclick="goToSection('courses'); return false;" class="slider-btn primary">Nos Formations en Ligne</a>
+            <a href="#services" onclick="goToSection('services'); return false;" class="slider-btn" data-i18n="btn_discover_services">Découvrir nos services</a>
         </div>
     </div>
 </div>
@@ -2122,8 +2209,8 @@ footer li{
         <h1 data-i18n="slide2_title">Apprendre. <span>Évoluer.</span><br>Performer.</h1>
         <p data-i18n="slide2_desc">Des programmes pratiques et des espaces immersifs pour développer vos compétences.</p>
         <div class="slide-buttons">
-            <a href="#courses" class="slider-btn primary">Nos formations</a>
-            <a href="#contact" class="slider-btn" data-i18n="btn_request_prog">Demander un programme</a>
+            <a href="#courses" onclick="goToSection('courses'); return false;" class="slider-btn primary">Nos formations</a>
+            <a href="#contact" onclick="goToSection('contact'); return false;" class="slider-btn" data-i18n="btn_request_prog">Demander un programme</a>
         </div>
     </div>
 </div>
@@ -2137,8 +2224,8 @@ footer li{
         <h1 data-i18n="slide3_title">Révélez votre <span>potentiel.</span></h1>
         <p data-i18n="slide3_desc">Un accompagnement personnalisé pour transformer vos objectifs en résultats.</p>
         <div class="slide-buttons">
-            <a href="#coaching" class="slider-btn primary" data-i18n="btn_discover_coaching">Découvrir le coaching</a>
-            <a href="#contact" class="slider-btn" data-i18n="btn_get_in_touch">Prendre contact</a>
+            <a href="#coaching" onclick="goToSection('coaching'); return false;" class="slider-btn primary" data-i18n="btn_discover_coaching">Découvrir le coaching</a>
+            <a href="#contact" onclick="goToSection('contact'); return false;" class="slider-btn" data-i18n="btn_get_in_touch">Prendre contact</a>
         </div>
     </div>
 </div>
@@ -2152,8 +2239,8 @@ footer li{
         <h1 data-i18n="slide4_title">Des idées. <span>Des stratégies.</span><br>Des résultats.</h1>
         <p data-i18n="slide4_desc">Conseil, expertise et développement commercial pour accompagner vos projets.</p>
         <div class="slide-buttons">
-            <a href="#services" class="slider-btn primary" data-i18n="btn_our_expertise">Nos expertises</a>
-            <a href="#contact" class="slider-btn" data-i18n="btn_talk_project">Parlons de votre projet</a>
+            <a href="#services" onclick="goToSection('services'); return false;" class="slider-btn primary" data-i18n="btn_our_expertise">Nos expertises</a>
+            <a href="#contact" onclick="goToSection('contact'); return false;" class="slider-btn" data-i18n="btn_talk_project">Parlons de votre projet</a>
         </div>
     </div>
 </div>
@@ -2234,7 +2321,7 @@ footer li{
     <div class="service-content">
         <h3 data-i18n="srv1_title">Coaching professionnel</h3>
         <p data-i18n="srv1_desc">Développement du leadership, confiance en soi, communication stratégique et gestion de carrière.</p>
-        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+        <a onclick="goToSection('contact')" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
     </div>
 </div>
 
@@ -2246,7 +2333,7 @@ footer li{
     <div class="service-content">
         <h3 data-i18n="srv2_title">Programmes de formation</h3>
         <p data-i18n="srv2_desc">Formations pratiques, masterclasses et ateliers interactifs pour équipes et professionnels.</p>
-        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+        <a onclick="goToSection('contact')" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
     </div>
 </div>
 
@@ -2258,7 +2345,7 @@ footer li{
     <div class="service-content">
         <h3 data-i18n="srv3_title">Espaces & Workspace</h3>
         <p data-i18n="srv3_desc">Espaces de travail collaboratifs, salles de formation équipées et cadre professionnel moderne.</p>
-        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+        <a onclick="goToSection('contact')" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
     </div>
 </div>
 
@@ -2270,7 +2357,7 @@ footer li{
     <div class="service-content">
         <h3 data-i18n="srv4_title">Conseil & Expertise</h3>
         <p data-i18n="srv4_desc">Études de marché, restructuration, audits et accompagnement stratégique sur-mesure.</p>
-        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+        <a onclick="goToSection('contact')" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
     </div>
 </div>
 
@@ -2282,7 +2369,7 @@ footer li{
     <div class="service-content">
         <h3 data-i18n="srv5_title">Événements professionnels</h3>
         <p data-i18n="srv5_desc">Organisation de séminaires, conférences scientifiques, salons et rencontres de networking.</p>
-        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+        <a onclick="goToSection('contact')" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
     </div>
 </div>
 
@@ -2294,7 +2381,7 @@ footer li{
     <div class="service-content">
         <h3 data-i18n="srv6_title">Négoce & Sourcing</h3>
         <p data-i18n="srv6_desc">Intermédiation commerciale, recherche de fournisseurs fiables et développement international.</p>
-        <a href="#contact" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
+        <a onclick="goToSection('contact')" class="more" data-i18n="btn_discover_arrow">Découvrir →</a>
     </div>
 </div>
 
@@ -2514,7 +2601,7 @@ footer li{
 
 
 <!-- =========================================================
-     ONLINE COURSES
+     ONLINE COURSES (AT THE BOTTOM OF THE PAGE)
 ========================================================= -->
 <section class="courses-touch-section" id="courses">
 <div class="container">
@@ -2543,7 +2630,7 @@ footer li{
     <div class="label" data-i18n="cta_label">Votre prochaine étape</div>
     <h2 data-i18n="cta_title">Un projet ? Une formation ? Construisons-la ensemble.</h2>
     <p data-i18n="cta_desc">Formation certifiante, coaching, location d'espaces, sourcing ou conseil stratégique : parlons de votre besoin dès aujourd'hui.</p>
-    <a href="#contact" class="btn btn-primary" data-i18n="btn_contact_us">Nous contacter</a>
+    <a onclick="goToSection('contact')" class="btn btn-primary" data-i18n="btn_contact_us">Nous contacter</a>
 </div>
 </section>
 
@@ -2645,7 +2732,7 @@ footer li{
 <div class="footer-grid">
 
 <div>
-    <a href="#home" class="logo">
+    <a href="#home" onclick="goToSection('home'); return false;" class="logo">
         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimZMGp5BR7hQp2daYfz6ii_IJ4wWEWk347tsUnOn42aD1hNGww9MAb17n3m9Qiwxc4-iyCYhjuPI-kQHJKLCZ2YrplFnSh5YGWTlpZ90DxQUjtwszIJXTtWRJdhz56qv3eh3QLGehQCUcZibgMvmg0UyXd0ewj3C-PY0xg_WTvoqTMcNFRRWsJ2fnTOYY/s320/1000013350.png" alt="Bella Skills Logo" class="logo-img">
         <div class="logo-name">
             Bella Skills
@@ -2661,12 +2748,12 @@ footer li{
 <div>
     <h4 data-i18n="footer_nav">Navigation</h4>
     <ul>
-        <li><a href="#home" data-i18n="nav_home">Accueil</a></li>
-        <li><a href="#services" data-i18n="nav_services">Services</a></li>
-        <li><a href="#courses" data-i18n="nav_courses">Formations en Ligne</a></li>
-        <li><a href="#hub" data-i18n="nav_hub">Bella Skills HUB</a></li>
-        <li><a href="#about" data-i18n="nav_about">À propos</a></li>
-        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+        <li><a href="#home" onclick="goToSection('home'); return false;" data-i18n="nav_home">Accueil</a></li>
+        <li><a href="#services" onclick="goToSection('services'); return false;" data-i18n="nav_services">Services</a></li>
+        <li><a href="#courses" onclick="goToSection('courses'); return false;" data-i18n="nav_courses">Formations en Ligne</a></li>
+        <li><a href="#hub" onclick="goToSection('hub'); return false;" data-i18n="nav_hub">Bella Skills HUB</a></li>
+        <li><a href="#about" onclick="goToSection('about'); return false;" data-i18n="nav_about">À propos</a></li>
+        <li><a href="#contact" onclick="goToSection('contact'); return false;" data-i18n="nav_contact">Contact</a></li>
     </ul>
 </div>
 
@@ -2793,7 +2880,7 @@ footer li{
 
 
 <!-- =========================================================
-     MODAL: PAYMENT (SELECT CCP / BANK & DROPZONE)
+     MODAL: PAYMENT (CCP & BANK SELECTION)
 ========================================================= -->
 <div class="glass-overlay" id="paymentModal">
     <div class="glass-box">
@@ -2807,7 +2894,7 @@ footer li{
             <span id="payCoursePrice" style="font-weight:800;color:#27AE60;font-size:18px;">0 DZD</span>
         </div>
 
-        <!-- PAYMENT METHOD SELECTOR (CCP vs BANK) -->
+        <!-- PAYMENT METHOD SELECTOR -->
         <label style="font-size:12px;font-weight:800;color:var(--purple-dark);margin-bottom:8px;">Choisissez la méthode de paiement :</label>
         <div class="pay-methods-tabs">
             <div class="pay-method-tab active" id="tabPayCcp" onclick="selectPaymentMethod('ccp')">
@@ -2930,7 +3017,7 @@ footer li{
 
                 <div class="notif-wrapper" style="position:relative;">
                     <button class="lms-icon-btn" id="portalNotifBellBtn" title="Notifications">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                         <span class="notif-badge" id="portalNotifBadge">0</span>
                     </button>
                     <div class="notif-dropdown" id="portalNotifDropdown">
@@ -3475,7 +3562,7 @@ document.querySelectorAll(".lang-btn").forEach(btn => {
 
 setLanguage(currentLang);
 
-/* HEADER SCROLL & MOBILE DRAWER */
+/* HEADER SCROLL */
 const header = document.getElementById("header");
 window.addEventListener("scroll", () => {
     if(window.scrollY > 40){
@@ -3485,43 +3572,37 @@ window.addEventListener("scroll", () => {
     }
 });
 
-const menu = document.getElementById("menu");
+/* MOBILE MENU & DIRECT NAVIGATION ENGINE */
 const nav = document.getElementById("navLinks");
 const backdrop = document.getElementById("menuBackdrop");
 
-menu.addEventListener("click", () => {
-    const isOpen = nav.classList.contains("open");
-    if(isOpen){
-        closeMobileMenu();
-    } else {
-        nav.classList.add("open");
-        backdrop.classList.add("active");
-    }
-});
+window.openMobileMenu = function(){
+    nav.classList.add("open");
+    backdrop.classList.add("active");
+};
 
-function closeMobileMenu(){
+window.closeMobileMenu = function(){
     nav.classList.remove("open");
     backdrop.classList.remove("active");
-}
+};
 
-// Nav link click event: smooth scroll & close mobile menu smoothly
-document.querySelectorAll(".nav-links a").forEach(link => {
-    link.addEventListener("click", (e) => {
-        const href = link.getAttribute("href");
-        if(href && href.startsWith("#")){
-            e.preventDefault();
-            closeMobileMenu();
-            const targetEl = document.querySelector(href);
-            if(targetEl){
-                setTimeout(() => {
-                    targetEl.scrollIntoView({ behavior: "smooth" });
-                }, 150);
-            }
-        } else {
-            closeMobileMenu();
-        }
-    });
-});
+// Immediate and 100% reliable scroll to section function
+window.goToSection = function(sectionId){
+    closeMobileMenu();
+    const targetElement = document.getElementById(sectionId);
+    if(targetElement){
+        setTimeout(() => {
+            const headerHeight = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const targetOffset = elementPosition + window.pageYOffset - headerHeight;
+            
+            window.scrollTo({
+                top: targetOffset,
+                behavior: "smooth"
+            });
+        }, 60);
+    }
+};
 
 /* HERO SLIDER SCRIPT */
 const slides = document.querySelectorAll(".slide");
@@ -3887,19 +3968,22 @@ onValue(ref(db, "online_courses"), snap => {
     }
 });
 
+// Single button switcher: Connexion vs Déconnexion (Mon Espace disappears completely)
 function updateMainSiteHeader(){
     const authBtn = document.getElementById("mainSiteAuthBtn");
     if(currentUser){
-        authBtn.textContent = "Mon Espace";
+        authBtn.textContent = "Déconnexion";
+        authBtn.classList.add("is-logout");
     } else {
         authBtn.textContent = "Connexion";
+        authBtn.classList.remove("is-logout");
     }
 }
 updateMainSiteHeader();
 
 window.handleMainSiteAuthClick = function(){
     if(currentUser){
-        openStudentPortal();
+        logoutUser();
     } else {
         openAuthModal('login');
     }
@@ -3935,8 +4019,7 @@ window.onCourseCardClick = function(courseId){
     if(!currentUser){
         openAuthModal('register');
     } else {
-        openStudentPortal();
-        switchPortalSection('all');
+        openPaymentFlow(courseId);
     }
 };
 
@@ -4258,8 +4341,11 @@ function renderMyCoursesList(userOrders){
     });
 }
 
+// 100% Guaranteed Global Function to Open Payment Flow
 window.openPaymentFlow = function(courseId){
-    selectedCourseToBuy = currentCatalog[courseId];
+    selectedCourseToBuy = currentCatalog[courseId] || defaultCourses[courseId];
+    if(!selectedCourseToBuy) return;
+
     document.getElementById("payCourseTitle").textContent = selectedCourseToBuy.title;
     document.getElementById("payCoursePrice").textContent = selectedCourseToBuy.price;
     document.getElementById("payUserEmail").value = currentUser ? currentUser.email : "";
@@ -4303,8 +4389,8 @@ document.getElementById("paymentProofForm").addEventListener("submit", (e) => {
                 orderId,
                 userId: emailToKey(email),
                 userEmail: email,
-                userName: currentUser.name,
-                userPhone: currentUser.phone,
+                userName: currentUser ? currentUser.name : email,
+                userPhone: currentUser ? currentUser.phone : "",
                 courseId: selectedCourseToBuy.id,
                 courseTitle: selectedCourseToBuy.title,
                 coursePrice: selectedCourseToBuy.price,
