@@ -946,7 +946,6 @@ h2{
 .domain{
     padding:32px 28px;
     border:1px solid rgba(255,255,255,.15);
-    background:rgba(255,255,200,.06);
     background:rgba(255,255,255,.06);
     border-radius:10px;
     transition:.3s;
@@ -2911,7 +2910,7 @@ footer li{
 
 
 <!-- =========================================================
-     LMS PORTAL (CLEANED)
+     LMS PORTAL (CLEANED & ENHANCED)
 ========================================================= -->
 <div id="studentPortal">
     <header class="lms-header">
@@ -3692,7 +3691,19 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getDatabase(app, firebaseConfig.databaseURL);
 
-function emailToKey(e){ return e.toLowerCase().trim().replace(/[^a-z0-9]/g, "_"); }
+function emailToKey(e){ return e ? e.toLowerCase().trim().replace(/[^a-z0-9]/g, "_") : ""; }
+
+function formatVideoUrl(url){
+    if(!url) return "";
+    let clean = url.trim();
+    if(clean.includes("youtube.com/watch?v=")){
+        return clean.replace("watch?v=", "embed/");
+    }
+    if(clean.includes("youtu.be/")){
+        return clean.replace("youtu.be/", "www.youtube.com/embed/");
+    }
+    return clean;
+}
 
 let currentUser = JSON.parse(localStorage.getItem("bs_current_user") || "null");
 let selectedCourseToBuy = null;
@@ -3733,7 +3744,6 @@ const defaultPaymentInfo = {
 function applyPaymentAccounts(data){
     const d = { ...defaultPaymentInfo, ...data };
     
-    // User display
     document.getElementById("display_ccp_owner").textContent = d.ccpOwner;
     document.getElementById("display_ccp_acc").textContent = d.ccpAcc;
     document.getElementById("display_ccp_key").textContent = d.ccpKey;
@@ -3743,7 +3753,6 @@ function applyPaymentAccounts(data){
     document.getElementById("display_bank_owner").textContent = d.bankOwner;
     document.getElementById("display_bank_rib").textContent = d.bankRib;
 
-    // Admin inputs prefill
     const admOwner = document.getElementById("adm_ccp_owner");
     if(admOwner){
         admOwner.value = d.ccpOwner;
@@ -3825,7 +3834,10 @@ onValue(ref(db, "online_courses"), snap => {
     const data = snap.val();
     currentCatalog = data || {};
     renderPublicSingleRowSlider();
-    if(currentUser) renderStackedCoursesImmediately();
+    if(currentUser) {
+        renderStackedCoursesImmediately();
+        syncPortalWithOrders();
+    }
 });
 
 // Single button switcher: Connexion vs Déconnexion
@@ -4135,11 +4147,14 @@ function renderStackedCoursesImmediately(){
 function syncPortalWithOrders(){
     if(!currentUser) return;
     const userKey = emailToKey(currentUser.email);
+    const userEmailNorm = (currentUser.email || "").toLowerCase().trim();
 
     const filterUserOrders = (ordersMap) => {
-        return Object.values(ordersMap || {}).filter(o => 
-            o.userId === userKey || (o.userEmail && o.userEmail.toLowerCase() === currentUser.email.toLowerCase())
-        );
+        return Object.values(ordersMap || {}).filter(o => {
+            const oKey = o.userId ? o.userId.toLowerCase().trim() : "";
+            const oEmail = o.userEmail ? o.userEmail.toLowerCase().trim() : "";
+            return (oKey === userKey || oEmail === userEmailNorm);
+        });
     };
 
     const localOrders = JSON.parse(localStorage.getItem("bs_local_orders") || "{}");
@@ -4172,7 +4187,8 @@ function renderMyCoursesList(userOrders){
     userOrders.forEach(o => {
         const c = currentCatalog[o.courseId] || {};
         const courseImg = (c && c.image) || o.courseImage || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=700&q=80";
-        const courseVid = (c && c.videoUrl) || o.videoUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ";
+        const rawVid = (c && c.videoUrl) || o.videoUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ";
+        const courseVid = formatVideoUrl(rawVid);
 
         const card = document.createElement("div");
         card.className = "stacked-course-card";
@@ -4185,23 +4201,23 @@ function renderMyCoursesList(userOrders){
             bodyContent = `
                 <div style="margin-top:16px;">
                     <h4 style="color:var(--purple-dark);margin-bottom:8px;">Cours vidéo débloqué :</h4>
-                    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
-                        <iframe src="${courseVid}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen></iframe>
+                    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+                        <iframe src="${courseVid}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
             `;
         } else if(o.status === "refuse"){
             statusBadge = `<span style="background:#F8D7DA;color:#721C24;font-size:12px;font-weight:bold;padding:5px 12px;border-radius:20px;">✕ Paiement Rejeté</span>`;
             bodyContent = `
-                <div style="margin-top:14px;background:#FFF0F0;padding:12px;border-radius:8px;font-size:13px;color:#C0392B;">
-                    Le reçu a été refusé. Veuillez contacter l'administration ou renvoyer un reçu valide.
+                <div style="margin-top:14px;background:#FFF0F0;border:1px solid #FFCDCD;padding:14px;border-radius:10px;font-size:13px;color:#C0392B;">
+                    ⚠️ Votre reçu de paiement a été rejeté par l'administration. Veuillez contacter l'administration ou refaire votre demande avec un reçu clair.
                 </div>
             `;
         } else {
-            statusBadge = `<span style="background:#FFF3CD;color:#856404;font-size:12px;font-weight:bold;padding:5px 12px;border-radius:20px;">En attente de validation</span>`;
+            statusBadge = `<span style="background:#FFF3CD;color:#856404;font-size:12px;font-weight:bold;padding:5px 12px;border-radius:20px;">⏳ En attente de validation</span>`;
             bodyContent = `
                 <div style="margin-top:14px;background:#FFF9EB;border:1px solid #FFE4A3;padding:14px;border-radius:10px;font-size:13px;color:#856404;">
-                    Votre reçu de paiement est en cours de vérification. Votre vidéo sera accessible dans les plus brefs délais dès validation par l'équipe.
+                    ⏳ Votre reçu de paiement est en cours d'examen par notre équipe. Le contenu vidéo sera débloqué ici dès confirmation.
                 </div>
             `;
         }
