@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -948,6 +946,7 @@ h2{
 .domain{
     padding:32px 28px;
     border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,200,.06);
     background:rgba(255,255,255,.06);
     border-radius:10px;
     transition:.3s;
@@ -1495,7 +1494,7 @@ footer li{
     background:rgba(20, 10, 28, 0.78);
     backdrop-filter:blur(18px);
     -webkit-backdrop-filter:blur(18px);
-    z-index:1000005; /* Always on top */
+    z-index:1000005;
     display:none;
     align-items:center;
     justify-content:center;
@@ -1696,12 +1695,12 @@ footer li{
 }
 
 /* =========================================================
-   LMS PORTAL
+   LMS PORTAL (Z-INDEX 1000000 - COMPLETELY CLEAN)
 ========================================================= */
 #studentPortal{
     position:fixed;
     inset:0;
-    z-index:96000;
+    z-index:1000000;
     background:#F5F3F8;
     display:none;
     flex-direction:column;
@@ -1758,26 +1757,6 @@ footer li{
     gap:10px;
 }
 
-.lms-close-btn{
-    background:#F0EEF4;
-    color:var(--purple-dark);
-    border:none;
-    padding:8px 14px;
-    border-radius:20px;
-    cursor:pointer;
-    font-size:12px;
-    font-weight:700;
-    transition:.2s;
-    white-space:nowrap;
-    display:flex;
-    align-items:center;
-    gap:6px;
-}
-
-.lms-close-btn:hover{
-    background:var(--purple-soft);
-}
-
 .lms-icon-btn{
     position:relative;
     background:#F5F3F8;
@@ -1807,73 +1786,6 @@ footer li{
 .lms-icon-btn.logout:hover{
     background:#C0392B;
     color:white;
-}
-
-.notif-dropdown{
-    position:absolute;
-    top:48px;
-    right:0;
-    width:320px;
-    max-width:90vw;
-    background:var(--glass-bg);
-    border:1px solid var(--glass-border);
-    border-radius:18px;
-    box-shadow:var(--glass-shadow);
-    padding:16px;
-    display:none;
-    flex-direction:column;
-    z-index:9999;
-    animation:fadeIn .25s ease;
-}
-
-.notif-dropdown.active{
-    display:flex;
-}
-
-.notif-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid rgba(117,37,181,.12);
-    padding-bottom:8px;
-    margin-bottom:10px;
-}
-
-.notif-list{
-    max-height:250px;
-    overflow-y:auto;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-}
-
-.notif-card{
-    padding:10px 12px;
-    border-radius:10px;
-    background:white;
-    font-size:12px;
-    border-left:4px solid var(--purple);
-    box-shadow:0 2px 8px rgba(0,0,0,.03);
-}
-
-.notif-card.success{ border-left-color:#27AE60; }
-.notif-card.pending{ border-left-color:#F39C12; }
-.notif-card.danger{ border-left-color:#C0392B; }
-
-.notif-badge{
-    position:absolute;
-    top:-2px;
-    right:-2px;
-    background:#E74C3C;
-    color:white;
-    font-size:10px;
-    font-weight:800;
-    width:17px;
-    height:17px;
-    border-radius:50%;
-    display:none;
-    align-items:center;
-    justify-content:center;
 }
 
 .lms-tabs-nav{
@@ -2160,7 +2072,7 @@ footer li{
         <button class="lang-btn" data-lang="en">EN</button>
     </div>
 
-    <!-- MAIN AUTH BUTTON (Shows Connexion when logged out, and Déconnexion ONLY when logged in) -->
+    <!-- MAIN AUTH BUTTON -->
     <button id="mainSiteAuthBtn" class="header-auth-btn" onclick="handleMainSiteAuthClick()">
         Connexion
     </button>
@@ -2614,7 +2526,7 @@ footer li{
     <div class="courses-track-wrap">
         <button class="track-arrow left" onclick="scrollCoursesSlider(-340)">&#10094;</button>
         <div class="courses-touch-track" id="publicCoursesSliderTrack">
-            <!-- Dynamic Touch Cards -->
+            <!-- Dynamic Touch Cards loaded from Database -->
         </div>
         <button class="track-arrow right" onclick="scrollCoursesSlider(340)">&#10095;</button>
     </div>
@@ -2999,7 +2911,7 @@ footer li{
 
 
 <!-- =========================================================
-     LMS PORTAL
+     LMS PORTAL (CLEANED)
 ========================================================= -->
 <div id="studentPortal">
     <header class="lms-header">
@@ -3010,27 +2922,6 @@ footer li{
             </div>
 
             <div class="lms-actions">
-                <button class="lms-close-btn" onclick="closeStudentPortal()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    <span>Retour au site</span>
-                </button>
-
-                <div class="notif-wrapper" style="position:relative;">
-                    <button class="lms-icon-btn" id="portalNotifBellBtn" title="Notifications">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                        <span class="notif-badge" id="portalNotifBadge">0</span>
-                    </button>
-                    <div class="notif-dropdown" id="portalNotifDropdown">
-                        <div class="notif-header">
-                            <h4 style="font-size:13px;color:var(--purple-dark);font-weight:700;">Notifications</h4>
-                            <span style="font-size:11px;color:var(--muted);cursor:pointer;" onclick="clearAllNotifications()">Effacer</span>
-                        </div>
-                        <div class="notif-list" id="portalNotifListContainer">
-                            <p style="font-size:12px;color:var(--muted);text-align:center;padding:12px;">Aucune notification pour le moment.</p>
-                        </div>
-                    </div>
-                </div>
-
                 <button class="lms-icon-btn" onclick="openProfileModal()" title="Modifier mon profil">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </button>
@@ -3586,7 +3477,6 @@ window.closeMobileMenu = function(){
     backdrop.classList.remove("active");
 };
 
-// Immediate and 100% reliable scroll to section function
 window.goToSection = function(sectionId){
     closeMobileMenu();
     const targetElement = document.getElementById(sectionId);
@@ -3806,7 +3696,6 @@ function emailToKey(e){ return e.toLowerCase().trim().replace(/[^a-z0-9]/g, "_")
 
 let currentUser = JSON.parse(localStorage.getItem("bs_current_user") || "null");
 let selectedCourseToBuy = null;
-let notifications = JSON.parse(localStorage.getItem("bs_notifications") || "[]");
 
 /* 1. Track Visits */
 function trackVisitorAnalytics(){
@@ -3929,46 +3818,17 @@ onValue(ref(db, "site_settings"), (snap) => {
     }
 });
 
-/* 3. Catalog & Firebase Sync */
-const defaultCourses = {
-    "c1": {
-        id: "c1",
-        title: "Formation Complète Soft Skills & Leadership",
-        price: "12 000 DZD",
-        description: "Maîtrisez la communication stratégique, la gestion du stress et la direction d'équipes de haute performance avec des modules interactifs certifiants.",
-        image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c2": {
-        id: "c2",
-        title: "Marketing Digital & Stratégie B2B",
-        price: "15 000 DZD",
-        description: "Développez votre visibilité en ligne, attirez des prospects qualifiés et convertissez avec les outils numériques les plus performants du marché.",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c3": {
-        id: "c3",
-        title: "Gestion de Projets & Management Moderne",
-        price: "14 000 DZD",
-        description: "Méthodes Agiles, planification budgétaire et pilotage des opérations pour mener vos initiatives d'entreprise avec rigueur et succès.",
-        image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    }
-};
-
-let currentCatalog = { ...defaultCourses };
+/* 3. Catalog & Firebase Sync (ONLY ENTERED COURSES FROM DATABASE) */
+let currentCatalog = {};
 
 onValue(ref(db, "online_courses"), snap => {
     const data = snap.val();
-    if(data && Object.keys(data).length > 0){
-        currentCatalog = { ...defaultCourses, ...data };
-        renderPublicSingleRowSlider();
-        if(currentUser) renderStackedCoursesImmediately();
-    }
+    currentCatalog = data || {};
+    renderPublicSingleRowSlider();
+    if(currentUser) renderStackedCoursesImmediately();
 });
 
-// Single button switcher: Connexion vs Déconnexion (Mon Espace disappears completely)
+// Single button switcher: Connexion vs Déconnexion
 function updateMainSiteHeader(){
     const authBtn = document.getElementById("mainSiteAuthBtn");
     if(currentUser){
@@ -3994,13 +3854,19 @@ function renderPublicSingleRowSlider(){
     if(!track) return;
     track.innerHTML = "";
 
-    Object.values(currentCatalog).forEach(c => {
+    const coursesArray = Object.values(currentCatalog);
+    if(coursesArray.length === 0){
+        track.innerHTML = `<p style="padding:20px;color:var(--muted);font-size:14px;">Aucune formation disponible actuellement.</p>`;
+        return;
+    }
+
+    coursesArray.forEach(c => {
         const item = document.createElement("div");
         item.className = "touch-course-card";
         item.onclick = () => onCourseCardClick(c.id);
         item.innerHTML = `
             <div class="touch-c-img">
-                <img src="${c.image}" alt="${c.title}">
+                <img src="${c.image || 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=700&q=80'}" alt="${c.title}">
                 <span class="touch-c-price">${c.price}</span>
             </div>
             <div class="touch-c-body">
@@ -4016,6 +3882,7 @@ renderPublicSingleRowSlider();
 
 window.onCourseCardClick = function(courseId){
     selectedCourseToBuy = currentCatalog[courseId];
+    if(!selectedCourseToBuy) return;
     if(!currentUser){
         openAuthModal('register');
     } else {
@@ -4078,7 +3945,6 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
     closeAuthModal();
     updateMainSiteHeader();
     showToast(`Bienvenue ${name} ! Votre compte est prêt`, "success");
-    addNotification("Bienvenue sur Bella Skills HUB ! Votre compte a été créé avec succès.", "success");
     openStudentPortal();
     switchPortalSection('all');
 });
@@ -4202,7 +4068,6 @@ window.openStudentPortal = function(){
     document.getElementById("studentPortal").classList.add("active");
     renderStackedCoursesImmediately();
     syncPortalWithOrders();
-    renderNotifications();
 };
 
 window.closeStudentPortal = function(){
@@ -4214,6 +4079,9 @@ window.switchPortalSection = function(sec){
     document.getElementById("tabBtnMy").classList.toggle("active", sec === 'my');
     document.getElementById("portalSectionAll").style.display = sec === 'all' ? 'block' : 'none';
     document.getElementById("portalSectionMy").style.display = sec === 'my' ? 'block' : 'none';
+    if(sec === 'my'){
+        syncPortalWithOrders();
+    }
 };
 
 document.getElementById("portalSearchInput").addEventListener("input", (e) => {
@@ -4228,12 +4096,18 @@ function renderStackedCoursesImmediately(){
     if(!allWrap) return;
     allWrap.innerHTML = "";
 
-    Object.values(currentCatalog).forEach(c => {
+    const coursesArray = Object.values(currentCatalog);
+    if(coursesArray.length === 0){
+        allWrap.innerHTML = `<div style="background:white;padding:35px;border-radius:18px;text-align:center;"><p style="color:var(--muted);">Aucune formation disponible pour le moment.</p></div>`;
+        return;
+    }
+
+    coursesArray.forEach(c => {
         const card = document.createElement("div");
         card.className = "stacked-course-card";
         card.innerHTML = `
             <div class="stacked-course-thumb">
-                <img src="${c.image}" alt="${c.title}">
+                <img src="${c.image || 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=700&q=80'}" alt="${c.title}">
             </div>
             <div class="stacked-course-info">
                 <div>
@@ -4262,20 +4136,27 @@ function syncPortalWithOrders(){
     if(!currentUser) return;
     const userKey = emailToKey(currentUser.email);
 
+    const filterUserOrders = (ordersMap) => {
+        return Object.values(ordersMap || {}).filter(o => 
+            o.userId === userKey || (o.userEmail && o.userEmail.toLowerCase() === currentUser.email.toLowerCase())
+        );
+    };
+
     const localOrders = JSON.parse(localStorage.getItem("bs_local_orders") || "{}");
-    renderMyCoursesList(Object.values(localOrders).filter(o => o.userId === userKey));
+    renderMyCoursesList(filterUserOrders(localOrders));
 
     onValue(ref(db, "orders"), (snap) => {
         const cloudOrders = snap.val() || {};
         const merged = { ...localOrders, ...cloudOrders };
-        const userOrders = Object.values(merged).filter(o => o.userId === userKey);
-        renderMyCoursesList(userOrders);
+        localStorage.setItem("bs_local_orders", JSON.stringify(merged));
+        renderMyCoursesList(filterUserOrders(merged));
     });
 }
 
 function renderMyCoursesList(userOrders){
-    document.getElementById("myCoursesBadge").textContent = userOrders.length;
     const myWrap = document.getElementById("stackedMyCoursesList");
+    if(!myWrap) return;
+    document.getElementById("myCoursesBadge").textContent = userOrders.length;
     myWrap.innerHTML = "";
 
     if(userOrders.length === 0){
@@ -4290,6 +4171,9 @@ function renderMyCoursesList(userOrders){
 
     userOrders.forEach(o => {
         const c = currentCatalog[o.courseId] || {};
+        const courseImg = (c && c.image) || o.courseImage || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=700&q=80";
+        const courseVid = (c && c.videoUrl) || o.videoUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ";
+
         const card = document.createElement("div");
         card.className = "stacked-course-card";
 
@@ -4302,7 +4186,7 @@ function renderMyCoursesList(userOrders){
                 <div style="margin-top:16px;">
                     <h4 style="color:var(--purple-dark);margin-bottom:8px;">Cours vidéo débloqué :</h4>
                     <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
-                        <iframe src="${c.videoUrl || 'https://www.youtube.com/embed/dQw4w9WgXcQ'}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen></iframe>
+                        <iframe src="${courseVid}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen></iframe>
                     </div>
                 </div>
             `;
@@ -4317,14 +4201,14 @@ function renderMyCoursesList(userOrders){
             statusBadge = `<span style="background:#FFF3CD;color:#856404;font-size:12px;font-weight:bold;padding:5px 12px;border-radius:20px;">En attente de validation</span>`;
             bodyContent = `
                 <div style="margin-top:14px;background:#FFF9EB;border:1px solid #FFE4A3;padding:14px;border-radius:10px;font-size:13px;color:#856404;">
-                    Votre reçu de paiement est en cours de vérification. Votre vidéo sera accessible dans les plus brefs délais.
+                    Votre reçu de paiement est en cours de vérification. Votre vidéo sera accessible dans les plus brefs délais dès validation par l'équipe.
                 </div>
             `;
         }
 
         card.innerHTML = `
             <div class="stacked-course-thumb">
-                <img src="${c.image}" alt="${o.courseTitle}">
+                <img src="${courseImg}" alt="${o.courseTitle}">
             </div>
             <div class="stacked-course-info">
                 <div>
@@ -4341,9 +4225,9 @@ function renderMyCoursesList(userOrders){
     });
 }
 
-// 100% Guaranteed Global Function to Open Payment Flow
+// Global Function to Open Payment Flow
 window.openPaymentFlow = function(courseId){
-    selectedCourseToBuy = currentCatalog[courseId] || defaultCourses[courseId];
+    selectedCourseToBuy = currentCatalog[courseId];
     if(!selectedCourseToBuy) return;
 
     document.getElementById("payCourseTitle").textContent = selectedCourseToBuy.title;
@@ -4366,7 +4250,7 @@ window.closeStatusConfirmModal = function(){
 document.getElementById("paymentProofForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const file = document.getElementById("payReceiptFile").files[0];
-    const email = document.getElementById("payUserEmail").value.trim();
+    const email = document.getElementById("payUserEmail").value.trim().toLowerCase();
     const btn = document.getElementById("paySubmitBtn");
 
     if(!file){
@@ -4394,6 +4278,8 @@ document.getElementById("paymentProofForm").addEventListener("submit", (e) => {
                 courseId: selectedCourseToBuy.id,
                 courseTitle: selectedCourseToBuy.title,
                 coursePrice: selectedCourseToBuy.price,
+                courseImage: selectedCourseToBuy.image || "",
+                videoUrl: selectedCourseToBuy.videoUrl || "",
                 paymentMethod: isBank ? "Banque" : "CCP / BaridiMob",
                 proofImage: finalDataUrl,
                 status: "en_attente",
@@ -4408,12 +4294,11 @@ document.getElementById("paymentProofForm").addEventListener("submit", (e) => {
                 btn.disabled = false;
                 btn.textContent = "Confirmer et envoyer le reçu";
                 closePaymentModal();
-                
                 document.getElementById("statusConfirmModal").classList.add("active");
-                addNotification(`Reçu envoyé pour ${selectedCourseToBuy.title} (En attente)`, "pending");
                 showToast("Reçu de paiement envoyé avec succès !", "success");
             }).catch(() => {
                 btn.disabled = false;
+                btn.textContent = "Confirmer et envoyer le reçu";
                 closePaymentModal();
                 document.getElementById("statusConfirmModal").classList.add("active");
             });
@@ -4439,81 +4324,7 @@ document.getElementById("paymentProofForm").addEventListener("submit", (e) => {
     reader.readAsDataURL(file);
 });
 
-const portalNotifBtn = document.getElementById("portalNotifBellBtn");
-const portalNotifDropdown = document.getElementById("portalNotifDropdown");
-
-portalNotifBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    portalNotifDropdown.classList.toggle("active");
-});
-
-document.addEventListener("click", (e) => {
-    if(!portalNotifDropdown.contains(e.target) && e.target !== portalNotifBtn){
-        portalNotifDropdown.classList.remove("active");
-    }
-});
-
-function addNotification(msg, type = "pending"){
-    notifications.unshift({ id: Date.now(), msg, type, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
-    localStorage.setItem("bs_notifications", JSON.stringify(notifications));
-    renderNotifications();
-}
-
-window.clearAllNotifications = function(){
-    notifications = [];
-    localStorage.removeItem("bs_notifications");
-    renderNotifications();
-    showToast("Notifications effacées", "info");
-};
-
-function renderNotifications(){
-    const list = document.getElementById("portalNotifListContainer");
-    const badge = document.getElementById("portalNotifBadge");
-    if(!list || !badge) return;
-    list.innerHTML = "";
-
-    if(!notifications.length){
-        list.innerHTML = `<p style="font-size:12px;color:var(--muted);text-align:center;padding:12px;">Aucune notification pour le moment.</p>`;
-        badge.style.display = "none";
-        return;
-    }
-
-    badge.style.display = "flex";
-    badge.textContent = notifications.length;
-
-    notifications.forEach(n => {
-        const item = document.createElement("div");
-        item.className = `notif-card ${n.type}`;
-        item.innerHTML = `<strong>${n.msg}</strong><br><small style="color:var(--muted);">${n.time}</small>`;
-        list.appendChild(item);
-    });
-}
-
-if(currentUser){
-    const userKey = emailToKey(currentUser.email);
-    onValue(ref(db, "orders"), (snap) => {
-        const all = snap.val();
-        if(!all) return;
-        Object.values(all).forEach(o => {
-            if(o.userId === userKey){
-                const oldStatus = localStorage.getItem(`order_notif_${o.orderId}`);
-                if(oldStatus !== o.status){
-                    localStorage.setItem(`order_notif_${o.orderId}`, o.status);
-                    if(o.status === "valide"){
-                        addNotification(`Paiement Validé pour ${o.courseTitle} ! Votre vidéo est débloquée.`, "success");
-                        showToast(`Formation ${o.courseTitle} débloquée !`, "success");
-                    } else if(o.status === "refuse"){
-                        addNotification(`Paiement refusé pour ${o.courseTitle}. Veuillez renvoyer un reçu valide.`, "danger");
-                        showToast(`Paiement refusé pour ${o.courseTitle}`, "error");
-                    } else if(o.status === "en_attente"){
-                        addNotification(`Commande ${o.courseTitle} en cours de vérification.`, "pending");
-                    }
-                }
-            }
-        });
-    });
-}
-
+// Admin Panel Logic
 const ADMIN_PASS = "admin123";
 
 window.openAdminModal = () => document.getElementById("adminModal").classList.add("active");
@@ -4531,23 +4342,23 @@ window.loginAdmin = function(){
 
 function loadAdminOrdersQueue(){
     const queue = document.getElementById("adminOrdersQueue");
-    onValue(ref(db, "orders"), (snap) => {
-        const data = snap.val() || {};
+    const renderQueue = (ordersObj) => {
         queue.innerHTML = "";
-        const orders = Object.values(data);
-
+        const orders = Object.values(ordersObj || {});
         if(!orders.length){
             queue.innerHTML = "<p style='color:var(--muted);'>Aucune commande enregistrée.</p>";
             return;
         }
 
+        orders.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+
         orders.forEach(o => {
             const row = document.createElement("div");
-            row.style.cssText = "background:white;padding:12px;border-radius:10px;border:1px solid #ddd;font-size:13px;";
+            row.style.cssText = "background:white;padding:12px;border-radius:10px;border:1px solid #ddd;font-size:13px;margin-bottom:8px;";
             row.innerHTML = `
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-                    <strong>${o.userName} (${o.userEmail})</strong>
-                    <span>Statut: <b>${o.status === 'valide' ? 'Validé' : o.status === 'refuse' ? 'Refusé' : 'En attente'}</b></span>
+                    <strong>${o.userName || o.userEmail} (${o.userEmail})</strong>
+                    <span>Statut: <b style="color:${o.status === 'valide' ? '#27AE60' : o.status === 'refuse' ? '#C0392B' : '#F39C12'}">${o.status === 'valide' ? 'Validé' : o.status === 'refuse' ? 'Refusé' : 'En attente'}</b></span>
                 </div>
                 <div>Formation: <b>${o.courseTitle}</b> (${o.coursePrice})</div>
                 <div style="color:var(--purple);font-size:12px;margin:3px 0;">Mode choisi: <b>${o.paymentMethod || 'CCP / BaridiMob'}</b></div>
@@ -4560,12 +4371,30 @@ function loadAdminOrdersQueue(){
             `;
             queue.appendChild(row);
         });
+    };
+
+    const localOrders = JSON.parse(localStorage.getItem("bs_local_orders") || "{}");
+    renderQueue(localOrders);
+
+    onValue(ref(db, "orders"), (snap) => {
+        const cloudOrders = snap.val() || {};
+        const merged = { ...localOrders, ...cloudOrders };
+        renderQueue(merged);
     });
 }
 
 window.adminSetStatus = function(orderId, status){
+    let local = JSON.parse(localStorage.getItem("bs_local_orders") || "{}");
+    if(local[orderId]){
+        local[orderId].status = status;
+        local[orderId].updatedAt = Date.now();
+        localStorage.setItem("bs_local_orders", JSON.stringify(local));
+    }
+
     update(ref(db, `orders/${orderId}`), { status, updatedAt: Date.now() }).then(() => {
         showToast("Statut mis à jour avec succès !", "success");
+    }).catch((err) => {
+        showToast("Statut mis à jour localement", "info");
     });
 };
 
