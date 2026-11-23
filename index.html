@@ -110,11 +110,6 @@ img{
     to { opacity:1; transform: translateY(0) scale(1); }
 }
 
-@keyframes marqueeLeftToRight{
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(0%); }
-}
-
 .anim-float{
     animation: floatGentle 4.5s ease-in-out infinite;
 }
@@ -1338,7 +1333,7 @@ h2{
 }
 
 /* =========================================================
-   EVENTS, PARTNERS (SINGLE ROW + LEFT-TO-RIGHT MARQUEE) & REFERENCES
+   EVENTS, PARTNERS (SINGLE ROW + 2S SLIDER) & REFERENCES
 ========================================================= */
 .events-section{
     padding:105px 0;
@@ -1452,14 +1447,23 @@ h2{
     background:white;
 }
 
+.partners-carousel-wrap{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
 .partners-single-row{
     display:flex;
     flex-direction:row;
     gap:20px;
     align-items:stretch;
     overflow-x:auto;
+    scroll-behavior:smooth;
     padding:10px 4px 18px;
     scrollbar-width:none;
+    width:100%;
 }
 
 .partners-single-row::-webkit-scrollbar{
@@ -1468,25 +1472,28 @@ h2{
 
 .partners-single-row.is-static-row{
     justify-content:center;
-    flex-wrap:nowrap;
 }
 
-.partners-marquee-viewport{
-    width:100%;
-    overflow:hidden;
-    padding:10px 0 18px;
+.partner-nav-arrow{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:1px solid #DFD7EC;
+    background:white;
+    color:var(--purple-dark);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    box-shadow:0 6px 18px rgba(66,16,95,.08);
+    transition:.25s;
 }
 
-.partners-marquee-track{
-    display:flex;
-    flex-direction:row;
-    gap:20px;
-    width:max-content;
-    animation:marqueeLeftToRight 26s linear infinite;
-}
-
-.partners-marquee-viewport:hover .partners-marquee-track{
-    animation-play-state:paused;
+.partner-nav-arrow:hover{
+    background:var(--purple);
+    color:white;
+    border-color:var(--purple);
 }
 
 .partner-card{
@@ -1747,8 +1754,8 @@ h2{
     margin-bottom:8px;
 }
 
-.touch-c-body p{
-    font-size:13px;
+.touch-c-summary{
+    font-size:12.5px;
     color:var(--muted);
     margin-bottom:16px;
     flex-grow:1;
@@ -1977,8 +1984,8 @@ h2{
     line-height:1.35;
 }
 
-.platform-course-body p{
-    font-size:12.5px;
+.platform-course-short{
+    font-size:12px;
     color:var(--muted);
     margin-bottom:14px;
     flex-grow:1;
@@ -2063,6 +2070,168 @@ h2{
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+}
+
+/* =========================================================
+   MODERN CUSTOM DROPDOWN (REPLACING CLASSIC SELECT)
+========================================================= */
+.modern-select-wrap{
+    position:relative;
+    width:100%;
+}
+
+.modern-select-trigger{
+    width:100%;
+    padding:13px 16px;
+    border:1px solid #DDD9E1;
+    background:#FAFAFB;
+    border-radius:10px;
+    color:var(--text);
+    font-size:13.5px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    cursor:pointer;
+    transition:all .25s ease;
+    text-align:left;
+}
+
+.modern-select-trigger:hover,
+.modern-select-wrap.open .modern-select-trigger{
+    border-color:var(--purple);
+    background:white;
+    box-shadow:0 6px 20px rgba(117,37,181,.1);
+}
+
+.modern-select-chevron{
+    color:var(--purple);
+    transition:transform .25s ease;
+    flex-shrink:0;
+}
+
+.modern-select-wrap.open .modern-select-chevron{
+    transform:rotate(180deg);
+}
+
+.modern-select-menu{
+    position:absolute;
+    top:calc(100% + 8px);
+    left:0;
+    right:0;
+    background:white;
+    border:1px solid #E4DDF0;
+    border-radius:14px;
+    box-shadow:0 20px 45px rgba(42,14,62,.16);
+    padding:6px;
+    z-index:250;
+    display:none;
+    max-height:260px;
+    overflow-y:auto;
+    animation:cardEnter .2s ease;
+}
+
+.modern-select-wrap.open .modern-select-menu{
+    display:block;
+}
+
+.modern-select-option{
+    padding:10px 14px;
+    border-radius:9px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+    cursor:pointer;
+    transition:.18s ease;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.modern-select-option:hover{
+    background:var(--purple-soft);
+    color:var(--purple-dark);
+}
+
+.modern-select-option.selected{
+    background:var(--purple);
+    color:white;
+}
+
+/* =========================================================
+   PROTECTED VIDEO PLAYER (NO SHARE / NO YOUTUBE POPOUT / ANTI-CAPTURE GUARD)
+========================================================= */
+.protected-video-frame{
+    position:relative;
+    padding-bottom:56.25%;
+    height:0;
+    overflow:hidden;
+    border-radius:14px;
+    background:#12081A;
+    user-select:none;
+    -webkit-user-select:none;
+}
+
+.protected-video-frame iframe{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    border:0;
+    pointer-events:auto;
+}
+
+.protected-video-shield-top{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:56px;
+    z-index:6;
+    background:transparent;
+}
+
+.protected-video-shield-bottom-right{
+    position:absolute;
+    bottom:0;
+    right:0;
+    width:120px;
+    height:44px;
+    z-index:6;
+    background:transparent;
+}
+
+.protected-video-watermark{
+    position:absolute;
+    bottom:12px;
+    left:14px;
+    z-index:7;
+    background:rgba(24,10,36,.72);
+    color:rgba(255,255,255,.88);
+    font-size:10.5px;
+    font-weight:700;
+    padding:4px 10px;
+    border-radius:20px;
+    pointer-events:none;
+    backdrop-filter:blur(4px);
+}
+
+.protected-video-blur-overlay{
+    position:absolute;
+    inset:0;
+    z-index:12;
+    background:rgba(24,10,36,.92);
+    backdrop-filter:blur(16px);
+    color:white;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    font-size:13.5px;
+    font-weight:700;
 }
 
 /* =========================================================
@@ -2201,8 +2370,7 @@ label{
 }
 
 input,
-textarea,
-select{
+textarea{
     width:100%;
     padding:13px;
     border:1px solid #DDD9E1;
@@ -2214,8 +2382,7 @@ select{
 }
 
 input:focus,
-textarea:focus,
-select:focus{
+textarea:focus{
     border-color:var(--purple);
     background:white;
 }
@@ -3052,8 +3219,13 @@ footer li{
     }
 
     .partner-card{
-        flex:0 0 270px;
+        flex:0 0 265px;
         padding:18px;
+    }
+
+    .partner-nav-arrow{
+        width:34px;
+        height:34px;
     }
 
     .form{
@@ -3984,7 +4156,7 @@ footer li{
     </div>
 </div>
 
-<!-- FORM -->
+<!-- FORM WITH MODERN CUSTOM DROPDOWN -->
 <form class="form reveal" id="form">
     <div class="form-row">
         <div class="group">
@@ -4004,17 +4176,23 @@ footer li{
 
     <div class="group">
         <label data-i18n="form_service">Domaine / Service recherché</label>
-        <select required id="serviceSelect">
-            <option value="" data-i18n="opt_select">Sélectionner un domaine ou service</option>
-            <option value="management_perf">1. Management et performance organisationnelle</option>
-            <option value="commerce_intl">2. Développement commercial et commerce international</option>
-            <option value="chimie_securite">3. Chimie industrielle, sécurité et sûreté des produits chimiques</option>
-            <option value="formation_pro">4. Formation professionnelle et développement des compétences</option>
-            <option value="comm_rh">5. Communication et ressources humaines</option>
-            <option value="entrepreneuriat">6. Entrepreneuriat, investissement et développement économique</option>
-            <option value="evenementiel">7. Événementiel professionnel et scientifique</option>
-            <option value="elearning_inscription">Inscription Formation / Atelier / Devis</option>
-        </select>
+        <input type="hidden" id="serviceSelect" required value="">
+        <div class="modern-select-wrap" id="modernServiceDropdown">
+            <button type="button" class="modern-select-trigger" id="modernServiceTrigger" onclick="toggleModernServiceMenu(event)">
+                <span id="modernServiceLabel">Sélectionner un domaine ou service</span>
+                <svg class="modern-select-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="modern-select-menu" id="modernServiceMenu">
+                <div class="modern-select-option" data-value="management_perf" onclick="pickModernService('management_perf', '1. Management et performance organisationnelle', this)">1. Management et performance organisationnelle</div>
+                <div class="modern-select-option" data-value="commerce_intl" onclick="pickModernService('commerce_intl', '2. Développement commercial et commerce international', this)">2. Développement commercial et commerce international</div>
+                <div class="modern-select-option" data-value="chimie_securite" onclick="pickModernService('chimie_securite', '3. Chimie industrielle, sécurité et sûreté des produits chimiques', this)">3. Chimie industrielle, sécurité et sûreté des produits chimiques</div>
+                <div class="modern-select-option" data-value="formation_pro" onclick="pickModernService('formation_pro', '4. Formation professionnelle et développement des compétences', this)">4. Formation professionnelle et développement des compétences</div>
+                <div class="modern-select-option" data-value="comm_rh" onclick="pickModernService('comm_rh', '5. Communication et ressources humaines', this)">5. Communication et ressources humaines</div>
+                <div class="modern-select-option" data-value="entrepreneuriat" onclick="pickModernService('entrepreneuriat', '6. Entrepreneuriat, investissement et développement économique', this)">6. Entrepreneuriat, investissement et développement économique</div>
+                <div class="modern-select-option" data-value="evenementiel" onclick="pickModernService('evenementiel', '7. Événementiel professionnel et scientifique', this)">7. Événementiel professionnel et scientifique</div>
+                <div class="modern-select-option" data-value="elearning_inscription" onclick="pickModernService('elearning_inscription', 'Inscription Formation / Atelier / Devis', this)">Inscription Formation / Atelier / Devis</div>
+            </div>
+        </div>
     </div>
 
     <div class="group">
@@ -4390,7 +4568,7 @@ footer li{
         <div id="portalSectionMy" style="display:none;">
             <div style="margin-bottom:18px;">
                 <h2 style="font-size:24px;color:var(--purple-dark);margin-bottom:4px;">Mes Formations Achetées</h2>
-                <p style="color:var(--muted);font-size:13px;">Suivez l'état de validation de votre reçu et visionnez vos cours en illimité.</p>
+                <p style="color:var(--muted);font-size:13px;">Suivez l'état de validation de votre reçu et visionnez vos cours sur la plateforme.</p>
             </div>
             <div id="stackedMyCoursesList" style="display:flex;flex-direction:column;gap:22px;"></div>
         </div>
@@ -4508,9 +4686,9 @@ const translations = {
         slide3_tag: "COLLECTIVE INTELLIGENCE & LEADERSHIP",
         slide3_title: "Unlock Your <span>Potential.</span>",
         slide3_desc: "Human capital development, leadership, soft skills and managerial innovation for sustainable performance.",
-        slide4_tag: "CONSULTING, INTERNATIONAL TRADE & INDUSTRIAL CHEMISTRY",
-        slide4_title: "Tailored <span>Solutions</span><br>with High Added Value.",
-        slide4_desc: "Multidisciplinary expertise bringing together consultants, trainers, executives and engineers for individual and collective success.",
+        slide4_tag: "CONSULTING, COMMERCE INTERNATIONAL & CHIMIE INDUSTRIELLE",
+        slide4_title: "Des solutions <span>sur mesure</span><br>à forte valeur ajoutée.",
+        slide4_desc: "Multidisciplinary expertise mobilisant consultants, formateurs, cadres et ingénieurs au service de la réussite individuelle et collective.",
 
         btn_open_platform: "Our Trainings",
         btn_discover_services: "Explore Services",
@@ -4612,6 +4790,35 @@ document.querySelectorAll(".lang-btn").forEach(btn => {
 });
 
 setLanguage(currentLang);
+
+/* MODERN CUSTOM DROPDOWN */
+window.toggleModernServiceMenu = function(e){
+    if(e) e.stopPropagation();
+    const wrap = document.getElementById("modernServiceDropdown");
+    if(wrap) wrap.classList.toggle("open");
+};
+
+window.pickModernService = function(val, labelText, optionEl){
+    const hiddenInput = document.getElementById("serviceSelect");
+    const labelEl = document.getElementById("modernServiceLabel");
+    const wrap = document.getElementById("modernServiceDropdown");
+
+    if(hiddenInput) hiddenInput.value = val;
+    if(labelEl) labelEl.textContent = labelText;
+
+    document.querySelectorAll("#modernServiceMenu .modern-select-option").forEach(item => {
+        item.classList.toggle("selected", item === optionEl);
+    });
+
+    if(wrap) wrap.classList.remove("open");
+};
+
+document.addEventListener("click", (e) => {
+    const wrap = document.getElementById("modernServiceDropdown");
+    if(wrap && !wrap.contains(e.target)){
+        wrap.classList.remove("open");
+    }
+});
 
 /* HEADER SCROLL & TOP PROGRESS */
 const header = document.getElementById("header");
@@ -4926,6 +5133,20 @@ window.selectPaymentMethod = function(method){
         ccpCard.style.display = "none";
     }
 };
+
+/* VIDEO ANTI-SHARE / ANTI-CAPTURE GUARDS */
+window.addEventListener("contextmenu", (e) => {
+    if (e.target && e.target.closest(".protected-video-frame")) {
+        e.preventDefault();
+    }
+});
+
+document.addEventListener("visibilitychange", () => {
+    const blurs = document.querySelectorAll(".protected-video-blur-overlay");
+    blurs.forEach(el => {
+        el.style.display = document.hidden ? "flex" : "none";
+    });
+});
 </script>
 
 <!-- =========================================================
@@ -4957,6 +5178,7 @@ let currentUser = JSON.parse(localStorage.getItem("bs_current_user") || "null");
 let selectedCourseToBuy = null;
 let notifications = JSON.parse(localStorage.getItem("bs_notifications") || "[]");
 let selectedSpecialtyFilter = "Tous";
+let partnersAutoTimer = null;
 window.activeCourseSlug = "";
 
 /* 1. Track Visits */
@@ -5070,7 +5292,7 @@ onValue(ref(db, "site_settings"), (snap) => {
     }
 });
 
-/* Dynamic Partners: Single Row, Static if <= 2, Continuous Left-to-Right Marquee if > 3 */
+/* Dynamic Partners: Single Row, Static if <= 2, Auto-Slider every 2s if > 3 */
 const defaultPartnersList = [
     {
         id: "p1",
@@ -5097,6 +5319,18 @@ const defaultPartnersList = [
         linkLabel: "Devenir partenaire"
     }
 ];
+
+window.slidePartnersRow = function(delta){
+    const row = document.getElementById("partnersRowTrack");
+    if(!row) return;
+    if(delta < 0 && row.scrollLeft <= 2){
+        row.scrollLeft = row.scrollWidth;
+    } else if(delta > 0 && row.scrollLeft + row.clientWidth >= row.scrollWidth - 2){
+        row.scrollLeft = 0;
+    } else {
+        row.scrollBy({ left: delta, behavior: "smooth" });
+    }
+};
 
 function buildPartnerCardHtml(p){
     const initials = (p.initials || p.name || "PT").substring(0, 3).toUpperCase();
@@ -5125,26 +5359,32 @@ function buildPartnerCardHtml(p){
 }
 
 function renderPartnersRow(list){
+    if(partnersAutoTimer){
+        clearInterval(partnersAutoTimer);
+        partnersAutoTimer = null;
+    }
+
     const container = document.getElementById("partnersContainer");
     if(!container) return;
 
     const items = Array.isArray(list) && list.length > 0 ? list : defaultPartnersList;
+    const isStatic = items.length <= 2;
+    const shouldAutoSlide = items.length > 3;
 
-    if(items.length > 3){
-        const repeated = [...items, ...items];
-        container.innerHTML = `
-            <div class="partners-marquee-viewport">
-                <div class="partners-marquee-track">
-                    ${repeated.map(buildPartnerCardHtml).join("")}
-                </div>
-            </div>
-        `;
-    } else {
-        container.innerHTML = `
-            <div class="partners-single-row is-static-row">
+    container.innerHTML = `
+        <div class="partners-carousel-wrap">
+            ${!isStatic ? `<button type="button" class="partner-nav-arrow" aria-label="Précédent" onclick="slidePartnersRow(-330)">&#10094;</button>` : ''}
+            <div class="partners-single-row ${isStatic ? 'is-static-row' : ''}" id="partnersRowTrack">
                 ${items.map(buildPartnerCardHtml).join("")}
             </div>
-        `;
+            ${!isStatic ? `<button type="button" class="partner-nav-arrow" aria-label="Suivant" onclick="slidePartnersRow(330)">&#10095;</button>` : ''}
+        </div>
+    `;
+
+    if(shouldAutoSlide){
+        partnersAutoTimer = setInterval(() => {
+            window.slidePartnersRow(330);
+        }, 2000);
     }
 }
 
@@ -5202,170 +5442,7 @@ onValue(ref(db, "references"), (snap) => {
     `).join("");
 });
 
-/* 3. Catalog with Dedicated Slugs */
-const defaultCourses = {
-    "c1": {
-        id: "c1",
-        slug: "soft-skills-fondamentaux",
-        specialty: "Soft Skills & Développement du Potentiel Humain",
-        title: "Les Soft Skills : les fondamentaux",
-        price: "12 000 DZD",
-        description: "Maîtrisez les compétences comportementales essentielles, l’adaptabilité et la posture professionnelle au quotidien.",
-        image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c2": {
-        id: "c2",
-        slug: "communication-efficace",
-        specialty: "Soft Skills & Développement du Potentiel Humain",
-        title: "Communication efficace",
-        price: "11 000 DZD",
-        description: "Développez une communication claire, persuasive et impactante dans vos échanges professionnels et personnels.",
-        image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c3": {
-        id: "c3",
-        slug: "intelligence-emotionnelle",
-        specialty: "Soft Skills & Développement du Potentiel Humain",
-        title: "Intelligence émotionnelle",
-        price: "12 000 DZD",
-        description: "Comprenez et régulez vos émotions, développez l’empathie et renforcez la qualité de vos relations.",
-        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c4": {
-        id: "c4",
-        slug: "connaissance-de-soi-objectifs",
-        specialty: "Soft Skills & Développement du Potentiel Humain",
-        title: "Connaissance de soi pour fixer et atteindre ses objectifs",
-        price: "11 000 DZD",
-        description: "Identifiez vos forces, valeurs et moteurs personnels pour définir des objectifs clairs et réalistes.",
-        image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c5": {
-        id: "c5",
-        slug: "explorer-potentiel-zone-confort",
-        specialty: "Soft Skills & Développement du Potentiel Humain",
-        title: "Explorer son potentiel et sortir de sa zone de confort",
-        price: "11 500 DZD",
-        description: "Dépassez les blocages, cultivez l’audace et transformez les défis en opportunités d’évolution.",
-        image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c6": {
-        id: "c6",
-        slug: "ikigai-objectifs-alignes",
-        specialty: "Soft Skills & Développement du Potentiel Humain",
-        title: "Ikigai : construire des objectifs alignés",
-        price: "12 000 DZD",
-        description: "Alignez passion, mission, vocation et profession pour donner du sens à votre trajectoire.",
-        image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c7": {
-        id: "c7",
-        slug: "intelligence-collective-cohesion",
-        specialty: "Soft Skills & Développement du Potentiel Humain",
-        title: "Intelligence collective : cohésion d’équipe",
-        price: "13 000 DZD",
-        description: "Mobilisez l’intelligence partagée du groupe pour renforcer la coopération et l’engagement collectif.",
-        image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c8": {
-        id: "c8",
-        slug: "management-equipe-leadership",
-        specialty: "Management, Leadership & Performance",
-        title: "Management d’équipe et leadership",
-        price: "15 000 DZD",
-        description: "Adoptez un leadership inspirant et structuré pour fédérer, orienter et responsabiliser vos équipes.",
-        image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c9": {
-        id: "c9",
-        slug: "resolution-des-problemes",
-        specialty: "Management, Leadership & Performance",
-        title: "Résolution des problèmes",
-        price: "12 500 DZD",
-        description: "Méthodes structurées d’analyse des causes racines et de prise de décision efficace.",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c10": {
-        id: "c10",
-        slug: "gestion-conflits-et-crises",
-        specialty: "Management, Leadership & Performance",
-        title: "Gestion des conflits et des crises",
-        price: "13 500 DZD",
-        description: "Désamorcez les tensions, régulez les désaccords et pilotez les situations sensibles avec sérénité.",
-        image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c11": {
-        id: "c11",
-        slug: "entrepreneuriat-monetisation-savoir",
-        specialty: "Management, Leadership & Performance",
-        title: "Entrepreneuriat et monétisation de son savoir",
-        price: "16 000 DZD",
-        description: "Structurez votre projet entrepreneurial et valorisez vos expertises et connaissances en offres durables.",
-        image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c12": {
-        id: "c12",
-        slug: "vision-board-2027",
-        specialty: "Efficacité Professionnelle & Méthodes d'Apprentissage",
-        title: "Vision Board 2027",
-        price: "10 000 DZD",
-        description: "Clarifiez votre cap stratégique et construisez une vision concrète et motivante pour 2027.",
-        image: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c13": {
-        id: "c13",
-        slug: "gestion-temps-priorites-energie",
-        specialty: "Efficacité Professionnelle & Méthodes d'Apprentissage",
-        title: "Gestion du temps, des priorités et de son énergie",
-        price: "12 000 DZD",
-        description: "Optimisez votre agenda, hiérarchisez vos priorités et préservez votre énergie durablement.",
-        image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c14": {
-        id: "c14",
-        slug: "j-atteins-mes-objectifs",
-        specialty: "Efficacité Professionnelle & Méthodes d'Apprentissage",
-        title: "J’atteins mes objectifs",
-        price: "11 000 DZD",
-        description: "Passez de l’intention à l’exécution régulière grâce à des plans d’action et un suivi structuré.",
-        image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c15": {
-        id: "c15",
-        slug: "intelligences-multiples",
-        specialty: "Efficacité Professionnelle & Méthodes d'Apprentissage",
-        title: "Intelligences multiples",
-        price: "11 500 DZD",
-        description: "Découvrez les différents leviers d’intelligence pour adapter vos méthodes d’apprentissage et de travail.",
-        image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    "c16": {
-        id: "c16",
-        slug: "mind-mapping-creativite",
-        specialty: "Efficacité Professionnelle & Méthodes d'Apprentissage",
-        title: "Mind Mapping : structurer ses idées, organiser ses connaissances et stimuler sa créativité",
-        price: "12 500 DZD",
-        description: "Maîtrisez la carte mentale pour organiser vos connaissances, mémoriser plus efficacement et innover.",
-        image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=700&q=80",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    }
-};
-
+/* 3. Admin-Only Courses Catalog (No Default/Seeded Courses) */
 function makeSlug(str){
     return (str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
@@ -5374,16 +5451,36 @@ function getCourseSlug(course){
     return course.slug || makeSlug(course.title) || course.id;
 }
 
-let currentCatalog = { ...defaultCourses };
+function makeShortSummary(desc){
+    const txt = (desc || "").trim();
+    if(!txt) return "Programme de formation disponible sur la plateforme.";
+    return txt.length > 78 ? txt.substring(0, 78).trim() + "..." : txt;
+}
+
+function buildProtectedEmbedUrl(rawUrl){
+    const fallback = "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0";
+    if(!rawUrl) return fallback;
+    try {
+        let embed = rawUrl.trim();
+        const watchMatch = embed.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
+        if(watchMatch && watchMatch[1]){
+            embed = `https://www.youtube.com/embed/${watchMatch[1]}`;
+        }
+        const sep = embed.includes("?") ? "&" : "?";
+        return `${embed}${sep}rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0`;
+    } catch (e) {
+        return fallback;
+    }
+}
+
+let currentCatalog = {};
 
 onValue(ref(db, "online_courses"), snap => {
     const data = snap.val();
-    if(data && Object.keys(data).length > 0){
-        currentCatalog = { ...defaultCourses, ...data };
-        renderPublicSingleRowSlider();
-        renderPlatformCatalog();
-        if(currentUser) renderStackedCoursesImmediately();
-    }
+    currentCatalog = data && typeof data === "object" ? data : {};
+    renderPublicSingleRowSlider();
+    renderPlatformCatalog();
+    if(currentUser) renderStackedCoursesImmediately();
 });
 
 /* =========================================================
@@ -5441,6 +5538,16 @@ window.renderPlatformCatalog = function(){
         detailContainer.innerHTML = "";
     }
 
+    if(allCourses.length === 0){
+        chipsWrap.innerHTML = "";
+        container.innerHTML = `
+            <div style="background:white;padding:40px;border-radius:18px;text-align:center;color:var(--muted);">
+                Aucune formation n'est disponible pour le moment.
+            </div>
+        `;
+        return;
+    }
+
     const specialties = ["Tous", ...Array.from(new Set(allCourses.map(c => c.specialty || "Autres Formations")))];
 
     chipsWrap.innerHTML = specialties.map(spec => `
@@ -5486,7 +5593,7 @@ window.renderPlatformCatalog = function(){
                         <img src="${c.image}" alt="${c.title}">
                         <div class="platform-course-body">
                             <h5>${c.title}</h5>
-                            <p>${c.description}</p>
+                            <p class="platform-course-short">${makeShortSummary(c.description)}</p>
                             <div class="platform-course-footer">
                                 <span class="platform-course-price">${c.price}</span>
                                 <div class="platform-course-actions">
@@ -5528,7 +5635,13 @@ function renderPublicSingleRowSlider(){
     if(!track) return;
     track.innerHTML = "";
 
-    Object.values(currentCatalog).forEach(c => {
+    const list = Object.values(currentCatalog);
+    if(list.length === 0){
+        track.innerHTML = `<p style="color:var(--muted);font-size:13.5px;padding:12px;">Aucune formation disponible pour le moment.</p>`;
+        return;
+    }
+
+    list.forEach(c => {
         const slug = getCourseSlug(c);
         const item = document.createElement("div");
         item.className = "touch-course-card";
@@ -5541,9 +5654,9 @@ function renderPublicSingleRowSlider(){
             <div class="touch-c-body">
                 <span class="touch-c-spec">${c.specialty || "Formation"}</span>
                 <h3>${c.title}</h3>
-                <p>${c.description}</p>
+                <p class="touch-c-summary">${makeShortSummary(c.description)}</p>
                 <button type="button" class="touch-c-btn">
-                    <span>Découvrir la formation</span>
+                    <span>Découvrir</span>
                 </button>
             </div>
         `;
@@ -5565,6 +5678,7 @@ renderPlatformCatalog();
 
 window.onCourseCardClick = function(courseId){
     selectedCourseToBuy = currentCatalog[courseId];
+    if(!selectedCourseToBuy) return;
     if(!currentUser){
         openAuthModal('register');
     } else {
@@ -5810,7 +5924,17 @@ function renderStackedCoursesImmediately(){
     if(!allWrap) return;
     allWrap.innerHTML = "";
 
-    Object.values(currentCatalog).forEach(c => {
+    const list = Object.values(currentCatalog);
+    if(list.length === 0){
+        allWrap.innerHTML = `
+            <div style="background:white;padding:35px;border-radius:18px;text-align:center;color:var(--muted);">
+                Aucune formation disponible pour le moment.
+            </div>
+        `;
+        return;
+    }
+
+    list.forEach(c => {
         const card = document.createElement("div");
         card.className = "stacked-course-card";
         card.innerHTML = `
@@ -5826,12 +5950,12 @@ function renderStackedCoursesImmediately(){
                         </div>
                         <span class="stacked-course-price">${c.price}</span>
                     </div>
-                    <p style="color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:18px;">
-                        ${c.description}
+                    <p style="color:var(--muted);font-size:13.5px;line-height:1.7;margin-bottom:18px;">
+                        ${makeShortSummary(c.description)}
                     </p>
                 </div>
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-                    <span style="font-size:12px;color:#555;">Accès certifié & Vidéo HD</span>
+                    <span style="font-size:12px;color:#555;">Accès sur la plateforme</span>
                     <button class="pulse-buy-btn" onclick="openPaymentFlow('${c.id}')">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                         Acheter la formation
@@ -5882,27 +6006,33 @@ function renderMyCoursesList(userOrders){
         let bodyContent = "";
 
         if(o.status === "valide"){
+            const safeEmbedUrl = buildProtectedEmbedUrl(c.videoUrl);
+            const wmText = currentUser?.email ? `BellaSkills Hub • ${currentUser.email}` : "BellaSkills Hub";
             statusBadge = `<span style="background:#D4EDDA;color:#155724;font-size:12px;font-weight:bold;padding:5px 12px;border-radius:20px;">Paiement Validé</span>`;
             bodyContent = `
                 <div style="margin-top:16px;">
                     <h4 style="color:var(--purple-dark);margin-bottom:8px;">Cours vidéo débloqué :</h4>
-                    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
-                        <iframe src="${c.videoUrl || 'https://www.youtube.com/embed/dQw4w9WgXcQ'}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen></iframe>
+                    <div class="protected-video-frame" oncontextmenu="return false;">
+                        <div class="protected-video-shield-top"></div>
+                        <div class="protected-video-shield-bottom-right"></div>
+                        <div class="protected-video-watermark">${wmText}</div>
+                        <div class="protected-video-blur-overlay">Lecture protégée sur la plateforme BellaSkills Hub</div>
+                        <iframe src="${safeEmbedUrl}" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                     </div>
                 </div>
             `;
         } else if(o.status === "refuse"){
-            statusBadge = `<span style="background:#F8D7DA;color:#721C24;font-size:12px;font-weight:bold;padding:5px 12px;border-radius:20px;">Paiement Rejeté</span>`;
+            statusBadge = `<span style="background:#F8D7DA;color:#721C24;font-size:12px;font-weight:bold;padding:5px 12px;border-radius:20px;">Paiement Refusé</span>`;
             bodyContent = `
                 <div style="margin-top:14px;background:#FFF0F0;padding:12px;border-radius:8px;font-size:13px;color:#C0392B;">
-                    Le reçu a été refusé. Veuillez contacter l'équipe ou renvoyer un reçu valide.
+                    Le paiement a été refusé par l'administration. Veuillez contacter l'équipe ou renvoyer un reçu valide.
                 </div>
             `;
         } else {
             statusBadge = `<span style="background:#FFF3CD;color:#856404;font-size:12px;font-weight:bold;padding:5px 12px;border-radius:20px;">En attente de validation</span>`;
             bodyContent = `
                 <div style="margin-top:14px;background:#FFF9EB;border:1px solid #FFE4A3;padding:14px;border-radius:10px;font-size:13px;color:#856404;">
-                    Votre reçu de paiement est en cours de vérification. Votre vidéo sera accessible dans les plus brefs délais.
+                    Votre demande est en cours de révision. Dès acceptation du paiement, la vidéo apparaîtra ici.
                 </div>
             `;
         }
@@ -5927,7 +6057,7 @@ function renderMyCoursesList(userOrders){
 }
 
 window.openPaymentFlow = function(courseId){
-    selectedCourseToBuy = currentCatalog[courseId] || defaultCourses[courseId];
+    selectedCourseToBuy = currentCatalog[courseId];
     if(!selectedCourseToBuy) return;
 
     document.getElementById("payCourseTitle").textContent = selectedCourseToBuy.title;
@@ -6105,13 +6235,18 @@ const submitBtnEl = document.getElementById("form_submit_btn");
 if(formEl){
     formEl.addEventListener("submit", async (e) => {
         e.preventDefault();
+        const selectedService = document.getElementById("serviceSelect").value.trim();
+        if(!selectedService){
+            showToast("Veuillez sélectionner un domaine ou service.", "warning");
+            return;
+        }
         submitBtnEl.disabled = true;
 
         const payload = {
             name: document.getElementById("form_name_input").value.trim(),
             email: document.getElementById("form_email_input").value.trim(),
             phone: document.getElementById("form_phone_input").value.trim(),
-            service: document.getElementById("serviceSelect").value,
+            service: selectedService,
             message: document.getElementById("form_msg_input").value.trim(),
             timestamp: new Date().toISOString(),
             createdAt: Date.now()
@@ -6121,6 +6256,9 @@ if(formEl){
             await push(ref(db, "contacts_submissions"), payload);
             successEl.style.display = "block";
             formEl.reset();
+            document.getElementById("serviceSelect").value = "";
+            document.getElementById("modernServiceLabel").textContent = "Sélectionner un domaine ou service";
+            document.querySelectorAll("#modernServiceMenu .modern-select-option").forEach(el => el.classList.remove("selected"));
             showToast("Demande envoyée avec succès !", "success");
             setTimeout(() => { successEl.style.display = "none"; }, 6000);
         } catch (error) {
@@ -6134,4 +6272,3 @@ if(formEl){
 
 </body>
 </html>
-
