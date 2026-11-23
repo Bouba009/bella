@@ -47,7 +47,7 @@ html{
 }
 
 section{
-    scroll-margin-top: 90px;
+    scroll-margin-top: 86px;
     overflow:hidden;
 }
 
@@ -110,6 +110,11 @@ img{
     to { opacity:1; transform: translateY(0) scale(1); }
 }
 
+@keyframes marqueeLeftToRight{
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+}
+
 .anim-float{
     animation: floatGentle 4.5s ease-in-out infinite;
 }
@@ -137,24 +142,24 @@ header.scrolled{
 }
 
 .nav{
-    height:85px;
+    height:82px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:16px;
+    gap:14px;
 }
 
 .logo{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:11px;
     cursor:pointer;
     flex-shrink:0;
 }
 
 .logo-img{
-    width:46px;
-    height:46px;
+    width:44px;
+    height:44px;
     border-radius:12px;
     object-fit:cover;
     box-shadow:0 4px 15px rgba(117,37,181,.2);
@@ -167,7 +172,7 @@ header.scrolled{
 
 .logo-name{
     font-family:"Playfair Display",serif;
-    font-size:20px;
+    font-size:19px;
     font-weight:700;
     line-height:1;
     color:var(--purple-dark);
@@ -185,7 +190,7 @@ header.scrolled{
 .nav-links{
     display:flex;
     align-items:center;
-    gap:18px;
+    gap:16px;
     list-style:none;
 }
 
@@ -222,7 +227,7 @@ a.nav-contact,
 .nav-links a.nav-contact{
     color:#FFFFFF !important;
     background:var(--purple) !important;
-    padding:9px 18px;
+    padding:9px 16px;
     border-radius:8px;
     transition:.3s;
     font-weight:700 !important;
@@ -243,7 +248,7 @@ a.nav-contact:hover,
 .nav-right{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:8px;
     flex-shrink:0;
 }
 
@@ -259,7 +264,7 @@ a.nav-contact:hover,
 .lang-btn{
     border:none;
     background:none;
-    padding:5px 9px;
+    padding:5px 8px;
     font-size:11px;
     font-weight:700;
     color:var(--purple-dark);
@@ -278,7 +283,7 @@ a.nav-contact:hover,
     background:var(--purple);
     color:#FFFFFF !important;
     border:none;
-    padding:8px 16px;
+    padding:8px 14px;
     border-radius:20px;
     cursor:pointer;
     font-weight:700;
@@ -336,6 +341,8 @@ a.nav-contact:hover,
 @media(max-width:1120px){
     header{
         z-index:99995;
+        background:rgba(255,255,255,.94);
+        backdrop-filter:blur(10px);
     }
 
     .nav-links{
@@ -423,11 +430,13 @@ a.nav-contact:hover,
 ========================================================= */
 .toast-container{
     position:fixed;
-    top:25px;
-    right:25px;
+    top:20px;
+    right:20px;
+    left:20px;
     z-index:9999999;
     display:flex;
     flex-direction:column;
+    align-items:flex-end;
     gap:10px;
     pointer-events:none;
 }
@@ -439,21 +448,22 @@ a.nav-contact:hover,
     border:1px solid rgba(255, 255, 255, 0.7);
     box-shadow:0 15px 40px rgba(66, 16, 95, 0.22);
     border-radius:14px;
-    padding:14px 20px;
+    padding:14px 18px;
     display:flex;
     align-items:center;
     gap:12px;
     font-size:13.5px;
     font-weight:600;
     color:#29222F;
-    transform:translateX(50px);
+    transform:translateY(-20px);
     opacity:0;
     transition:all .35s cubic-bezier(0.16, 1, 0.3, 1);
     max-width:380px;
+    width:fit-content;
 }
 
 .toast-box.show{
-    transform:translateX(0);
+    transform:translateY(0);
     opacity:1;
 }
 
@@ -467,7 +477,7 @@ a.nav-contact:hover,
 ========================================================= */
 .hero-slider{
     height:100vh;
-    min-height:680px;
+    min-height:620px;
     position:relative;
     overflow:hidden;
     background:#24152D;
@@ -515,9 +525,9 @@ a.nav-contact:hover,
     background:linear-gradient(
         90deg,
         rgba(28,13,37,.94) 0%,
-        rgba(48,18,63,.82) 40%,
-        rgba(58,22,75,.45) 75%,
-        rgba(30,10,40,.4) 100%
+        rgba(48,18,63,.82) 45%,
+        rgba(58,22,75,.52) 78%,
+        rgba(30,10,40,.45) 100%
     );
 }
 
@@ -528,7 +538,8 @@ a.nav-contact:hover,
     justify-content:center;
     position:relative;
     z-index:5;
-    padding-top:70px;
+    padding-top:76px;
+    padding-bottom:90px;
     color:white;
 }
 
@@ -555,26 +566,28 @@ a.nav-contact:hover,
     color:#DDBBF4;
     font-size:11px;
     font-weight:800;
-    letter-spacing:2.5px;
-    margin-bottom:22px;
+    letter-spacing:2px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
 }
 
 .slide-tag:before{
     content:"";
-    width:38px;
+    width:36px;
     height:2px;
     background:#C45AFF;
     box-shadow:0 0 12px #B84DFF;
+    flex-shrink:0;
 }
 
 .slide h1{
     max-width:850px;
     color:white;
     font-family:"Playfair Display",serif;
-    font-size:clamp(42px,6.2vw,80px);
+    font-size:clamp(36px,6.2vw,80px);
     line-height:1.06;
     letter-spacing:-1.5px;
-    margin-bottom:25px;
+    margin-bottom:22px;
 }
 
 .slide h1 span{
@@ -584,10 +597,10 @@ a.nav-contact:hover,
 
 .slide p{
     max-width:640px;
-    color:rgba(255,255,255,.84);
-    font-size:16px;
+    color:rgba(255,255,255,.85);
+    font-size:15.5px;
     line-height:1.8;
-    margin-bottom:32px;
+    margin-bottom:28px;
 }
 
 .slide-buttons{
@@ -597,8 +610,8 @@ a.nav-contact:hover,
 }
 
 .slider-btn{
-    min-width:170px;
-    padding:14px 24px;
+    min-width:160px;
+    padding:13px 22px;
     display:inline-flex;
     justify-content:center;
     align-items:center;
@@ -637,14 +650,14 @@ a.nav-contact:hover,
     top:50%;
     transform:translateY(-50%);
     z-index:20;
-    width:52px;
-    height:52px;
+    width:48px;
+    height:48px;
     border:1px solid rgba(255,255,255,.35);
     background:rgba(255,255,255,.08);
     backdrop-filter:blur(8px);
     color:white;
     cursor:pointer;
-    font-size:20px;
+    font-size:18px;
     border-radius:50%;
     transition:.3s;
 }
@@ -655,13 +668,13 @@ a.nav-contact:hover,
     box-shadow:0 0 25px rgba(184,77,255,.45);
 }
 
-.slider-arrow.prev{ left:28px; }
-.slider-arrow.next{ right:28px; }
+.slider-arrow.prev{ left:24px; }
+.slider-arrow.next{ right:24px; }
 
 .slider-navigation{
     position:absolute;
     left:50%;
-    bottom:38px;
+    bottom:32px;
     transform:translateX(-50%);
     z-index:30;
     display:flex;
@@ -670,8 +683,8 @@ a.nav-contact:hover,
 }
 
 .slider-dot{
-    width:55px;
-    height:38px;
+    width:50px;
+    height:36px;
     border:1px solid rgba(255,255,255,.3);
     background:rgba(255,255,255,.08);
     color:rgba(255,255,255,.65);
@@ -720,13 +733,13 @@ a.nav-contact:hover,
     font-weight:800;
     letter-spacing:2px;
     text-transform:uppercase;
-    margin-bottom:18px;
+    margin-bottom:16px;
 }
 
 .label:before{
     content:"";
     display:inline-block;
-    width:30px;
+    width:28px;
     height:2px;
     background:var(--purple);
     margin-right:10px;
@@ -739,9 +752,9 @@ h1, h2, h3{
 }
 
 h2{
-    font-size:clamp(34px,4.5vw,52px);
+    font-size:clamp(30px,4.5vw,50px);
     color:#241C29;
-    margin-bottom:22px;
+    margin-bottom:20px;
 }
 
 /* =========================================================
@@ -749,13 +762,13 @@ h2{
 ========================================================= */
 .intro{
     background:white;
-    padding:110px 0;
+    padding:105px 0;
 }
 
 .intro-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:70px;
+    gap:60px;
     align-items:center;
 }
 
@@ -765,7 +778,7 @@ h2{
 
 .intro-main-img{
     width:100%;
-    height:440px;
+    height:420px;
     object-fit:cover;
     border-radius:24px 0 24px 0;
     box-shadow:var(--shadow);
@@ -778,21 +791,21 @@ h2{
 
 .intro-badge{
     position:absolute;
-    bottom:-25px;
-    right:-20px;
+    bottom:-22px;
+    right:10px;
     background:white;
-    padding:16px 20px;
+    padding:14px 18px;
     border-radius:16px;
     box-shadow:0 15px 40px rgba(70,20,100,.15);
     display:flex;
     align-items:center;
-    gap:14px;
+    gap:12px;
     border-left:4px solid var(--purple);
 }
 
 .intro-badge img{
-    width:48px;
-    height:48px;
+    width:44px;
+    height:44px;
     border-radius:8px;
     object-fit:cover;
 }
@@ -800,7 +813,7 @@ h2{
 .intro-badge div strong{
     display:block;
     color:var(--purple-dark);
-    font-size:14px;
+    font-size:13.5px;
     line-height:1.2;
 }
 
@@ -812,13 +825,13 @@ h2{
 .text{
     color:var(--muted);
     font-size:15px;
-    margin-bottom:17px;
+    margin-bottom:16px;
 }
 
 .quote{
     border-left:3px solid var(--purple);
-    padding-left:20px;
-    margin-top:24px;
+    padding-left:18px;
+    margin-top:22px;
     font-family:"Playfair Display",serif;
     color:var(--purple-dark);
     font-size:18px;
@@ -836,7 +849,7 @@ h2{
     background:#FAF8FC;
     border:1px solid rgba(117,37,181,.12);
     border-radius:16px;
-    padding:28px;
+    padding:26px;
     transition:.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -848,7 +861,7 @@ h2{
 
 .mvv-card h3{
     color:var(--purple-dark);
-    font-size:21px;
+    font-size:20px;
     margin-bottom:12px;
 }
 
@@ -915,13 +928,13 @@ h2{
    SERVICES SECTION (7 DOMAINES)
 ========================================================= */
 .services{
-    padding:110px 0;
+    padding:105px 0;
     background:#F3F1F5;
 }
 
 .heading{
     max-width:740px;
-    margin-bottom:55px;
+    margin-bottom:50px;
 }
 
 .heading p{
@@ -931,7 +944,7 @@ h2{
 .services-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:25px;
+    gap:24px;
 }
 
 .service{
@@ -950,7 +963,7 @@ h2{
 }
 
 .service-img{
-    height:205px;
+    height:200px;
     position:relative;
     overflow:hidden;
 }
@@ -982,14 +995,14 @@ h2{
 }
 
 .service-content{
-    padding:24px;
+    padding:22px;
     display:flex;
     flex-direction:column;
     flex-grow:1;
 }
 
 .service h3{
-    font-size:20px;
+    font-size:19.5px;
     color:#332737;
     margin-bottom:10px;
 }
@@ -1039,7 +1052,7 @@ h2{
    HUB ECOSYSTEM & PUBLICS
 ========================================================= */
 .hub{
-    padding:110px 0;
+    padding:105px 0;
     background:white;
 }
 
@@ -1051,9 +1064,9 @@ h2{
 
 .hub-item{
     display:grid;
-    grid-template-columns:65px 1fr;
-    gap:22px;
-    padding:32px;
+    grid-template-columns:62px 1fr;
+    gap:20px;
+    padding:28px;
     background:#FBFAFC;
     border:1px solid rgba(117,37,181,.1);
     border-radius:12px;
@@ -1066,8 +1079,8 @@ h2{
 }
 
 .hub-number{
-    width:55px;
-    height:55px;
+    width:54px;
+    height:54px;
     background:var(--purple);
     color:white;
     display:flex;
@@ -1084,7 +1097,7 @@ h2{
 }
 
 .hub-item h3{
-    font-size:21px;
+    font-size:20px;
     color:var(--purple-dark);
     margin-bottom:9px;
 }
@@ -1118,7 +1131,7 @@ h2{
    DOMAINS & PUBLICS
 ========================================================= */
 .dark{
-    padding:110px 0;
+    padding:105px 0;
     color:white;
     background:
     radial-gradient(circle at 85% 10%,rgba(185,122,232,.3),transparent 25%),
@@ -1142,7 +1155,7 @@ h2{
 }
 
 .domain{
-    padding:28px 24px;
+    padding:26px 22px;
     border:1px solid rgba(255,255,255,.15);
     background:rgba(255,255,255,.06);
     border-radius:12px;
@@ -1162,7 +1175,7 @@ h2{
 
 .domain h3{
     color:white;
-    font-size:20px;
+    font-size:19.5px;
     margin:8px 0;
 }
 
@@ -1172,24 +1185,24 @@ h2{
 }
 
 /* =========================================================
-   ABOUT & FOUNDER SECTION
+   ABOUT & FOUNDER SECTION (WITH VISIBLE FOUNDER PHOTO)
 ========================================================= */
 .about{
-    padding:110px 0;
+    padding:105px 0;
     background:white;
 }
 
 .about-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:70px;
+    gap:60px;
     align-items:center;
 }
 
 .about-image{
-    height:500px;
+    height:460px;
     overflow:hidden;
-    border-radius:150px 0 20px 0;
+    border-radius:120px 0 20px 0;
     box-shadow:var(--shadow);
 }
 
@@ -1223,11 +1236,11 @@ h2{
 }
 
 .founder-box{
-    margin-top:75px;
+    margin-top:70px;
     background:#FAF8FC;
     border:1px solid rgba(117,37,181,.15);
-    border-radius:20px;
-    padding:36px;
+    border-radius:22px;
+    padding:34px;
     box-shadow:0 12px 35px rgba(70,20,100,.06);
 }
 
@@ -1239,7 +1252,7 @@ h2{
     gap:16px;
     border-bottom:1px solid #EAE4F2;
     padding-bottom:18px;
-    margin-bottom:20px;
+    margin-bottom:24px;
 }
 
 .founder-header h3{
@@ -1258,15 +1271,48 @@ h2{
 
 .founder-grid{
     display:grid;
-    grid-template-columns:1.2fr .8fr;
-    gap:28px;
+    grid-template-columns:300px 1.25fr .95fr;
+    gap:26px;
     align-items:start;
+}
+
+.founder-photo-card{
+    background:white;
+    border:1px solid #E6DFEE;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 26px rgba(66,16,95,.08);
+}
+
+.founder-photo-card img{
+    width:100%;
+    height:320px;
+    object-fit:cover;
+    object-position:top center;
+}
+
+.founder-photo-caption{
+    padding:14px 16px;
+    text-align:center;
+    background:white;
+}
+
+.founder-photo-caption strong{
+    display:block;
+    color:var(--purple-dark);
+    font-size:15px;
+}
+
+.founder-photo-caption span{
+    font-size:11.5px;
+    color:var(--purple);
+    font-weight:700;
 }
 
 .founder-highlights{
     background:white;
     border:1px solid #ECE6F3;
-    border-radius:14px;
+    border-radius:16px;
     padding:20px;
 }
 
@@ -1292,7 +1338,7 @@ h2{
 }
 
 /* =========================================================
-   EVENTS, PARTNERS & REFERENCES SECTIONS
+   EVENTS, PARTNERS (SINGLE ROW + LEFT-TO-RIGHT MARQUEE) & REFERENCES
 ========================================================= */
 .events-section{
     padding:105px 0;
@@ -1406,17 +1452,49 @@ h2{
     background:white;
 }
 
-.partners-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:24px;
+.partners-single-row{
+    display:flex;
+    flex-direction:row;
+    gap:20px;
+    align-items:stretch;
+    overflow-x:auto;
+    padding:10px 4px 18px;
+    scrollbar-width:none;
+}
+
+.partners-single-row::-webkit-scrollbar{
+    display:none;
+}
+
+.partners-single-row.is-static-row{
+    justify-content:center;
+    flex-wrap:nowrap;
+}
+
+.partners-marquee-viewport{
+    width:100%;
+    overflow:hidden;
+    padding:10px 0 18px;
+}
+
+.partners-marquee-track{
+    display:flex;
+    flex-direction:row;
+    gap:20px;
+    width:max-content;
+    animation:marqueeLeftToRight 26s linear infinite;
+}
+
+.partners-marquee-viewport:hover .partners-marquee-track{
+    animation-play-state:paused;
 }
 
 .partner-card{
+    flex:0 0 310px;
     background:#FAF8FC;
     border:1px solid #E7E0F0;
     border-radius:16px;
-    padding:24px;
+    padding:22px;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
@@ -1437,8 +1515,8 @@ h2{
 }
 
 .partner-logo-box{
-    width:60px;
-    height:60px;
+    width:62px;
+    height:62px;
     border-radius:14px;
     background:white;
     border:1px solid #E2D9EE;
@@ -1468,7 +1546,7 @@ h2{
 }
 
 .partner-card h3{
-    font-size:18px;
+    font-size:17.5px;
     color:var(--purple-dark);
 }
 
@@ -1727,7 +1805,7 @@ h2{
     display:none;
     min-height:100vh;
     background:#F7F5FA;
-    padding:115px 0 90px;
+    padding:110px 0 90px;
     animation:cardEnter .35s ease;
 }
 
@@ -1772,7 +1850,7 @@ h2{
 
 .platform-search-input{
     width:100%;
-    padding:16px 20px 16px 48px;
+    padding:15px 20px 15px 46px;
     border-radius:14px;
     border:2px solid #E2DCEF;
     background:white;
@@ -1826,8 +1904,8 @@ h2{
     background:white;
     border:1px solid #ECE6F3;
     border-radius:18px;
-    padding:24px;
-    margin-bottom:24px;
+    padding:22px;
+    margin-bottom:22px;
     box-shadow:0 6px 20px rgba(0,0,0,.03);
     animation:cardEnter .35s ease;
 }
@@ -1843,7 +1921,7 @@ h2{
 }
 
 .specialty-group-header h4{
-    font-size:19px;
+    font-size:18.5px;
     color:var(--purple-dark);
 }
 
@@ -1911,6 +1989,7 @@ h2{
     justify-content:space-between;
     align-items:center;
     gap:8px;
+    flex-wrap:wrap;
 }
 
 .platform-course-price{
@@ -1969,7 +2048,7 @@ h2{
 }
 
 .single-course-detail-img{
-    min-height:280px;
+    min-height:260px;
     height:100%;
 }
 
@@ -1980,7 +2059,7 @@ h2{
 }
 
 .single-course-detail-content{
-    padding:28px;
+    padding:26px;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
@@ -1990,7 +2069,7 @@ h2{
    CTA & CONTACT
 ========================================================= */
 .cta{
-    padding:100px 20px;
+    padding:95px 20px;
     text-align:center;
     background:
     radial-gradient(circle,rgba(185,122,232,.25),transparent 45%),
@@ -2034,14 +2113,14 @@ h2{
 }
 
 .contact{
-    padding:110px 0;
+    padding:105px 0;
     background:#F6F5F7;
 }
 
 .contact-grid{
     display:grid;
     grid-template-columns:.85fr 1.15fr;
-    gap:60px;
+    gap:55px;
 }
 
 .contact-info p{
@@ -2099,7 +2178,7 @@ h2{
 
 .form{
     background:white;
-    padding:40px;
+    padding:36px;
     border-radius:14px;
     box-shadow:var(--shadow);
 }
@@ -2183,7 +2262,7 @@ textarea{
 
 .map iframe{
     width:100%;
-    height:380px;
+    height:360px;
     border:0;
     border-radius:8px;
 }
@@ -2252,10 +2331,10 @@ footer li{
 ========================================================= */
 .top{
     position:fixed;
-    right:20px;
-    bottom:20px;
-    width:45px;
-    height:45px;
+    right:18px;
+    bottom:18px;
+    width:44px;
+    height:44px;
     border:0;
     border-radius:50%;
     background:var(--purple);
@@ -2325,15 +2404,15 @@ footer li{
     width:min(580px, 100%);
     max-height:92vh;
     overflow-y:auto;
-    padding:35px 28px;
+    padding:32px 24px;
     position:relative;
     animation:fadeIn .25s ease;
 }
 
 .glass-close{
     position:absolute;
-    top:18px;
-    right:18px;
+    top:16px;
+    right:16px;
     width:36px;
     height:36px;
     border-radius:50%;
@@ -2383,8 +2462,8 @@ footer li{
 }
 
 .pay-method-icon{
-    width:48px;
-    height:48px;
+    width:46px;
+    height:46px;
     border-radius:10px;
     display:flex;
     align-items:center;
@@ -2440,12 +2519,13 @@ footer li{
     color:var(--purple-dark);
     border:1px solid #E1DBE9;
     display:inline-block;
+    word-break:break-all;
 }
 
 .file-dropzone{
     border:2px dashed var(--purple-light);
     border-radius:14px;
-    padding:22px;
+    padding:20px;
     text-align:center;
     background:rgba(255,255,255,0.7);
     cursor:pointer;
@@ -2487,14 +2567,14 @@ footer li{
     border: none;
     font-weight: 800;
     letter-spacing: .5px;
-    padding: 13px 26px;
+    padding: 13px 24px;
     border-radius: 10px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: 13.5px;
     box-shadow: 0 8px 25px rgba(117,37,181,.35);
     transition: transform .25s ease, box-shadow .25s ease;
 }
@@ -2539,6 +2619,7 @@ footer li{
     align-items:center;
     justify-content:space-between;
     width:100%;
+    gap:10px;
 }
 
 .lms-brand{
@@ -2548,14 +2629,14 @@ footer li{
 }
 
 .lms-brand img{
-    width:42px;
-    height:42px;
+    width:40px;
+    height:40px;
     border-radius:10px;
     object-fit:cover;
 }
 
 .lms-brand-name{
-    font-size:17px;
+    font-size:16px;
     font-weight:800;
     color:var(--purple-dark);
     line-height:1.2;
@@ -2564,14 +2645,14 @@ footer li{
 .lms-actions{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:8px;
 }
 
 .lms-close-btn{
     background:#F0EEF4;
     color:var(--purple-dark);
     border:none;
-    padding:8px 14px;
+    padding:8px 12px;
     border-radius:20px;
     cursor:pointer;
     font-size:12px;
@@ -2591,8 +2672,8 @@ footer li{
     position:relative;
     background:#F5F3F8;
     border:1px solid #E4E0EC;
-    width:40px;
-    height:40px;
+    width:38px;
+    height:38px;
     border-radius:50%;
     cursor:pointer;
     display:flex;
@@ -2620,10 +2701,10 @@ footer li{
 
 .notif-dropdown{
     position:absolute;
-    top:48px;
+    top:46px;
     right:0;
-    width:320px;
-    max-width:90vw;
+    width:300px;
+    max-width:88vw;
     background:var(--glass-bg);
     border:1px solid var(--glass-border);
     border-radius:18px;
@@ -2697,11 +2778,11 @@ footer li{
 
 .lms-tab{
     flex:1;
-    padding:12px 14px;
+    padding:11px 12px;
     border-radius:28px;
     border:none;
     background:none;
-    font-size:13.5px;
+    font-size:13px;
     font-weight:700;
     color:var(--muted);
     cursor:pointer;
@@ -2721,10 +2802,9 @@ footer li{
     background:#F5F4F8;
     border:1px solid #DDD8E4;
     border-radius:30px;
-    padding:10px 18px;
+    padding:10px 16px;
     width:100%;
     gap:10px;
-    box-shadow:inset 0 2px 4px rgba(0,0,0,.02);
 }
 
 .lms-search-box input{
@@ -2796,8 +2876,17 @@ footer li{
 }
 
 /* =========================================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN (MOBILE FIRST POLISH)
 ========================================================= */
+@media(max-width:1040px){
+    .founder-grid{
+        grid-template-columns:280px 1fr;
+    }
+    .founder-highlights{
+        grid-column: span 2;
+    }
+}
+
 @media(max-width:980px){
     .intro-grid,
     .about-grid,
@@ -2807,12 +2896,19 @@ footer li{
         grid-template-columns:1fr;
     }
 
+    .founder-highlights{
+        grid-column: span 1;
+    }
+
+    .founder-photo-card img{
+        height:280px;
+    }
+
     .services-grid,
     .domain-grid,
     .footer-grid,
     .mvv-grid,
     .events-grid,
-    .partners-grid,
     .platform-courses-grid{
         grid-template-columns:1fr 1fr;
     }
@@ -2823,7 +2919,8 @@ footer li{
     }
 
     .about-image{
-        height:450px;
+        height:380px;
+        border-radius:60px 0 20px 0;
     }
 
     .stacked-course-card{
@@ -2833,37 +2930,80 @@ footer li{
 
 @media(max-width:620px){
     .container{
-        width:calc(100% - 28px);
+        width:calc(100% - 26px);
     }
 
     .nav{
-        height:76px;
+        height:72px;
+        gap:8px;
+    }
+
+    .logo-img{
+        width:38px;
+        height:38px;
+    }
+
+    .logo-name{
+        font-size:16.5px;
+    }
+
+    .lang-btn{
+        padding:4px 7px;
+        font-size:10.5px;
+    }
+
+    .header-auth-btn{
+        padding:7px 11px;
+        font-size:11px;
     }
 
     .hero-slider{
-        min-height:650px;
+        min-height:580px;
         height:100svh;
     }
 
+    .slide-content{
+        padding-top:80px;
+        padding-bottom:110px;
+    }
+
     .slide h1{
-        font-size:38px;
+        font-size:34px;
+        margin-bottom:16px;
     }
 
     .slide p{
         font-size:14px;
+        margin-bottom:22px;
+    }
+
+    .slider-btn{
+        min-width:140px;
+        padding:12px 16px;
+        font-size:11.5px;
     }
 
     .slider-arrow{
-        width:42px;
-        height:42px;
-        font-size:16px;
+        width:38px;
+        height:38px;
+        font-size:15px;
         top:auto;
-        bottom:92px;
+        bottom:82px;
         transform:none;
     }
 
-    .slider-arrow.prev{ left:18px; }
-    .slider-arrow.next{ right:18px; }
+    .slider-arrow.prev{ left:14px; }
+    .slider-arrow.next{ right:14px; }
+
+    .slider-navigation{
+        bottom:24px;
+        gap:6px;
+    }
+
+    .slider-dot{
+        width:42px;
+        height:32px;
+    }
 
     .services-grid,
     .hub-grid,
@@ -2873,7 +3013,6 @@ footer li{
     .mvv-grid,
     .values-strip,
     .events-grid,
-    .partners-grid,
     .references-grid,
     .platform-courses-grid{
         grid-template-columns:1fr;
@@ -2885,22 +3024,44 @@ footer li{
 
     .hub-item{
         grid-template-columns:1fr;
+        padding:22px;
     }
 
     .hub-item ul{
         grid-template-columns:1fr;
     }
 
+    .intro-main-img{
+        height:280px;
+    }
+
+    .intro-badge{
+        position:static;
+        margin-top:12px;
+        width:fit-content;
+    }
+
     .about-image{
-        height:340px;
+        height:280px;
+        border-radius:40px 0 16px 0;
+    }
+
+    .founder-box{
+        padding:22px 18px;
+        margin-top:45px;
+    }
+
+    .partner-card{
+        flex:0 0 270px;
+        padding:18px;
     }
 
     .form{
-        padding:25px;
+        padding:22px 18px;
     }
 
     .map iframe{
-        height:300px;
+        height:270px;
     }
 
     .copyright{
@@ -2909,8 +3070,12 @@ footer li{
     }
 
     section:not(.hero-slider){
-        padding-top:75px!important;
-        padding-bottom:75px!important;
+        padding-top:65px!important;
+        padding-bottom:65px!important;
+    }
+
+    #formationsFullPage{
+        padding-top:95px!important;
     }
 
     .track-arrow{
@@ -2918,7 +3083,7 @@ footer li{
     }
 
     .touch-course-card{
-        flex:0 0 280px;
+        flex:0 0 275px;
     }
 
     .lms-header{
@@ -3567,6 +3732,14 @@ footer li{
     </div>
 
     <div class="founder-grid">
+        <div class="founder-photo-card">
+            <img id="founderPortraitImg" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=900&q=85" alt="Lynda Ahmed BGD">
+            <div class="founder-photo-caption">
+                <strong id="founderCaptionName">Lynda Ahmed BGD</strong>
+                <span id="founderCaptionRole">Fondatrice & CEO</span>
+            </div>
+        </div>
+
         <div>
             <p class="text" id="founderBio1">
                 Ingénieure en génie des procédés, diplômée en management et en commerce international, <strong>Lynda Ahmed BGD</strong> possède plus de <strong>24 années d’expérience</strong> dans les domaines de la supply chain, du commerce international, de la gestion de la performance, de la négociation stratégique et du management d’entreprise.
@@ -3710,55 +3883,8 @@ footer li{
     </p>
 </div>
 
-<div class="partners-grid reveal" id="partnersGrid">
+<div class="reveal" id="partnersContainer"></div>
 
-    <div class="partner-card">
-        <div>
-            <div class="partner-top">
-                <div class="partner-logo-box">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimZMGp5BR7hQp2daYfz6ii_IJ4wWEWk347tsUnOn42aD1hNGww9MAb17n3m9Qiwxc4-iyCYhjuPI-kQHJKLCZ2YrplFnSh5YGWTlpZ90DxQUjtwszIJXTtWRJdhz56qv3eh3QLGehQCUcZibgMvmg0UyXd0ewj3C-PY0xg_WTvoqTMcNFRRWsJ2fnTOYY/s320/1000013350.png" alt="ChimieBella Consulting Logo">
-                </div>
-                <div>
-                    <span class="partner-domain">Conseil & Stratégie d'Entreprise</span>
-                    <h3>ChimieBella Consulting</h3>
-                </div>
-            </div>
-            <p>Cabinet spécialisé dans le conseil aux entreprises, l’accompagnement stratégique et l’optimisation opérationnelle.</p>
-        </div>
-        <a onclick="navigateToHome('contact'); return false;" class="partner-link">Découvrir la collaboration →</a>
-    </div>
-
-    <div class="partner-card">
-        <div>
-            <div class="partner-top">
-                <div class="partner-logo-box">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimZMGp5BR7hQp2daYfz6ii_IJ4wWEWk347tsUnOn42aD1hNGww9MAb17n3m9Qiwxc4-iyCYhjuPI-kQHJKLCZ2YrplFnSh5YGWTlpZ90DxQUjtwszIJXTtWRJdhz56qv3eh3QLGehQCUcZibgMvmg0UyXd0ewj3C-PY0xg_WTvoqTMcNFRRWsJ2fnTOYY/s320/1000013350.png" alt="ChimieBella Success Logo">
-                </div>
-                <div>
-                    <span class="partner-domain">Formation Professionnelle & Compétences</span>
-                    <h3>ChimieBella Success</h3>
-                </div>
-            </div>
-            <p>Pôle orienté vers la formation professionnelle, le développement des compétences métiers et l’employabilité.</p>
-        </div>
-        <a onclick="openFormationsPage(); return false;" class="partner-link">Voir les programmes →</a>
-    </div>
-
-    <div class="partner-card">
-        <div>
-            <div class="partner-top">
-                <div class="partner-logo-box">EXP</div>
-                <div>
-                    <span class="partner-domain">Réseau d'Experts, Formateurs & Cadres</span>
-                    <h3>Réseau Pluridisciplinaire d'Experts</h3>
-                </div>
-            </div>
-            <p>Consultants, ingénieurs, coachs et formateurs intervenant en Algérie et à l’international sur des missions à forte valeur ajoutée.</p>
-        </div>
-        <a onclick="navigateToHome('contact'); return false;" class="partner-link">Devenir partenaire →</a>
-    </div>
-
-</div>
 </div>
 </section>
 
@@ -4517,7 +4643,24 @@ window.closeMobileMenu = function(){
     backdrop.classList.remove("active");
 };
 
-/* PAGE ROUTING */
+/* SHARED COURSE ROUTE RESOLVER (AVOIDS 404 ON GITHUB PAGES) */
+function extractFormationSlugFromLocation(){
+    const params = new URLSearchParams(window.location.search || "");
+    const qFormation = params.get("formation") || params.get("course") || params.get("slug");
+    if (qFormation) return qFormation.replace(/^\/+|\/+$/g, "");
+
+    const hash = (window.location.hash || "").replace(/^#/, "");
+    const hashMatch = hash.match(/\/?formations\/?([^/?#]+)?/i);
+    if (hashMatch && hashMatch[1]) return hashMatch[1].replace(/^\/+|\/+$/g, "");
+    if (/^\/?formations\/?$/i.test(hash)) return "";
+
+    const path = window.location.pathname || "/";
+    const pathMatch = path.match(/\/formations\/?([^/?#]+)?\/?$/i);
+    if (pathMatch) return (pathMatch[1] || "").replace(/^\/+|\/+$/g, "");
+
+    return null;
+}
+
 window.openFormationsPage = function(slug = ""){
     closeMobileMenu();
     document.getElementById("landingPageContent").style.display = "none";
@@ -4525,14 +4668,26 @@ window.openFormationsPage = function(slug = ""){
     fullPage.classList.add("active");
 
     const cleanSlug = (slug || "").replace(/^\/+|\/+$/g, "");
-    const targetUrl = cleanSlug ? `/formations/${cleanSlug}` : "/formations";
+    window.activeCourseSlug = cleanSlug;
+
     try {
-        if (window.location.pathname !== targetUrl) {
-            window.history.pushState({ page: "formations", slug: cleanSlug }, "", targetUrl);
+        const isLocalOrFile = window.location.protocol === "file:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+        if (isLocalOrFile) {
+            const nextHash = cleanSlug ? `#/formations/${cleanSlug}` : "#/formations";
+            if (window.location.hash !== nextHash) {
+                window.history.replaceState({ page: "formations", slug: cleanSlug }, "", nextHash);
+            }
+        } else {
+            const url = new URL(window.location.href);
+            if (cleanSlug) {
+                url.searchParams.set("formation", cleanSlug);
+            } else {
+                url.searchParams.delete("formation");
+            }
+            window.history.replaceState({ page: "formations", slug: cleanSlug }, "", url.toString());
         }
     } catch (e) {}
 
-    window.activeCourseSlug = cleanSlug;
     if (typeof window.renderPlatformCatalog === "function") {
         window.renderPlatformCatalog();
     }
@@ -4546,9 +4701,12 @@ window.navigateToHome = function(sectionId = "home"){
     window.activeCourseSlug = "";
 
     try {
-        if (window.location.pathname !== "/") {
-            window.history.pushState({ page: "home" }, "", "/");
+        const url = new URL(window.location.href);
+        url.searchParams.delete("formation");
+        if (window.location.hash && window.location.hash.includes("formations")) {
+            url.hash = "";
         }
+        window.history.replaceState({ page: "home" }, "", url.toString());
     } catch (e) {}
 
     setTimeout(() => {
@@ -4565,12 +4723,11 @@ window.navigateToHome = function(sectionId = "home"){
 };
 
 window.addEventListener("popstate", () => {
-    const path = window.location.pathname || "/";
-    const match = path.match(/^\/formations\/?([^/]+)?\/?$/i);
-    if (match) {
+    const slug = extractFormationSlugFromLocation();
+    if (slug !== null) {
         document.getElementById("landingPageContent").style.display = "none";
         document.getElementById("formationsFullPage").classList.add("active");
-        window.activeCourseSlug = match[1] || "";
+        window.activeCourseSlug = slug;
         if (typeof window.renderPlatformCatalog === "function") {
             window.renderPlatformCatalog();
         }
@@ -4580,6 +4737,8 @@ window.addEventListener("popstate", () => {
         window.activeCourseSlug = "";
     }
 });
+
+window.__extractFormationSlugFromLocation = extractFormationSlugFromLocation;
 
 /* EVENTS FILTER BY CATEGORY & DATE */
 window.filterEvents = function(category, btnEl){
@@ -4885,8 +5044,18 @@ onValue(ref(db, "site_settings"), (snap) => {
             if(aboutImgEl) aboutImgEl.src = settings.aboutImage;
         }
         if(settings.founder){
-            if(settings.founder.name) document.getElementById("founderName").textContent = settings.founder.name;
-            if(settings.founder.role) document.getElementById("founderRole").textContent = settings.founder.role;
+            if(settings.founder.name){
+                document.getElementById("founderName").textContent = settings.founder.name;
+                document.getElementById("founderCaptionName").textContent = settings.founder.name;
+            }
+            if(settings.founder.role){
+                document.getElementById("founderRole").textContent = settings.founder.role;
+                document.getElementById("founderCaptionRole").textContent = settings.founder.role;
+            }
+            if(settings.founder.image){
+                const fImg = document.getElementById("founderPortraitImg");
+                if(fImg) fImg.src = settings.founder.image;
+            }
             if(settings.founder.bio1) document.getElementById("founderBio1").innerHTML = settings.founder.bio1;
             if(settings.founder.bio2) document.getElementById("founderBio2").innerHTML = settings.founder.bio2;
             if(settings.founder.bio3) document.getElementById("founderBio3").innerHTML = settings.founder.bio3;
@@ -4901,39 +5070,94 @@ onValue(ref(db, "site_settings"), (snap) => {
     }
 });
 
-/* Dynamic Partners with Institution Logos from Firebase */
-onValue(ref(db, "partners"), (snap) => {
-    const data = snap.val();
-    const grid = document.getElementById("partnersGrid");
-    if(!data || !grid) return;
+/* Dynamic Partners: Single Row, Static if <= 2, Continuous Left-to-Right Marquee if > 3 */
+const defaultPartnersList = [
+    {
+        id: "p1",
+        name: "ChimieBella Consulting",
+        domain: "Conseil & Stratégie d'Entreprise",
+        logoUrl: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimZMGp5BR7hQp2daYfz6ii_IJ4wWEWk347tsUnOn42aD1hNGww9MAb17n3m9Qiwxc4-iyCYhjuPI-kQHJKLCZ2YrplFnSh5YGWTlpZ90DxQUjtwszIJXTtWRJdhz56qv3eh3QLGehQCUcZibgMvmg0UyXd0ewj3C-PY0xg_WTvoqTMcNFRRWsJ2fnTOYY/s320/1000013350.png",
+        description: "Cabinet spécialisé dans le conseil aux entreprises, l’accompagnement stratégique et l’optimisation opérationnelle.",
+        linkLabel: "Découvrir la collaboration"
+    },
+    {
+        id: "p2",
+        name: "ChimieBella Success",
+        domain: "Formation Professionnelle & Compétences",
+        logoUrl: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimZMGp5BR7hQp2daYfz6ii_IJ4wWEWk347tsUnOn42aD1hNGww9MAb17n3m9Qiwxc4-iyCYhjuPI-kQHJKLCZ2YrplFnSh5YGWTlpZ90DxQUjtwszIJXTtWRJdhz56qv3eh3QLGehQCUcZibgMvmg0UyXd0ewj3C-PY0xg_WTvoqTMcNFRRWsJ2fnTOYY/s320/1000013350.png",
+        description: "Pôle orienté vers la formation professionnelle, le développement des compétences métiers et l’employabilité.",
+        linkLabel: "Voir les programmes"
+    },
+    {
+        id: "p3",
+        name: "Réseau Pluridisciplinaire d'Experts",
+        domain: "Réseau d'Experts, Formateurs & Cadres",
+        logoUrl: "",
+        description: "Consultants, ingénieurs, coachs et formateurs intervenant en Algérie et à l’international sur des missions à forte valeur ajoutée.",
+        linkLabel: "Devenir partenaire"
+    }
+];
 
-    const list = Object.values(data);
-    if(list.length === 0) return;
+function buildPartnerCardHtml(p){
+    const initials = (p.initials || p.name || "PT").substring(0, 3).toUpperCase();
+    const logoHtml = p.logoUrl
+        ? `<img src="${p.logoUrl}" alt="${p.name || 'Partenaire'}">`
+        : `<span>${initials}</span>`;
+    const linkAttr = p.website
+        ? `href="${p.website}" target="_blank" rel="noopener"`
+        : `onclick="openFormationsPage(); return false;"`;
 
-    grid.innerHTML = list.map(p => {
-        const initials = (p.initials || p.name || "PT").substring(0, 3).toUpperCase();
-        const logoHtml = p.logoUrl
-            ? `<img src="${p.logoUrl}" alt="${p.name || 'Partenaire'}">`
-            : `<span>${initials}</span>`;
-        const linkHref = p.website || "#contact";
-        const linkAttr = p.website ? `href="${p.website}" target="_blank" rel="noopener"` : `onclick="navigateToHome('contact'); return false;"`;
-
-        return `
-            <div class="partner-card">
-                <div>
-                    <div class="partner-top">
-                        <div class="partner-logo-box">${logoHtml}</div>
-                        <div>
-                            <span class="partner-domain">${p.domain || "Partenariat"}</span>
-                            <h3>${p.name || ""}</h3>
-                        </div>
+    return `
+        <div class="partner-card">
+            <div>
+                <div class="partner-top">
+                    <div class="partner-logo-box">${logoHtml}</div>
+                    <div>
+                        <span class="partner-domain">${p.domain || "Partenariat"}</span>
+                        <h3>${p.name || ""}</h3>
                     </div>
-                    <p>${p.description || ""}</p>
                 </div>
-                <a ${linkAttr} class="partner-link">${p.linkLabel || "Découvrir la collaboration"} →</a>
+                <p>${p.description || ""}</p>
+            </div>
+            <a ${linkAttr} class="partner-link">${p.linkLabel || "Découvrir la collaboration"} →</a>
+        </div>
+    `;
+}
+
+function renderPartnersRow(list){
+    const container = document.getElementById("partnersContainer");
+    if(!container) return;
+
+    const items = Array.isArray(list) && list.length > 0 ? list : defaultPartnersList;
+
+    if(items.length > 3){
+        const repeated = [...items, ...items];
+        container.innerHTML = `
+            <div class="partners-marquee-viewport">
+                <div class="partners-marquee-track">
+                    ${repeated.map(buildPartnerCardHtml).join("")}
+                </div>
             </div>
         `;
-    }).join("");
+    } else {
+        container.innerHTML = `
+            <div class="partners-single-row is-static-row">
+                ${items.map(buildPartnerCardHtml).join("")}
+            </div>
+        `;
+    }
+}
+
+renderPartnersRow(defaultPartnersList);
+
+onValue(ref(db, "partners"), (snap) => {
+    const data = snap.val();
+    if(data){
+        const list = Object.values(data);
+        if(list.length > 0){
+            renderPartnersRow(list);
+        }
+    }
 });
 
 /* Dynamic Events from Firebase */
@@ -5181,7 +5405,10 @@ window.renderPlatformCatalog = function(){
     const allCourses = Object.values(currentCatalog).map(c => ({ ...c, slug: getCourseSlug(c) }));
 
     if (window.activeCourseSlug) {
-        const matchedCourse = allCourses.find(c => c.slug.toLowerCase() === window.activeCourseSlug.toLowerCase() || c.id.toLowerCase() === window.activeCourseSlug.toLowerCase());
+        const matchedCourse = allCourses.find(c =>
+            c.slug.toLowerCase() === window.activeCourseSlug.toLowerCase() ||
+            c.id.toLowerCase() === window.activeCourseSlug.toLowerCase()
+        );
         if (matchedCourse) {
             detailContainer.innerHTML = `
                 <div class="single-course-detail-card">
@@ -5191,7 +5418,7 @@ window.renderPlatformCatalog = function(){
                     <div class="single-course-detail-content">
                         <div>
                             <span style="font-size:11.5px;font-weight:800;color:var(--purple);display:block;margin-bottom:8px;">${matchedCourse.specialty || "Formation"}</span>
-                            <h3 style="font-size:26px;color:var(--purple-dark);margin-bottom:12px;">${matchedCourse.title}</h3>
+                            <h3 style="font-size:25px;color:var(--purple-dark);margin-bottom:12px;">${matchedCourse.title}</h3>
                             <p style="color:var(--muted);font-size:14.5px;line-height:1.8;margin-bottom:20px;">${matchedCourse.description}</p>
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;border-top:1px solid #EFEAF5;padding-top:18px;">
@@ -5326,11 +5553,13 @@ function renderPublicSingleRowSlider(){
 renderPublicSingleRowSlider();
 renderPlatformCatalog();
 
+/* Auto-open formations page if opened via shared link / query / hash (prevents 404 experience) */
 (function initInitialRoute(){
-    const path = window.location.pathname || "/";
-    const match = path.match(/^\/formations\/?([^/]+)?\/?$/i);
-    if (match) {
-        openFormationsPage(match[1] || "");
+    const slug = typeof window.__extractFormationSlugFromLocation === "function"
+        ? window.__extractFormationSlugFromLocation()
+        : null;
+    if (slug !== null) {
+        openFormationsPage(slug);
     }
 })();
 
@@ -5905,3 +6134,4 @@ if(formEl){
 
 </body>
 </html>
+
