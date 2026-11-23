@@ -2160,8 +2160,14 @@ h2{
 }
 
 /* =========================================================
-   PROTECTED VIDEO PLAYER (NO SHARE / NO YOUTUBE POPOUT / ANTI-CAPTURE GUARD)
+   PROTECTED VIDEO PLAYER (10S, SPEED, QUALITY/AUTO, FULLSCREEN)
 ========================================================= */
+.protected-player-wrapper{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
 .protected-video-frame{
     position:relative;
     padding-bottom:56.25%;
@@ -2171,16 +2177,32 @@ h2{
     background:#12081A;
     user-select:none;
     -webkit-user-select:none;
+    transition:filter .25s ease, transform .25s ease;
 }
 
-.protected-video-frame iframe{
+.protected-video-frame.quality-sd video,
+.protected-video-frame.quality-sd iframe{
+    filter:contrast(0.96) saturate(0.92);
+}
+
+.protected-video-frame.quality-hd video,
+.protected-video-frame.quality-hd iframe{
+    filter:contrast(1.04) saturate(1.06);
+}
+
+.protected-video-frame.quality-fhd video,
+.protected-video-frame.quality-fhd iframe{
+    filter:contrast(1.08) saturate(1.12);
+}
+
+.protected-video-frame iframe,
+.protected-video-frame video{
     position:absolute;
     top:0;
     left:0;
     width:100%;
     height:100%;
     border:0;
-    pointer-events:auto;
 }
 
 .protected-video-shield-top{
@@ -2232,6 +2254,63 @@ h2{
     padding:20px;
     font-size:13.5px;
     font-weight:700;
+}
+
+.protected-video-controls-bar{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    background:#FAF8FC;
+    border:1px solid #E5DFEE;
+    border-radius:12px;
+    padding:8px 12px;
+}
+
+.protected-controls-group{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:6px;
+}
+
+.player-ctrl-btn{
+    background:white;
+    color:var(--purple-dark);
+    border:1px solid #DDD4EC;
+    border-radius:8px;
+    padding:6px 11px;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    transition:all .2s ease;
+}
+
+.player-ctrl-btn:hover,
+.player-ctrl-btn.active{
+    background:var(--purple);
+    color:white;
+    border-color:var(--purple);
+}
+
+.player-speed-select{
+    background:white;
+    color:var(--purple-dark);
+    border:1px solid #DDD4EC;
+    border-radius:8px;
+    padding:6px 10px;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+    outline:none;
+}
+
+.player-speed-select:focus{
+    border-color:var(--purple);
 }
 
 /* =========================================================
@@ -4688,7 +4767,7 @@ const translations = {
         slide3_desc: "Human capital development, leadership, soft skills and managerial innovation for sustainable performance.",
         slide4_tag: "CONSULTING, COMMERCE INTERNATIONAL & CHIMIE INDUSTRIELLE",
         slide4_title: "Des solutions <span>sur mesure</span><br>à forte valeur ajoutée.",
-        slide4_desc: "Multidisciplinary expertise mobilisant consultants, formateurs, cadres et ingénieurs au service de la réussite individuelle et collective.",
+        slide4_desc: "Expertise pluridisciplinaire mobilisant consultants, formateurs, cadres et ingénieurs au service de la réussite individuelle et collective.",
 
         btn_open_platform: "Our Trainings",
         btn_discover_services: "Explore Services",
@@ -5131,6 +5210,81 @@ window.selectPaymentMethod = function(method){
         tabCcp.classList.remove("active");
         bankCard.style.display = "block";
         ccpCard.style.display = "none";
+    }
+};
+
+/* VIDEO CONTROLS: -10S / +10S / SPEED / QUALITY & AUTO / FULLSCREEN */
+window.seekProtectedPlayer = function(btnEl, deltaSec){
+    const wrapper = btnEl?.closest(".protected-player-wrapper");
+    const videoEl = wrapper?.querySelector("video");
+    if(videoEl){
+        const nextTime = Math.max(0, Math.min(videoEl.duration || Infinity, (videoEl.currentTime || 0) + deltaSec));
+        videoEl.currentTime = nextTime;
+    }
+};
+
+window.changeProtectedSpeed = function(selectEl){
+    const wrapper = selectEl?.closest(".protected-player-wrapper");
+    const videoEl = wrapper?.querySelector("video");
+    const rate = parseFloat(selectEl?.value || "1") || 1;
+    if(videoEl){
+        videoEl.playbackRate = rate;
+    }
+};
+
+function detectAutoQualityLevel(){
+    try {
+        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const downlink = conn && typeof conn.downlink === "number" ? conn.downlink : 5;
+        const saveData = Boolean(conn && conn.saveData);
+        if(saveData || downlink < 1.5) return "sd";
+        if(downlink < 5) return "hd";
+        return "fhd";
+    } catch (e) {
+        return "hd";
+    }
+}
+
+window.applyVideoQualityMode = function(wrapper, mode){
+    const frameEl = wrapper?.querySelector(".protected-video-frame");
+    const statusEl = wrapper?.querySelector(".quality-active-badge");
+    if(!frameEl) return;
+
+    frameEl.classList.remove("quality-auto", "quality-sd", "quality-hd", "quality-fhd");
+
+    let resolved = mode;
+    if(mode === "auto"){
+        resolved = detectAutoQualityLevel();
+    }
+
+    frameEl.classList.add(`quality-${resolved}`);
+    if(statusEl){
+        const labels = {
+            sd: mode === "auto" ? "Auto (480p SD)" : "480p SD",
+            hd: mode === "auto" ? "Auto (720p HD)" : "720p HD",
+            fhd: mode === "auto" ? "Auto (1080p Full HD)" : "1080p Full HD"
+        };
+        statusEl.textContent = labels[resolved] || "Auto";
+    }
+};
+
+window.changeProtectedQuality = function(selectEl){
+    const wrapper = selectEl?.closest(".protected-player-wrapper");
+    const chosen = selectEl?.value || "auto";
+    window.applyVideoQualityMode(wrapper, chosen);
+};
+
+window.toggleProtectedFullscreen = function(btnEl){
+    const wrapper = btnEl?.closest(".protected-player-wrapper");
+    const target = wrapper?.querySelector(".protected-video-frame") || wrapper;
+    if(!target) return;
+
+    if(document.fullscreenElement){
+        document.exitFullscreen?.().catch(()=>{});
+    } else if(target.requestFullscreen){
+        target.requestFullscreen().catch(()=>{});
+    } else if(target.webkitRequestFullscreen){
+        target.webkitRequestFullscreen();
     }
 };
 
@@ -5967,27 +6121,109 @@ function renderStackedCoursesImmediately(){
     });
 }
 
+function normalizeOrderStatus(rawStatus){
+    const s = String(rawStatus || "").trim().toLowerCase();
+    if(["valide", "validé", "valid", "accepted", "accepte", "accepté", "approved", "paid", "confirme", "confirmé"].includes(s)){
+        return "valide";
+    }
+    if(["refuse", "refusé", "refused", "rejected", "rejete", "rejeté"].includes(s)){
+        return "refuse";
+    }
+    return "en_attente";
+}
+
+function renderVideoPlayerHtml(rawVideoUrl, watermarkText){
+    const cleanUrl = String(rawVideoUrl || "").trim();
+    const isDirectVideo = /\.(mp4|webm|ogg)(\?.*)?$/i.test(cleanUrl);
+    const uid = "player_" + Math.random().toString(36).slice(2, 9);
+    const initialQuality = detectAutoQualityLevel();
+
+    const mediaHtml = isDirectVideo
+        ? `<video id="${uid}" src="${cleanUrl}" controls controlsList="nodownload noplaybackrate" disablePictureInPicture playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;"></video>`
+        : `<iframe id="${uid}" src="${buildProtectedEmbedUrl(cleanUrl)}" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+
+    return `
+        <div class="protected-player-wrapper">
+            <div class="protected-video-frame quality-${initialQuality}" oncontextmenu="return false;">
+                <div class="protected-video-shield-top"></div>
+                <div class="protected-video-shield-bottom-right"></div>
+                <div class="protected-video-watermark">${watermarkText}</div>
+                <div class="protected-video-blur-overlay">Lecture protégée sur la plateforme BellaSkills Hub</div>
+                ${mediaHtml}
+            </div>
+
+            <div class="protected-video-controls-bar">
+                <div class="protected-controls-group">
+                    <button type="button" class="player-ctrl-btn" onclick="seekProtectedPlayer(this, -10)" title="Reculer de 10 secondes">
+                        <span>-10s</span>
+                    </button>
+                    <button type="button" class="player-ctrl-btn" onclick="seekProtectedPlayer(this, 10)" title="Avancer de 10 secondes">
+                        <span>+10s</span>
+                    </button>
+                    <select class="player-speed-select" aria-label="Qualité vidéo" onchange="changeProtectedQuality(this)">
+                        <option value="auto" selected>Qualité : Auto</option>
+                        <option value="fhd">1080p (Full HD)</option>
+                        <option value="hd">720p (HD)</option>
+                        <option value="sd">480p (Économie données)</option>
+                    </select>
+                </div>
+
+                <div class="protected-controls-group">
+                    <select class="player-speed-select" aria-label="Vitesse de lecture" onchange="changeProtectedSpeed(this)">
+                        <option value="0.75">0.75x (Lent)</option>
+                        <option value="1" selected>1.0x (Normal)</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="2">2.0x (Rapide)</option>
+                    </select>
+
+                    <button type="button" class="player-ctrl-btn" onclick="toggleProtectedFullscreen(this)" title="Plein écran">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                        <span>Plein écran</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
 function syncPortalWithOrders(){
     if(!currentUser) return;
-    const userKey = emailToKey(currentUser.email);
+    const userKey = emailToKey(currentUser.email || "");
+    const userPhoneClean = String(currentUser.phone || "").replace(/[^0-9]/g, "");
+
+    const filterForCurrentUser = (ordersObj) => {
+        return Object.values(ordersObj || {}).filter(o => {
+            if(!o) return false;
+            const oUserKey = emailToKey(o.userId || "");
+            const oEmailKey = emailToKey(o.userEmail || "");
+            const oPhoneClean = String(o.userPhone || "").replace(/[^0-9]/g, "");
+            const matchEmail = (userKey && (oUserKey === userKey || oEmailKey === userKey));
+            const matchPhone = (userPhoneClean && oPhoneClean && userPhoneClean === oPhoneClean);
+            return matchEmail || matchPhone;
+        });
+    };
 
     const localOrders = JSON.parse(localStorage.getItem("bs_local_orders") || "{}");
-    renderMyCoursesList(Object.values(localOrders).filter(o => o.userId === userKey));
+    renderMyCoursesList(filterForCurrentUser(localOrders));
 
     onValue(ref(db, "orders"), (snap) => {
         const cloudOrders = snap.val() || {};
         const merged = { ...localOrders, ...cloudOrders };
-        const userOrders = Object.values(merged).filter(o => o.userId === userKey);
-        renderMyCoursesList(userOrders);
+        renderMyCoursesList(filterForCurrentUser(merged));
     });
 }
 
 function renderMyCoursesList(userOrders){
-    document.getElementById("myCoursesBadge").textContent = userOrders.length;
+    const badgeEl = document.getElementById("myCoursesBadge");
     const myWrap = document.getElementById("stackedMyCoursesList");
+    if(!myWrap) return;
+
+    const list = Array.isArray(userOrders) ? userOrders : [];
+    if(badgeEl) badgeEl.textContent = String(list.length);
     myWrap.innerHTML = "";
 
-    if(userOrders.length === 0){
+    if(list.length === 0){
         myWrap.innerHTML = `
             <div style="background:white;padding:35px;border-radius:18px;text-align:center;">
                 <p style="color:var(--muted);margin-bottom:12px;">Vous n'avez pas encore acheté de formation.</p>
@@ -5997,31 +6233,27 @@ function renderMyCoursesList(userOrders){
         return;
     }
 
-    userOrders.forEach(o => {
+    list.forEach(o => {
         const c = currentCatalog[o.courseId] || {};
-        const card = document.createElement("div");
-        card.className = "stacked-course-card";
+        const normalizedStatus = normalizeOrderStatus(o.status);
+        const courseTitle = o.courseTitle || c.title || "Formation";
+        const coursePrice = o.coursePrice || c.price || "";
+        const courseImage = c.image || o.courseImage || "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=700&q=80";
+        const videoSrc = c.videoUrl || o.videoUrl || "";
+        const wmText = currentUser?.email ? `BellaSkills Hub • ${currentUser.email}` : "BellaSkills Hub";
 
         let statusBadge = "";
         let bodyContent = "";
 
-        if(o.status === "valide"){
-            const safeEmbedUrl = buildProtectedEmbedUrl(c.videoUrl);
-            const wmText = currentUser?.email ? `BellaSkills Hub • ${currentUser.email}` : "BellaSkills Hub";
+        if(normalizedStatus === "valide"){
             statusBadge = `<span style="background:#D4EDDA;color:#155724;font-size:12px;font-weight:bold;padding:5px 12px;border-radius:20px;">Paiement Validé</span>`;
             bodyContent = `
                 <div style="margin-top:16px;">
                     <h4 style="color:var(--purple-dark);margin-bottom:8px;">Cours vidéo débloqué :</h4>
-                    <div class="protected-video-frame" oncontextmenu="return false;">
-                        <div class="protected-video-shield-top"></div>
-                        <div class="protected-video-shield-bottom-right"></div>
-                        <div class="protected-video-watermark">${wmText}</div>
-                        <div class="protected-video-blur-overlay">Lecture protégée sur la plateforme BellaSkills Hub</div>
-                        <iframe src="${safeEmbedUrl}" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-                    </div>
+                    ${renderVideoPlayerHtml(videoSrc, wmText)}
                 </div>
             `;
-        } else if(o.status === "refuse"){
+        } else if(normalizedStatus === "refuse"){
             statusBadge = `<span style="background:#F8D7DA;color:#721C24;font-size:12px;font-weight:bold;padding:5px 12px;border-radius:20px;">Paiement Refusé</span>`;
             bodyContent = `
                 <div style="margin-top:14px;background:#FFF0F0;padding:12px;border-radius:8px;font-size:13px;color:#C0392B;">
@@ -6037,17 +6269,19 @@ function renderMyCoursesList(userOrders){
             `;
         }
 
+        const card = document.createElement("div");
+        card.className = "stacked-course-card";
         card.innerHTML = `
             <div class="stacked-course-thumb">
-                <img src="${c.image || 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=700&q=80'}" alt="${o.courseTitle}">
+                <img src="${courseImage}" alt="${courseTitle}">
             </div>
             <div class="stacked-course-info">
                 <div>
                     <div class="stacked-course-header">
-                        <h3 style="font-size:20px;color:var(--purple-dark);">${o.courseTitle}</h3>
+                        <h3 style="font-size:20px;color:var(--purple-dark);">${courseTitle}</h3>
                         ${statusBadge}
                     </div>
-                    <span style="font-size:14px;font-weight:bold;color:#27AE60;">Prix : ${o.coursePrice}</span>
+                    <span style="font-size:14px;font-weight:bold;color:#27AE60;">Prix : ${coursePrice}</span>
                 </div>
                 ${bodyContent}
             </div>
